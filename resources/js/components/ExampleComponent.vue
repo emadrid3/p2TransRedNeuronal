@@ -6,7 +6,7 @@
                     <div class="card-header">ExampleEcomsp Component</div>
 
                     <div class="card-body">
-                        I'm an example component okeyyyyyyyyy Cris.
+                        I'm an example component okeyyyyyyyyy Crisa.
                     </div>
                 </div>
             </div>
