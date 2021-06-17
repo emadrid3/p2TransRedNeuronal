@@ -28,7 +28,8 @@
             max-height="420">
             <el-table-column
             prop="fecha"
-            label="Fecha">
+            label="Fecha"
+            sortable>
             </el-table-column>
             <el-table-column
             prop="origen"
@@ -48,7 +49,8 @@
             </el-table-column>
             <el-table-column
             prop="estado"
-            label="Estado">
+            label="Estado"
+            :filters="[{ text: 'Pago', value: 'Pago' }, { text: 'Pendiente Pago', value: 'Pendiente Pago' }, { text: 'Pendiente facturar', value: 'Pendiente facturar' }]">
             <template slot-scope="scope">
                 <el-tag>{{scope.row.estado}}</el-tag>
             </template>
