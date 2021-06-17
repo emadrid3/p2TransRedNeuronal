@@ -238,6 +238,7 @@
                 </a>
             </div>
             <div>
+            
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -267,7 +268,6 @@
                         @endguest
                     </ul>
                 </div>
-            </div>
         </nav>
 
         @guest
@@ -309,6 +309,7 @@
                </div>
             </div>
          </div>
+      </div>
       </div>
 
 </body>
