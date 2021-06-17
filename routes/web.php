@@ -20,3 +20,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/usuarios', 'UsuarioController@index');
+
+Route::get('/vehiculos', 'ConductorController@index');
+
+Route::get('/logistica', 'LogisticaController@index');
+
+Route::get('/clientes', 'ClienteController@index');
+
+Route::get('/facturacion', 'FacturaController@index');
+
+Route::get('/configuracion', 'HomeController@index');
