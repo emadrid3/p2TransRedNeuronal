@@ -27,32 +27,23 @@
             style="width: 100%"
             max-height="420">
             <el-table-column
-            prop="date"
-            label="Date">
+            prop="nombre"
+            label="Nombre">
             </el-table-column>
             <el-table-column
-            prop="name"
-            label="Name">
+            prop="cedula"
+            label="Cedula">
             </el-table-column>
             <el-table-column
-            prop="state"
-            label="State">
+            prop="celular"
+            label="Celular">
             </el-table-column>
             <el-table-column
-            prop="city"
-            label="city">
+            prop="estado"
+            label="estado">
             <template slot-scope="scope">
-                <el-tag>{{scope.row.city}}</el-tag>
+                <el-tag>{{scope.row.estado}}</el-tag>
             </template>
-            </el-table-column>
-            <el-table-column
-            prop="address"
-            label="Address"
-            width="200">
-            </el-table-column>
-            <el-table-column
-            prop="zip"
-            label="Zip">
             </el-table-column>
             <el-table-column
             label="Operations"
@@ -96,97 +87,76 @@
         data() {
         return {
             tableData: [{
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-08',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-06',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-07',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
+            nombre: 'JUAN FERNANDO AGUDELO',
+            cedula: '1.037.789',
+            celular: '+57 301 380 9053',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'LUIS CARLOS SALDARRIAGA',
+            cedula: '70.237.789',
+            celular: '+57 321 380 9053',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'HECTOR MAURICIO BEDOYA',
+            cedula: '80.707.789',
+            celular: '+57 311 680 9053',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'CARLOS MARIO PUERTA',
+            cedula: '21.707.789',
+            celular: '+57 321 680 4444',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'WILSON RICARDO BEDOYA',
+            cedula: '77.507.999',
+            celular: '+57 301 550 4444',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'NICOLAS ANTONIO ALVAREZ',
+            cedula: '80.507.999',
+            celular: '+57 301 550 4444',
+            estado: 'Activo',
             },{
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-08',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            }, {
-            date: '2016-05-06',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-            },]
+            nombre: 'JUAN FERNANDO AGUDELO',
+            cedula: '1.037.789',
+            celular: '+57 301 380 9053',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'LUIS CARLOS SALDARRIAGA',
+            cedula: '70.237.789',
+            celular: '+57 321 380 9053',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'HECTOR MAURICIO BEDOYA',
+            cedula: '80.707.789',
+            celular: '+57 311 680 9053',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'CARLOS MARIO PUERTA',
+            cedula: '21.707.789',
+            celular: '+57 321 680 4444',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'WILSON RICARDO BEDOYA',
+            cedula: '77.507.999',
+            celular: '+57 301 550 4444',
+            estado: 'Activo',
+            },
+            {
+            nombre: 'NICOLAS ANTONIO ALVAREZ',
+            cedula: '80.507.999',
+            celular: '+57 301 550 4444',
+            estado: 'Activo',
+            }]
         }
         }
     }

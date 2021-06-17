@@ -2,21 +2,21 @@
     <div>
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/' }">Inicio</el-breadcrumb-item>
-            <el-breadcrumb-item>Usuarios</el-breadcrumb-item>
-            <el-breadcrumb-item>Lista de usuarios</el-breadcrumb-item>
+            <el-breadcrumb-item>Logistica</el-breadcrumb-item>
+            <el-breadcrumb-item>Lista de viajes</el-breadcrumb-item>
         </el-breadcrumb>
 
         <b-row class="title">
-            <h2>Usuarios</h2>
+            <h2>Logistica</h2>
 
             <div class="title__info">
-                <p><i class="fas fa-info-circle"></i>Desde esta ventana podras visualizar y consultar información sobre los usuarios</p>
+                <p><i class="fas fa-info-circle"></i>Desde esta ventana podras visualizar y consultar información sobre los viajes</p>
             </div>
         </b-row>
 
         <b-row>
             <b-col lg="3" md="auto">
-                <el-button class="button-add" type="success"><i class="fas fa-plus"></i>Crear un nuevo usuario</el-button>
+                <el-button class="button-add" type="success"><i class="fas fa-plus"></i>Crear un nuevo viaje</el-button>
             </b-col>
         </b-row>
 
@@ -27,12 +27,24 @@
             style="width: 100%"
             max-height="420">
             <el-table-column
-            prop="nombre"
-            label="Nombre Completo">
+            prop="fecha"
+            label="Fecha">
             </el-table-column>
             <el-table-column
-            prop="rol"
-            label="rol">
+            prop="origen"
+            label="Origen">
+            </el-table-column>
+            <el-table-column
+            prop="destino"
+            label="Destino">
+            </el-table-column>
+            <el-table-column
+            prop="conductor"
+            label="Conductor">
+            </el-table-column>
+             <el-table-column
+            prop="vehiculo"
+            label="Vehiculo">
             </el-table-column>
             <el-table-column
             prop="estado"
@@ -45,7 +57,7 @@
             label="Operations"
             width="250">
             <template>
-                <el-button type="primary" size="mini">Ver..</el-button>
+                <el-button type="primary" size="mini">Ver mas..</el-button>
                 <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
                 <el-button type="primary" icon="el-icon-delete" size="mini"></el-button>
             </template>
@@ -83,24 +95,28 @@
         data() {
         return {
             tableData: [{
-            nombre: 'Pedro Hoyos',
-            rol: 'Gerente',
-            estado: 'Activo',
+            fecha: '17/07/2021',
+            origen: 'Medellin',
+            destino: 'Cali',
+            conductor: 'JUAN FERNANDO AGUDELO',
+            vehiculo: 'SMG045',
+            estado: "Pago"
             },
             {
-            nombre: 'Cristian Aristizabal Giraldo',
-            rol: 'Contador',
-            estado: 'Activo',
+            fecha: '11/07/2021',
+            origen: 'Cartagena',
+            destino: 'Medellin',
+            conductor: 'HECTOR MAURICIO BEDOYA',
+            vehiculo: 'TMZ466',
+            estado: "Pendiente Pago"
             },
             {
-            nombre: 'Andres Gil',
-            rol: 'Administrador',
-            estado: 'Activo',
-            },
-            {
-            nombre: 'Emanuel Madrid Restrepo',
-            rol: 'Sistemas',
-            estado: 'Activo',
+            fecha: '12/07/2021',
+            origen: 'Barranquilla',
+            destino: 'Medellin',
+            conductor: 'NICOLAS ANTONIO ALVAREZ',
+            vehiculo: 'STE402',
+            estado: "Pendiente Facturar"
             }]
         }
         }
@@ -144,9 +160,9 @@
 ::v-deep .el-table tbody, .el-table tr{
     font-size: 12px;
     font-weight: normal;
-}   
+}
 
 ::v-deep .el-table td{
     padding: 3px;
-} 
+}
 </style>

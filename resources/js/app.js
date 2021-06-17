@@ -34,6 +34,7 @@ Vue.component('example-componente', require('./components/ExampleComponent.vue')
 Vue.component('view-drivers', require('./components/drivers/viewDrivers.vue').default);
 Vue.component('view-users', require('./components/users/viewUsers.vue').default);
 Vue.component('view-customers', require('./components/customers/viewCustomers.vue').default);
+Vue.component('view-logistic', require('./components/logistic/viewLogistic.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

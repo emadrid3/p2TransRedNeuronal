@@ -2,5 +2,5 @@
 
 @section('content')
 {{--  <view-drivers></view-drivers>  --}}
-<view-customers></view-customers>
+<view-logistic></view-logistic>
 @endsection
