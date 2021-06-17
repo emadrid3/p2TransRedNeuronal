@@ -8,9 +8,16 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue' //Importing
 
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
+import 'element-ui/lib/theme-chalk/index.css'
+
+
 Vue.use(BootstrapVue) // Telling Vue to use this in whole application
+Vue.use(ElementUI, { locale });
 
 /**
  * The following block of code may be used to automatically register your
@@ -23,7 +30,7 @@ Vue.use(BootstrapVue) // Telling Vue to use this in whole application
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('view-drivers', require('./components/drivers/viewDrivers.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
