@@ -17,7 +17,7 @@ class CreateConductoresTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->integer('cedula');
-            $table->integer('celular');
+            $table->string('celular');
             $table->timestamps();
         });
     }
