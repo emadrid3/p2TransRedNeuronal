@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Seeder;
 use League\Csv\Reader;
 
-class ConductoresSeeder extends Seeder
+class VehiculosSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,20 +14,20 @@ class ConductoresSeeder extends Seeder
     public function run()
     {
         // Cargando el csv en memoria
-        $archivo = '../transgirar/Finales seeders dataset/ConductoresTable.csv';
+        $archivo = '../transgirar/Finales seeders dataset/VehiculoTable.csv';
         $csv = Reader::createFromPath($archivo);
         $csv->setHeaderOffset(0);
         foreach($csv as $offset => $registro){
             $impl = implode(';', $registro);
             $x = explode(';',$impl);
-            $nombre = $x[0];
-            $cc = $x[1];
-            $celular = $x[2];
-            \DB::table('conductores')->insert(
+            $id = $x[0];
+            $placa = $x[1];
+            $tipo = $x[2];
+            \DB::table('vehiculos')->insert(
                 array(
-                    'nombre' => $nombre,
-                    'cedula' => $cc,
-                    'celular' => $celular,
+                    'id' => $id,
+                    'placa' => $placa,
+                    'tipo' => $tipo,
                 )
             );
         }

@@ -19,8 +19,8 @@ class CreateTipoVehiculosTable extends Migration
             $table->unsignedBigInteger('idVehiculo'); //Relación con vehiculos
             $table->unsignedBigInteger('idConductor');//Relación con conductor
             //claves foraneas
-            $table->foreign('idVehiculo')->references('id')->on('vehiculos');
-            $table->foreign('idConductor')->references('id')->on('conductores');
+            //$table->foreign('idVehiculo')->references('id')->on('vehiculos');
+            //$table->foreign('idConductor')->references('id')->on('conductores');
 
             $table->timestamps();
         });

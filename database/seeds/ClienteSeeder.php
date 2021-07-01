@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Seeder;
 use League\Csv\Reader;
 
-class ConductoresSeeder extends Seeder
+class ClienteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,20 +14,24 @@ class ConductoresSeeder extends Seeder
     public function run()
     {
         // Cargando el csv en memoria
-        $archivo = '../transgirar/Finales seeders dataset/ConductoresTable.csv';
+        $archivo = '../transgirar/Finales seeders dataset/ClienteTable.csv';
         $csv = Reader::createFromPath($archivo);
         $csv->setHeaderOffset(0);
         foreach($csv as $offset => $registro){
             $impl = implode(';', $registro);
             $x = explode(';',$impl);
-            $nombre = $x[0];
-            $cc = $x[1];
-            $celular = $x[2];
-            \DB::table('conductores')->insert(
+            $id = $x[0];
+            $nombre = $x[1];
+            $razonSocial = $x[2];
+            $nit = $x[3];
+            //$numeroOrden = $x[3]; No esta en el dataset, se omite
+            \DB::table('clientes')->insert(
                 array(
+                    'id' => $id,
                     'nombre' => $nombre,
-                    'cedula' => $cc,
-                    'celular' => $celular,
+                    'razonSocial' => $razonSocial,
+                    'nit' => $nit,
+                    //'numeroOrden' => $numeroOrden, No esta en el dataset, se omite, es nullable
                 )
             );
         }
