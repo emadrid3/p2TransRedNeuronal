@@ -15,6 +15,9 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import swal from "sweetalert";
+
+Vue.prototype.swal = swal;
 
 Vue.use(BootstrapVue) // Telling Vue to use this in whole application
 Vue.use(ElementUI, { locale });
