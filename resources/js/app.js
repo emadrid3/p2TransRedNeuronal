@@ -31,8 +31,10 @@ Vue.use(ElementUI, { locale });
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-componente', require('./components/ExampleComponent.vue').default);
-Vue.component('view-drivers', require('./components/drivers/viewDrivers.vue').default);
 Vue.component('view-users', require('./components/users/viewUsers.vue').default);
+Vue.component('view-manage-users', require('./components/users/viewManageUsers.vue').default);
+
+Vue.component('view-drivers', require('./components/drivers/viewDrivers.vue').default);
 Vue.component('view-customers', require('./components/customers/viewCustomers.vue').default);
 Vue.component('view-logistic', require('./components/logistic/viewLogistic.vue').default);
 /**

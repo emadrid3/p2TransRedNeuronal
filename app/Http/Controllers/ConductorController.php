@@ -8,6 +8,6 @@ class ConductorController extends Controller
 {
     public function index()
     {
-        return view('drivers');
+        return view('drivers.drivers');
     }
 }

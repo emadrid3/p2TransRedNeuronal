@@ -8,6 +8,6 @@ class FacturaController extends Controller
 {
     public function index()
     {
-        return view('invoice');
+        return view('invoices.invoice');
     }
 }

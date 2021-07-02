@@ -16,7 +16,7 @@
 
         <b-row>
             <b-col lg="3" md="auto">
-                <el-button class="button-add" type="success"><i class="fas fa-plus"></i>Crear un nuevo usuario</el-button>
+                <el-button class="button-add" type="success" @click="goTo('usuarios-manage')"><i class="fas fa-plus" ></i>Crear un nuevo usuario</el-button>
             </b-col>
         </b-row>
 
@@ -75,10 +75,14 @@
         mounted() {
             console.log('Component mounted.')
         },
-           methods: {
-      deleteRow(index, rows) {
-            rows.splice(index, 1);
-        }
+        methods: {
+            goTo(location){
+                window.location.href = location;
+            },
+
+            deleteRow(index, rows) {
+                rows.splice(index, 1);
+            }
         },
         data() {
         return {

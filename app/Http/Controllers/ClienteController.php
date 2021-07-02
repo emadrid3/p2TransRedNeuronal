@@ -8,6 +8,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        return view('customers');
+        return view('customers.customers');
     }
+
 }

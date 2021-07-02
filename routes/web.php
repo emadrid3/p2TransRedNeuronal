@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/usuarios', 'UsuarioController@index');
+Route::get('/usuarios-manage', 'UsuarioController@manageUsers');
 
 Route::get('/vehiculos', 'ConductorController@index');
 
