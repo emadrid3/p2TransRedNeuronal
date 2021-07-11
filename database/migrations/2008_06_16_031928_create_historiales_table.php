@@ -23,7 +23,7 @@ class CreateHistorialesTable extends Migration
             $table->string('origen')->nullable();
             $table->string('destino')->nullable();
             $table->string('cliente')->nullable();
-            $table->integer('flete')->nullable();
+            $table->float('flete')->nullable();
             $table->timestamps();
         });
     }

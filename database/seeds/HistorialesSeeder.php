@@ -14,7 +14,7 @@ class HistorialesSeeder extends Seeder
     public function run()
     {
         // Cargando el csv en memoria
-        $archivo = '../transgirar/Finales seeders dataset/HistorialTable.csv';
+        $archivo = '../transgirar/Finales seeders dataset/HistorialTable2.csv';
         $csv = Reader::createFromPath($archivo);
         $csv->setHeaderOffset(0);
         foreach($csv as $offset => $registro){
