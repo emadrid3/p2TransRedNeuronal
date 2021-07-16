@@ -8,7 +8,7 @@
     </el-breadcrumb>
 
     <b-row class="title">
-      <h2>Gestionar Usuario</h2>
+      <h2>{{userprop == null ? 'Crear Usuario' : 'Editar Usuario'}}</h2>
 
       <div class="title__info">
         <p>
@@ -18,8 +18,8 @@
       </div>
     </b-row>
 
-    <b-row>
-      <el-card class="box-card" style="width: 100%">
+    <b-row align-h="center">
+      <el-card shadow="hover">
         <el-alert
             v-if="isError"
             title="Error de validación"
@@ -28,9 +28,9 @@
             show-icon>
         </el-alert>
         <br>
-        <b-container>
+        <b-container >
           <label for="">Nombre:</label>
-          <el-input placeholder="Please input" v-model="user.name"></el-input>
+          <el-input placeholder="Please input" v-model="user.name" ></el-input>
         </b-container>
         <br />
         <b-container>
@@ -38,11 +38,16 @@
           <el-input placeholder="Please input" v-model="user.email"></el-input>
         </b-container>
         <br />
+        <b-container v-if="userprop != null">
+          <el-checkbox label="Desea cambiar la contraseña actual?" v-model="passwordEnable"></el-checkbox>
+        </b-container>
+        <hr>
         <b-container>
           <b-row>
             <b-col md="6" sm="12">
               <label for="">Contraseña:</label>
               <el-input
+                :disabled="userprop != null ? !passwordEnable : false"
                 placeholder="Please input"
                 v-model="user.password"
                 show-password
@@ -51,6 +56,7 @@
             <b-col md="6" sm="12">
               <label for="">Confirmar Contraseña:</label>
               <el-input
+                :disabled="userprop != null ? !passwordEnable : false"
                 placeholder="Please input"
                 v-model="confirmPassword"
                 show-password
@@ -64,9 +70,9 @@
         <b-row class="justify-content-center">
           <el-button type="success" size="large"
             @click="submit()"
-            >Crear Usuario <i class="fas fa-save"></i
+            >{{userprop == null ? 'Crear' : 'Editar'}} <i class="fas fa-save"></i
           ></el-button>
-          <el-button type="danger" size="large" @click="goTo('usuarios')"
+          <el-button type="danger" size="large" @click="goTo('/usuarios')"
             >Cancelar <i class="far fa-window-close"></i
           ></el-button>
         </b-row>
@@ -78,6 +84,7 @@
 <script>
 export default {
   name: "UserManage",
+  props:["userprop"],
   data() {
     return {
         isError: false,
@@ -87,8 +94,16 @@ export default {
             email: "",
             password: "",
         },
-        confirmPassword: ""
+        confirmPassword: "",
+        passwordEnable: false
     };
+  },
+  created(){
+    console.log(this);
+    if(this.userprop != null){   
+      this.user.name = this.userprop.name;
+      this.user.email = this.userprop.email;
+    }
   },
   methods: {
     goTo(location) {
@@ -125,10 +140,21 @@ export default {
         }
     },
 
-    async submit(){
+    submit(){
         if(this.validate()){
-            let response = await axios.post('/api/usuario', this.user);
-            console.log(response);
+            axios.post('/api/usuario', this.user).then(() =>{
+              this.swal({
+                    title: "Usuario creado correctamente",
+                    icon: "success"
+                });
+            }).catch(()=>{
+              this.swal({
+                    title: "Algo salio mal",
+                    text: "Por favor intentelo nuevamente",
+                    icon: "error",
+                    button: "OK"
+                });
+            });
         }
     }
   },

@@ -30,6 +30,8 @@ class TipoVehiculoSeeder extends Seeder
                     'tipo' => $tipo,
                     'idVehiculo' => $idVehiculo,
                     'idConductor' => $idConductor,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                 )
             );
         }

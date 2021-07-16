@@ -33,7 +33,6 @@ Vue.use(ElementUI, { locale });
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-componente', require('./components/ExampleComponent.vue').default);
 Vue.component('view-users', require('./components/users/viewUsers.vue').default);
 Vue.component('view-manage-users', require('./components/users/viewManageUsers.vue').default);
 

@@ -31,6 +31,8 @@ class ClienteSeeder extends Seeder
                     'nombre' => $nombre,
                     'razonSocial' => $razonSocial,
                     'nit' => $nit,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                     //'numeroOrden' => $numeroOrden, No esta en el dataset, se omite, es nullable
                 )
             );

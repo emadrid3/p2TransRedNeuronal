@@ -13,23 +13,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
+//Routes authenticate
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Routes app
+Route::get('/', function () {return view('auth.login');});
 
-Route::get('/usuarios', 'UsuarioController@index');
-Route::get('/usuarios-manage', 'UsuarioController@manageUsers');
+//PANTALLA PRINCIPAL
+Route::get('/home', 'HomeController@index')->middleware('auth');
 
-Route::get('/vehiculos', 'ConductorController@index');
+//PANTALLA USUARIOS
+Route::get('/usuarios', 'UsuarioController@index')->middleware('auth');
+Route::get('/usuarios-manage', 'UsuarioController@manageUsers')->middleware('auth');
+Route::get('/usuarios-manage/{id}', 'UsuarioController@editUsers')->middleware('auth');
 
-Route::get('/logistica', 'LogisticaController@index');
+//PANTALLA VEHICULOS
+Route::get('/vehiculos', 'ConductorController@index')->middleware('auth');
 
-Route::get('/clientes', 'ClienteController@index');
+//PANTALLA LOGISTICA
+Route::get('/logistica', 'LogisticaController@index')->middleware('auth');
 
-Route::get('/facturacion', 'FacturaController@index');
+//PANTALLA CLIENTES
+Route::get('/clientes', 'ClienteController@index')->middleware('auth');
 
-Route::get('/configuracion', 'HomeController@index');
+//PANTALLA FACTURACION
+Route::get('/facturacion', 'FacturaController@index')->middleware('auth');
+
+//PANTALLA CONFIGURACION
+Route::get('/configuracion', 'HomeController@index')->middleware('auth');
+
+//Routes API
+
+Route::post('/api/usuario', 'UsuarioController@create')->middleware('auth');
+Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
+Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
+
