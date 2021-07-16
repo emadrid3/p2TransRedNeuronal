@@ -28,23 +28,25 @@ Route::get('/usuarios-manage', 'UsuarioController@manageUsers')->middleware('aut
 Route::get('/usuarios-manage/{id}', 'UsuarioController@editUsers')->middleware('auth');
 
 //PANTALLA VEHICULOS
-Route::get('/vehiculos', 'ConductorController@index')->middleware('auth');
+Route::get('/vehiculos', 'VehiculoController@index')->middleware('auth');
+Route::get('/vehiculos-manage', 'VehiculoController@manageVehicles')->middleware('auth');
+
+//PANTALLA CONDUCTORES
+Route::get('/conductores', 'ConductorController@index')->middleware('auth');
+Route::get('/conductores-manage', 'ConductorController@manageDrivers')->middleware('auth');
 
 //PANTALLA LOGISTICA
 Route::get('/logistica', 'LogisticaController@index')->middleware('auth');
+Route::get('/logistica-manage', 'LogisticaController@manageLogistic')->middleware('auth');
 
 //PANTALLA CLIENTES
 Route::get('/clientes', 'ClienteController@index')->middleware('auth');
-
-//PANTALLA FACTURACION
-Route::get('/facturacion', 'FacturaController@index')->middleware('auth');
-
-//PANTALLA CONFIGURACION
-Route::get('/configuracion', 'HomeController@index')->middleware('auth');
+Route::get('/clientes-manage', 'ClienteController@manageCustomers')->middleware('auth');
 
 //Routes API
 
 Route::post('/api/usuario', 'UsuarioController@create')->middleware('auth');
-Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
+Route::patch('/api/usuario', 'UsuarioController@update')->middleware('auth');
 Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
+Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
 

@@ -48,14 +48,24 @@ class UsuarioController extends Controller
     public function update(Request $request){
         try {
             $request->validate(["name"=>"required", "email"=>"required"]);
-            $user = new User();
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
+            $user = User::find($request->input('id'));
+            
+            if( !is_null($request->input('name')) ){
+                $user->name = $request->input('name');
+            }
+            
+            if( !is_null($request->input('email')) ){
+                $user->email = $request->input('email');
+            }
+
+            if( !is_null($request->input('password')) ){
+                $user->password = Hash::make($request->input('password'));
+            }
+
             $user->save();
 
             
-            return response()->json(['message' => 'User create succesfully']);
+            return response()->json(['message' => 'User update succesfully']);
             
         } catch (\Exception $e) {
            throw $e;

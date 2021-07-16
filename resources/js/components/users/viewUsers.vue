@@ -43,7 +43,7 @@
           <el-tag>Activo</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Operations" width="250">
+      <el-table-column label="Acciones" width="250">
         <template slot-scope="props">
           <el-button
             type="primary"

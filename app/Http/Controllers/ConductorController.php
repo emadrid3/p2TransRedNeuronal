@@ -10,4 +10,9 @@ class ConductorController extends Controller
     {
         return view('drivers.drivers');
     }
+
+    public function manageDrivers()
+    {
+        return view('drivers.driversManage');
+    }
 }

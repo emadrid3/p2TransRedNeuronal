@@ -11,4 +11,9 @@ class ClienteController extends Controller
         return view('customers.customers');
     }
 
+    public function manageCustomers()
+    {
+        return view('customers.customersManage');
+    }
+
 }
