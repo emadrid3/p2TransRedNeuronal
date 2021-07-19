@@ -13,22 +13,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
+//Routes authenticate
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Routes app
+Route::get('/', function () {return view('auth.login');});
 
-Route::get('/usuarios', 'UsuarioController@index');
+//PANTALLA PRINCIPAL
+Route::get('/home', 'HomeController@index')->middleware('auth');
 
-Route::get('/vehiculos', 'ConductorController@index');
+//PANTALLA USUARIOS
+Route::get('/usuarios', 'UsuarioController@index')->middleware('auth');
+Route::get('/usuarios-manage', 'UsuarioController@manageUsers')->middleware('auth');
+Route::get('/usuarios-manage/{id}', 'UsuarioController@editUsers')->middleware('auth');
 
-Route::get('/logistica', 'LogisticaController@index');
+//PANTALLA VEHICULOS
+Route::get('/vehiculos', 'VehiculoController@index')->middleware('auth');
+Route::get('/vehiculos-manage', 'VehiculoController@manageVehicles')->middleware('auth');
 
-Route::get('/clientes', 'ClienteController@index');
+//PANTALLA CONDUCTORES
+Route::get('/conductores', 'ConductorController@index')->middleware('auth');
+Route::get('/conductores-manage', 'ConductorController@manageDrivers')->middleware('auth');
 
-Route::get('/facturacion', 'FacturaController@index');
+//PANTALLA LOGISTICA
+Route::get('/logistica', 'LogisticaController@index')->middleware('auth');
+Route::get('/logistica-manage', 'LogisticaController@manageLogistic')->middleware('auth');
 
-Route::get('/configuracion', 'HomeController@index');
+//PANTALLA CLIENTES
+Route::get('/clientes', 'ClienteController@index')->middleware('auth');
+Route::get('/clientes-manage', 'ClienteController@manageCustomers')->middleware('auth');
+
+//Routes API
+
+Route::post('/api/usuario', 'UsuarioController@create')->middleware('auth');
+Route::patch('/api/usuario', 'UsuarioController@update')->middleware('auth');
+Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
+Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
+

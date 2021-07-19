@@ -6,7 +6,7 @@
     <div class="login-view__img"></div>
     <div class="login-view__form">
     
-    <div class="coral-icon">
+    <div class="transgirar-icon">
       <img
         src="/img/logo.jpeg"
         width="100px"
@@ -20,7 +20,7 @@
         <form class="login-form" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="username-input">
-                <label class="username-input__label" for="username">Usuario</label>
+                <label class="username-input__label" for="username">Correo electrónico</label>
                 <input id="email" type="email" class="username-input__tag @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                 @error('email')
                     <span class="invalid-feedback" role="alert">

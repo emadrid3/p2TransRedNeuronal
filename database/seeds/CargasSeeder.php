@@ -26,6 +26,8 @@ class CargasSeeder extends Seeder
                 array(
                     'id' => $id,
                     'tipoCarga' => $tipoCarga,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                 )
             );
         }

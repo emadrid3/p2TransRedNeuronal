@@ -8,6 +8,10 @@ class LogisticaController extends Controller
 {
     public function index()
     {
-        return view('logistic');
+        return view('logistic.logistic');
+    }
+    public function manageLogistic()
+    {
+        return view('logistic.logisticManage');
     }
 }

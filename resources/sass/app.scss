@@ -7,21 +7,20 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-//Fontaweasom
-@import '~@fortawesome/fontawesome-free/css/all.css';
 
-@import 'style/login';
+//-------------------------------------------------------------//
 
-.navbar{
-    background-color:#007900 !important;
-    color: white !important;
-}
+// sass navbar
+@import 'navbar';
 
-.navbar-brand{
-    color: white !important;
-}
+//sass login
+@import 'login';
 
-.main-link-user{
-    color: white !important;
-    padding: 0px !important;
-}
+//sass sidebar
+@import 'sidebar';
+
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+

@@ -28,6 +28,8 @@ class VehiculosSeeder extends Seeder
                     'id' => $id,
                     'placa' => $placa,
                     'tipo' => $tipo,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                 )
             );
         }

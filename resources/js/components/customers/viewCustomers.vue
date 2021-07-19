@@ -19,8 +19,11 @@
 
     <b-row>
       <b-col lg="3" md="auto">
-        <el-button class="button-add" type="success"
-          ><i class="fas fa-plus"></i>Crear un nuevo cliente</el-button
+        <el-button
+          class="button-add"
+          type="success"
+          @click="goTo('clientes-manage')"
+          ><i class="fas fa-plus"></i>Crear un nuevo Cliente</el-button
         >
       </b-col>
     </b-row>
@@ -105,15 +108,16 @@ export default {
       ],
     };
   },
-  created() {
-  },
+  created() {},
   methods: {
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
+    goTo(location) {
+      window.location.href = location;
+    },
   },
 };
-
 </script>
 
 <style lang="scss" scoped>

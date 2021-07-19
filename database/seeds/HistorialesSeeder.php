@@ -42,6 +42,8 @@ class HistorialesSeeder extends Seeder
                     'destino' => $destino,
                     'cliente' => $cliente,
                     'flete' => $flete,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
                 )
             );
         }

@@ -8,6 +8,11 @@ class ConductorController extends Controller
 {
     public function index()
     {
-        return view('drivers');
+        return view('drivers.drivers');
+    }
+
+    public function manageDrivers()
+    {
+        return view('drivers.driversManage');
     }
 }
