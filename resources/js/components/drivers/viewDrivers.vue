@@ -53,7 +53,7 @@
             @click="goTo('/conductores-manage/' + props.row.id)"
           ></el-button>
           <el-button
-            @click="deleteUser(props.row.id)"
+            @click="deleteDriver(props.row.id)"
             type="danger"
             icon="el-icon-delete"
             size="mini"
@@ -150,17 +150,17 @@ export default {
         });
     },
 
-    /* deleteUser(id) {
+    deleteDriver(id) {
       this.swal({
         title: "Atencion!",
-        text: "Esta seguro que desea eliminar este usuario?",
+        text: "Esta seguro que desea eliminar este conductor?",
         icon: "warning",
         buttons: true,
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .delete("/api/usuario", {
+            .delete("/api/conductores", {
               params: { id: id},
             })
             .then((response) => {
@@ -177,7 +177,7 @@ export default {
             });
         }
       });
-    }, */
+    },
   },
 };
 </script>

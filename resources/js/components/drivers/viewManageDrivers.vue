@@ -107,7 +107,7 @@ export default {
           this.swal({
             title: "Usuario creado correctamente",
             icon: "success",
-          });
+          }).then(() => { this.goTo("/conductores") });
         })
         .catch(() => {
           this.swal({

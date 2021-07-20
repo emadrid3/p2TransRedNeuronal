@@ -144,7 +144,7 @@ export default {
             this.msgError = "Las contraseñas no coinciden";
             return false;
           }
-        } 
+        }
 
         this.isError = false;
         this.msgError = "";

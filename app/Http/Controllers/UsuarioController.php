@@ -12,12 +12,10 @@ class UsuarioController extends Controller
         return view('users.users');
     }
 
-    
     public function manageUsers()
     {
         $user = null;
         return view('users.usersManage', ['user' => $user]);
-        
     }
 
     public function editUsers($id)
@@ -25,7 +23,6 @@ class UsuarioController extends Controller
         $user = User::find($id);
         return view('users.usersManage', ['user' => $user]);
     }
-    
 
     public function create(Request $request)
     {
@@ -37,9 +34,7 @@ class UsuarioController extends Controller
             $user->password = Hash::make($request->input('password'));
             $user->save();
 
-            
-            return response()->json(['message' => 'User create succesfully']);
-            
+            return response()->json(['message' => 'Usuario creado satisfactoriamente']);
         } catch (\Exception $e) {
            throw $e;
         }
@@ -49,11 +44,9 @@ class UsuarioController extends Controller
         try {
             $request->validate(["name"=>"required", "email"=>"required"]);
             $user = User::find($request->input('id'));
-            
             if( !is_null($request->input('name')) ){
                 $user->name = $request->input('name');
             }
-            
             if( !is_null($request->input('email')) ){
                 $user->email = $request->input('email');
             }
@@ -64,9 +57,7 @@ class UsuarioController extends Controller
 
             $user->save();
 
-            
-            return response()->json(['message' => 'User update succesfully']);
-            
+            return response()->json(['message' => 'Usuario actualizado satisfactoriamente']);
         } catch (\Exception $e) {
            throw $e;
         }
@@ -76,7 +67,6 @@ class UsuarioController extends Controller
         try {
             $user = User::find($request->input('id'));
             $user->delete();
-            
         } catch (\Exception $e) {
            throw $e;
         }
@@ -85,9 +75,7 @@ class UsuarioController extends Controller
     public function list(Request $request){
         try {
             $listUsers = User::paginate($request->input('size'));
-            
             return response()->json($listUsers);
-            
         } catch (\Exception $e) {
            throw $e;
         }

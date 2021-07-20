@@ -54,4 +54,30 @@ class ConductorController extends Controller
            throw $e;
         }
     }
+
+    public function delete(Request $request){
+        try {
+            $driver = conductor::find($request->input('id'));
+            $driver->delete();
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
+    public function create(Request $request)
+    {
+        try {
+            $request->validate(["nombre"=>"required", "cedula"=>"required", "celular"=>"required"]);
+            $driver = new conductor();
+            $driver->nombre = $request->input('nombre');
+            $driver->cedula = $request->input('cedula');
+            $driver->celular = $request->input('celular');
+            $driver->save();
+
+            return response()->json(['message' => 'Conductor creado satisfactoriamente']);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
 }

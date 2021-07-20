@@ -57,4 +57,6 @@ Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
 
 Route::get('/api/conductores', 'ConductorController@list')->middleware('auth');
 Route::patch('/api/conductores', 'ConductorController@update')->middleware('auth');
+Route::post('/api/conductores', 'ConductorController@create')->middleware('auth');
+Route::delete('/api/conductores', 'ConductorController@delete')->middleware('auth');
 
