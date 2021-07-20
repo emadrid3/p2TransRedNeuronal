@@ -34,6 +34,7 @@ Route::get('/vehiculos-manage', 'VehiculoController@manageVehicles')->middleware
 //PANTALLA CONDUCTORES
 Route::get('/conductores', 'ConductorController@index')->middleware('auth');
 Route::get('/conductores-manage', 'ConductorController@manageDrivers')->middleware('auth');
+Route::get('/conductores-manage/{id}', 'ConductorController@editDrivers')->middleware('auth');
 
 //PANTALLA LOGISTICA
 Route::get('/logistica', 'LogisticaController@index')->middleware('auth');
@@ -50,3 +51,10 @@ Route::patch('/api/usuario', 'UsuarioController@update')->middleware('auth');
 Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
 Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
 
+
+/* Route::get('/api/conductores', 'ConductorController@list')->middleware('auth'); */
+
+Route::get('/api/conductores', 'ConductorController@list',function(){
+    $pasteles = Pastel::where('sabor','vainilla')->get();
+    dd($pasteles);
+});
