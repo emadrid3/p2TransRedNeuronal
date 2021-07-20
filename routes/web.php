@@ -43,6 +43,7 @@ Route::get('/logistica-manage', 'LogisticaController@manageLogistic')->middlewar
 //PANTALLA CLIENTES
 Route::get('/clientes', 'ClienteController@index')->middleware('auth');
 Route::get('/clientes-manage', 'ClienteController@manageCustomers')->middleware('auth');
+Route::get('/clientes-manage/{id}', 'ClienteController@editCustomers')->middleware('auth');
 
 //Routes API
 
@@ -55,8 +56,14 @@ Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
 
 //CONDUCTORES
 
-Route::get('/api/conductores', 'ConductorController@list')->middleware('auth');
-Route::patch('/api/conductores', 'ConductorController@update')->middleware('auth');
 Route::post('/api/conductores', 'ConductorController@create')->middleware('auth');
+Route::patch('/api/conductores', 'ConductorController@update')->middleware('auth');
 Route::delete('/api/conductores', 'ConductorController@delete')->middleware('auth');
+Route::get('/api/conductores', 'ConductorController@list')->middleware('auth');
 
+//CLIENTES
+
+Route::post('/api/cliente', 'ClienteController@create')->middleware('auth');
+Route::patch('/api/cliente', 'ClienteController@update')->middleware('auth');
+Route::delete('/api/cliente', 'ClienteController@delete')->middleware('auth');
+Route::get('/api/cliente', 'ClienteController@list')->middleware('auth');

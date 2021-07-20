@@ -39,17 +39,24 @@
       <el-table-column prop="nit" label="Nit"> </el-table-column>
       <el-table-column prop="numeroOrden" label="Numero de Orden">
       </el-table-column>
+      <el-table-column prop="razonSocial" label="Razon social">
+      </el-table-column>
       <el-table-column prop="estado" label="Estado">
-        <template slot-scope="scope">
-          <el-tag>{{ scope.row.estado }}</el-tag>
+        <template>
+          <el-tag>Activo</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Operations" width="250">
-        <template>
-          <el-button type="primary" size="mini">Ver..</el-button>
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+      <el-table-column label="Acciones" width="250">
+        <template slot-scope="props">
           <el-button
             type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            @click="goTo('/clientes-manage/' + props.row.id)"
+          ></el-button>
+          <el-button
+            @click="deleteCustomer(props.row.id)"
+            type="danger"
             icon="el-icon-delete"
             size="mini"
           ></el-button>
@@ -57,17 +64,19 @@
       </el-table-column>
     </el-table>
 
+    <Spinner size="120" v-if="isLoading" />
+
     <b-row class="paginator-main">
       <b-col></b-col>
       <b-col align-self="center">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage2"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          @size-change="getCustomers"
+          @current-change="getCustomerPerPage"
+          :current-page.sync="currentPage"
+          :page-sizes="[5, 10, 20, 50]"
+          :page-size="sizeData"
           layout="sizes, prev, pager, next"
-          :total="1000"
+          :total="totalData"
         >
         </el-pagination>
       </b-col>
@@ -77,44 +86,100 @@
 </template>
 
 <script>
+import Spinner from "./../spinner/spinner.vue";
 export default {
+  components: {
+    Spinner,
+  },
   data() {
     return {
-      tableData: [
-        {
-          nombre: "Corona Colombia",
-          nit: "1212112121",
-          numeroOrden: "#020202",
-          estado: "Activo",
-        },
-        {
-          nombre: "Fabricato",
-          nit: "14141414",
-          numeroOrden: "#020202",
-          estado: "Activo",
-        },
-        {
-          nombre: "Conconcreto",
-          nit: "1515151",
-          numeroOrden: "#020202",
-          estado: "Activo",
-        },
-        {
-          nombre: "Transgirar S.A.S",
-          nit: "13131313131",
-          numeroOrden: "#030303",
-          estado: "Activo",
-        },
-      ],
+      isLoading: false,
+      currentPage: null,
+      sizeData: null,
+      totalData: null,
+      tableData: []
     };
   },
-  created() {},
+  created() {
+    this.getCustomers(5);
+  },
   methods: {
-    deleteRow(index, rows) {
-      rows.splice(index, 1);
-    },
     goTo(location) {
       window.location.href = location;
+    },
+    getCustomers(size) {
+      this.currentPage = 1;
+      this.sizeData = size;
+      this.isLoading = true;
+      axios
+        .get("/api/cliente", { params: { size: size } })
+        .then((response) => {
+          this.tableData = response.data.data;
+          this.sizeData = response.data.per_page;
+          this.totalData = response.data.total;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
+
+    getCustomerPerPage(page) {
+      this.currentPage = page;
+      this.isLoading = true;
+      axios
+        .get("/api/cliente", { params: { page: page, size: this.sizeData } })
+        .then((response) => {
+          this.tableData = response.data.data;
+          this.sizeData = response.data.per_page;
+          this.totalData = response.data.total;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
+
+    deleteCustomer(id) {
+      this.swal({
+        title: "Atencion!",
+        text: "Esta seguro que desea eliminar este cliente?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios
+            .delete("/api/cliente", {
+              params: { id: id},
+            })
+            .then((response) => {
+              this.getCustomerPerPage(this.currentPage);
+            })
+            .catch((error) => {
+              console.log(error);
+              this.isLoading = false;
+              this.swal({
+                title: "Algo salio mal",
+                text: "Por favor intentelo nuevamente",
+                icon: "error",
+                button: "OK",
+              });
+            });
+        }
+      });
     },
   },
 };
