@@ -2,71 +2,68 @@
   <div>
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }">Inicio</el-breadcrumb-item>
-      <el-breadcrumb-item>Conductores</el-breadcrumb-item>
+      <el-breadcrumb-item>Usuarios</el-breadcrumb-item>
       <el-breadcrumb-item>Lista de Conductores</el-breadcrumb-item>
       <el-breadcrumb-item>Gestionar Conductores</el-breadcrumb-item>
     </el-breadcrumb>
 
     <b-row class="title">
-      <h2>Gestionar Conductores</h2>
+      <h2>{{ driverprop == null ? "Crear Conductor" : "Editar Conductor" }}</h2>
 
       <div class="title__info">
         <p>
           <i class="fas fa-info-circle"></i>Desde esta ventana podras crear o
-          actualizar un conductores especifico
+          actualizar un conductor especifico
         </p>
       </div>
     </b-row>
 
-    <b-row>
-      <el-card class="box-card" style="width: 100%">
+    <b-row align-h="center">
+      <el-card shadow="hover">
         <el-alert
-            v-if="isError"
-            title="Error de validación"
-            type="error"
-            :description="msgError"
-            show-icon>
+          v-if="isError"
+          title="Error de validación"
+          type="error"
+          :description="msgError"
+          show-icon
+        >
         </el-alert>
-        <br>
+        <br />
         <b-container>
           <label for="">Nombre:</label>
-          <el-input placeholder="Ingrese un nombre" v-model="user.name"></el-input>
+          <el-input
+            placeholder="Please input"
+            v-model="driver.nombre"
+          ></el-input>
         </b-container>
         <br />
         <b-container>
-          <label for="">Email:</label>
-          <el-input placeholder="Ingrese un correo" v-model="user.email"></el-input>
+          <label for="">Cedula:</label>
+          <el-input
+            placeholder="Please input"
+            v-model="driver.cedula"
+          ></el-input>
+        </b-container>
+        <b-container>
+          <label for="">Celular:</label>
+          <el-input
+            placeholder="Please input"
+            v-model="driver.celular"
+          ></el-input>
         </b-container>
         <br />
-        <b-container>
-          <b-row>
-            <b-col md="6" sm="12">
-              <label for="">Contraseña:</label>
-              <el-input
-                placeholder="Ingrese una contraseña"
-                v-model="user.password"
-                show-password
-              ></el-input>
-            </b-col>
-            <b-col md="6" sm="12">
-              <label for="">Confirmar Contraseña:</label>
-              <el-input
-                placeholder="Repita la contraseña"
-                v-model="confirmPassword"
-                show-password
-              ></el-input>
-            </b-col>
-          </b-row>
-        </b-container>
       </el-card>
 
       <b-container class="buttons-form">
         <b-row class="justify-content-center">
-          <el-button type="success" size="large"
-            @click="submit()"
-            >Crear Usuario <i class="fas fa-save"></i
+          <el-button
+            type="success"
+            size="large"
+            @click="driverprop != null ? edit() : create()"
+            >{{ driverprop == null ? "Crear" : "Editar" }}
+            <i class="fas fa-save"></i
           ></el-button>
-          <el-button type="danger" size="large" @click="goTo('usuarios')"
+          <el-button type="danger" size="large" @click="goTo('/conductores')"
             >Cancelar <i class="far fa-window-close"></i
           ></el-button>
         </b-row>
@@ -77,82 +74,76 @@
 
 <script>
 export default {
-  name: "UserManage",
+  name: "DriverManage",
+  props: ["driverprop"],
   data() {
     return {
-        isError: false,
-        msgError: "",
-        user: {
-            name: "",
-            email: "",
-            password: "",
-        },
-        confirmPassword: ""
+      isError: false,
+      msgError: "",
+      driver: {
+        nombre: "",
+        cedula: "",
+        celular: "",
+      },
     };
+  },
+  created() {
+    console.log(this);
+    if (this.driverprop != null) {
+      this.driver.nombre = this.driverprop.nombre;
+      this.driver.cedula = this.driverprop.cedula;
+      this.driver.celular = this.driverprop.celular;
+    }
   },
   methods: {
     goTo(location) {
       window.location.href = location;
     },
 
-    validate(){
-        let emailRule = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-
-        if (!this.user.name) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese un nombre"
-            return false;
-        }else if (!this.user.email) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese un correo"
-            return false;
-        }else if (!this.user.password) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese una contraseña"
-            return false;
-        }else if (this.confirmPassword != this.user.password) {
-            this.isError = true;
-            this.msgError = "Las contraseñas no coinciden"
-            return false;
-        }else if (!emailRule.test(this.user.email)) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese un correo valido"
-            return false;
-        } else {
-            this.isError = false;
-            this.msgError = "";
-            return true;
-        }
+    create() {
+      axios
+        .post("/api/conductores", this.driver)
+        .then(() => {
+          this.swal({
+            title: "Usuario creado correctamente",
+            icon: "success",
+          });
+        })
+        .catch(() => {
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
     },
 
-    submit(){
-        if(this.validate()){
-            axios.get('/api/usuariosall').then((response) =>{
-              this.swal({
-                    title: "Usuario creado correctamente",
-                    icon: "success"
-                });
-            }).catch((error)=>{
-              if(error.message == "Request failed with status code 401"){
-                this.swal({
-                    title: "No autorizado",
-                    text: "Por favor ingrese a la app nuevamente",
-                    icon: "warning",
-                    button: "OK"
-                }).then(() => {
-                  this.goTo('/')
-                });
-              }else{
-                this.swal({
-                    title: "Algo salio mal",
-                    text: "Por favor intentelo nuevamente",
-                    icon: "error",
-                    button: "OK"
-                });
-              } 
-            });
-        }
-    }
+    async edit() {
+      let params = {};
+      params.id = this.driverprop.id;
+      params.nombre = this.driver.nombre;
+      params.cedula = this.driver.cedula;
+      params.celular = this.driver.celular;
+      await axios
+        .patch("/api/conductores", params)
+        .then(() => {
+          this.swal(
+            {
+              title: "Conductor actualizado correctamente",
+              icon: "success",
+            }
+          ).then(() => { this.goTo("/conductores") });
+        })
+        .catch(() => {
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
   },
 };
 </script>

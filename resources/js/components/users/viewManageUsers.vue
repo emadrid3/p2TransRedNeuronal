@@ -196,7 +196,7 @@ export default {
               text: "Por favor intentelo nuevamente",
               icon: "error",
               button: "OK",
-            });
+            }).then(() => { this.goTo("/usuarios") });
           });
       }
     },

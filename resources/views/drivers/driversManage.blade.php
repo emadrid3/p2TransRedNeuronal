@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<view-manage-drivers :driverprop="{{$driver}}></view-manage-drivers>
+
+@if ($driver != null)
+    <view-manage-drivers :driverprop="{{$driver}}"></view-manage-drivers>
+@else
+    <view-manage-drivers></view-manage-drivers>
+@endif
 @endsection

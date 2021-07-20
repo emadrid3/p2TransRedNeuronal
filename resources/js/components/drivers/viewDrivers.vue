@@ -50,7 +50,7 @@
             type="primary"
             icon="el-icon-edit"
             size="mini"
-            @click="goTo('/usuarios-manage/' + props.row.id)"
+            @click="goTo('/conductores-manage/' + props.row.id)"
           ></el-button>
           <el-button
             @click="deleteUser(props.row.id)"
@@ -69,7 +69,7 @@
       <b-col align-self="center">
         <el-pagination
           @size-change="getDriver"
-          @current-change="getUserPerPage"
+          @current-change="getDriverPerPage"
           :current-page.sync="currentPage"
           :page-sizes="[5, 10, 20, 50]"
           :page-size="sizeData"
@@ -112,7 +112,6 @@ export default {
       axios
         .get("/api/conductores", { params: { size: size } })
         .then((response) => {
-          console.log(response)
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;
           this.totalData = response.data.total;
@@ -129,7 +128,7 @@ export default {
         });
     },
 
-    getUserPerPage(page) {
+    getDriverPerPage(page) {
       this.currentPage = page;
       this.isLoading = true;
       axios
@@ -165,7 +164,7 @@ export default {
               params: { id: id},
             })
             .then((response) => {
-              this.getUserPerPage(this.currentPage);
+              this.getDriverPerPage(this.currentPage);
             })
             .catch((error) => {
               this.isLoading = false;

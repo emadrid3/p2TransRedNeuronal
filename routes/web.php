@@ -46,15 +46,15 @@ Route::get('/clientes-manage', 'ClienteController@manageCustomers')->middleware(
 
 //Routes API
 
+//USUARIOS
+
 Route::post('/api/usuario', 'UsuarioController@create')->middleware('auth');
 Route::patch('/api/usuario', 'UsuarioController@update')->middleware('auth');
 Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
 Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
 
+//CONDUCTORES
 
-/* Route::get('/api/conductores', 'ConductorController@list')->middleware('auth'); */
+Route::get('/api/conductores', 'ConductorController@list')->middleware('auth');
+Route::patch('/api/conductores', 'ConductorController@update')->middleware('auth');
 
-Route::get('/api/conductores', 'ConductorController@list',function(){
-    $pasteles = Pastel::where('sabor','vainilla')->get();
-    dd($pasteles);
-});

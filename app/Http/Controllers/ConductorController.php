@@ -15,14 +15,10 @@ class ConductorController extends Controller
 
     public function manageDrivers()
     {
+        $driver = null;
         return view('drivers.driversManage', ['driver' => $driver]);
     }
 
-   /*  public function editDrivers($id)
-    {
-        $driver = conductor::find($id);
-        return view('drivers.driversManage', ['driver' => $driver]);
-    } */
 
     public function list(Request $request){
         try {
@@ -33,21 +29,29 @@ class ConductorController extends Controller
         }
     }
 
-   /*  public function create(Request $request)
+    public function editDrivers($id)
     {
-        try {
-            $request->validate(["name"=>"required", "email"=>"required"]);
-            $user = new User();
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
-            $user->save();
+        $driver = conductor::find($id);
+        return view('drivers.driversManage', ['driver' => $driver]);
+    }
 
-            
-            return response()->json(['message' => 'User create succesfully']);
-            
+    public function update(Request $request){
+        try {
+            $request->validate(["nombre"=>"required", "cedula"=>"required", "celular"=>"required"]);
+            $driver = conductor::find($request->input('id'));
+            if( !is_null($request->input('nombre')) ){
+                $driver->nombre = $request->input('nombre');
+            }
+            if( !is_null($request->input('cedula')) ){
+                $driver->cedula = $request->input('cedula');
+            }
+            if( !is_null($request->input('celular')) ){
+                $driver->celular = $request->input('celular');
+            }
+            $driver->save();
+            return response()->json(['message' => 'Conductor actualizado satisfactoriamente']);
         } catch (\Exception $e) {
            throw $e;
         }
-    } */
+    }
 }
