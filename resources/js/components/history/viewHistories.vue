@@ -23,17 +23,18 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="nombre" label="Nombre"> </el-table-column>
-      <el-table-column prop="nit" label="Nit"> </el-table-column>
-      <el-table-column prop="numeroOrden" label="Numero de Orden">
+      <el-table-column prop="fecha" label="Fecha"> </el-table-column>
+      <el-table-column prop="placa" label="Placa"> </el-table-column>
+      <el-table-column prop="tipoVehiculo" label="Tipo de Vehiculo">
       </el-table-column>
-      <el-table-column prop="razonSocial" label="Razon social">
+      <el-table-column prop="tipo" label="Tipo">
       </el-table-column>
-      <el-table-column prop="estado" label="Estado">
-        <template>
-          <el-tag>Activo</el-tag>
-        </template>
+      <el-table-column prop="conductor" label="Conductor">
       </el-table-column>
+      <el-table-column prop="origen" label="Origen"> </el-table-column>
+      <el-table-column prop="destino" label="Destino"> </el-table-column>
+      <el-table-column prop="cliente" label="Cliente"> </el-table-column>
+      <el-table-column prop="flete" label="Flete"> </el-table-column>
     </el-table>
 
     <Spinner size="120" v-if="isLoading" />
@@ -69,7 +70,7 @@ export default {
       currentPage: null,
       sizeData: null,
       totalData: null,
-      tableData: []
+      tableData: [],
     };
   },
   created() {
@@ -84,7 +85,7 @@ export default {
       this.sizeData = size;
       this.isLoading = true;
       axios
-        .get("/api/cliente", { params: { size: size } })
+        .get("/api/historial", { params: { size: size } })
         .then((response) => {
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;
@@ -106,7 +107,7 @@ export default {
       this.currentPage = page;
       this.isLoading = true;
       axios
-        .get("/api/cliente", { params: { page: page, size: this.sizeData } })
+        .get("/api/historial", { params: { page: page, size: this.sizeData } })
         .then((response) => {
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;

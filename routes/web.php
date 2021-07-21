@@ -70,3 +70,6 @@ Route::post('/api/cliente', 'ClienteController@create')->middleware('auth');
 Route::patch('/api/cliente', 'ClienteController@update')->middleware('auth');
 Route::delete('/api/cliente', 'ClienteController@delete')->middleware('auth');
 Route::get('/api/cliente', 'ClienteController@list')->middleware('auth');
+
+//HISTORIAL
+Route::get('/api/historial', 'HistorialController@list')->middleware('auth');

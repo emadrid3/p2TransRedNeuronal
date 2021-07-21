@@ -12,12 +12,12 @@ class HistorialController extends Controller
     {
         return view('histories.histories');
     }
-  /*   public function list(Request $request){
+    public function list(Request $request){
         try {
-            $listCustomer = cliente::paginate($request->input('size'));
-            return response()->json($listCustomer);
+            $listHistory = historial::paginate($request->input('size'));
+            return response()->json($listHistory);
         } catch (\Exception $e) {
            throw $e;
         }
-    } */
+    }
 }
