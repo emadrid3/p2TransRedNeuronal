@@ -47,6 +47,8 @@ Vue.use(ElementUI, { locale });
 
  Vue.component('view-logistic', require('./components/logistic/viewLogistic.vue').default);
  Vue.component('view-manage-logistic', require('./components/logistic/viewManageLogistic.vue').default);
+
+ Vue.component('view-histories', require('./components/history/viewHistories.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

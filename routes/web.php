@@ -45,6 +45,9 @@ Route::get('/clientes', 'ClienteController@index')->middleware('auth');
 Route::get('/clientes-manage', 'ClienteController@manageCustomers')->middleware('auth');
 Route::get('/clientes-manage/{id}', 'ClienteController@editCustomers')->middleware('auth');
 
+//PANTALLA HISTORIAL
+Route::get('/historial', 'HistorialController@index')->middleware('auth');
+
 //Routes API
 
 //USUARIOS
