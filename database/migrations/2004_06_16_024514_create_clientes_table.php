@@ -17,7 +17,6 @@ class CreateClientesTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->string('nit');
-            $table->string('numeroOrden')->nullable();
             $table->string('razonSocial');
             $table->timestamps();
         });

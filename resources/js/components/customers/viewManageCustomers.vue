@@ -30,27 +30,19 @@
         </el-alert>
         <br />
         <b-container>
-          <label for="">Nombre:</label>
-          <el-input
-            placeholder="Ingrese un nombre"
-            v-model="customer.nombre"
-          ></el-input>
-        </b-container>
-        <br />
-        <b-container>
           <b-row>
-            <b-col md="6" sm="12">
+            <b-col>
+              <label for="">Nombre:</label>
+              <el-input
+                placeholder="Ingrese un nombre"
+                v-model="customer.nombre"
+              ></el-input>
+            </b-col>
+            <b-col>
               <label for="">Nit o Numero de documento:</label>
               <el-input
                 placeholder="Ingrese un Nit"
                 v-model="customer.nit"
-              ></el-input>
-            </b-col>
-            <b-col md="6" sm="12">
-              <label for="">Numero de orden:</label>
-              <el-input
-                placeholder="Ingrese un numero de orden"
-                v-model="customer.numeroOrden"
               ></el-input>
             </b-col>
           </b-row>
@@ -95,7 +87,6 @@ export default {
         id: "",
         nombre: "",
         nit: "",
-        numeroOrden: "",
         razonSocial: ""
       },
     };
@@ -108,7 +99,6 @@ export default {
       this.customer.id = this.customerprop.id;
       this.customer.nombre = this.customerprop.nombre;
       this.customer.nit = this.customerprop.nit;
-      this.customer.numeroOrden = this.customerprop.numeroOrden;
       this.customer.razonSocial = this.customerprop.razonSocial;
     }
   },
@@ -164,7 +154,6 @@ export default {
         params.id = this.customerprop.id;
         params.nombre = this.customer.nombre;
         params.nit = this.customer.nit;
-        params.numeroOrden = this.customer.numeroOrden;
         params.razonSocial = this.customer.razonSocial;
         axios
           .patch("/api/cliente", params)

@@ -38,12 +38,12 @@
     >
       <el-table-column prop="name" label="Nombre Completo"> </el-table-column>
       <el-table-column prop="email" label="Correo"> </el-table-column>
-      <el-table-column prop="estado" label="Estado">
+      <el-table-column prop="estado" label="Estado" :width="100">
         <template>
           <el-tag>Activo</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Acciones" width="250">
+      <el-table-column label="Acciones" :width="130">
         <template slot-scope="props">
           <el-button
             type="primary"

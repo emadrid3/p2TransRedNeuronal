@@ -38,12 +38,12 @@
       <el-table-column prop="nombre" label="Nombre"> </el-table-column>
       <el-table-column prop="cedula" label="Cedula"> </el-table-column>
       <el-table-column prop="celular" label="Celular"> </el-table-column>
-      <el-table-column prop="estado" label="estado">
+      <el-table-column prop="estado" label="estado" :width="100">
         <template slot-scope="scope">
           <el-tag>{{ scope.row.estado }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Operations" width="250">
+      <el-table-column label="Operations" :width="130">
         <template>
           <el-button type="primary" size="mini">Ver..</el-button>
           <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>

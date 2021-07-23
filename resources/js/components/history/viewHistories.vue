@@ -23,17 +23,17 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="fecha" label="Fecha"> </el-table-column>
-      <el-table-column prop="placa" label="Placa"> </el-table-column>
-      <el-table-column prop="tipoVehiculo" label="Tipo de Vehiculo">
+      <el-table-column prop="fecha" label="Fecha" :min-width="65"> </el-table-column>
+      <el-table-column prop="placa" label="Placa" :width="80"> </el-table-column>
+      <el-table-column prop="tipoVehiculo" label="Tipo Vehiculo" :min-width="85">
       </el-table-column>
-      <el-table-column prop="tipo" label="Tipo">
+      <el-table-column prop="tipo" label="Tipo" :width="85">
       </el-table-column>
-      <el-table-column prop="conductor" label="Conductor">
+      <el-table-column prop="conductor" label="Conductor" :min-width="120">
       </el-table-column>
       <el-table-column prop="origen" label="Origen"> </el-table-column>
       <el-table-column prop="destino" label="Destino"> </el-table-column>
-      <el-table-column prop="cliente" label="Cliente"> </el-table-column>
+      <el-table-column prop="cliente" label="Cliente" :min-width="100"> </el-table-column>
       <el-table-column prop="flete" label="Flete"> </el-table-column>
     </el-table>
 
@@ -66,6 +66,7 @@ export default {
   },
   data() {
     return {
+
       isLoading: false,
       currentPage: null,
       sizeData: null,
@@ -123,8 +124,8 @@ export default {
             button: "OK",
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -37,16 +37,14 @@
     >
       <el-table-column prop="nombre" label="Nombre"> </el-table-column>
       <el-table-column prop="nit" label="Nit"> </el-table-column>
-      <el-table-column prop="numeroOrden" label="Numero de Orden">
+      <el-table-column prop="razonSocial" label="Razon social" :min-width="200">
       </el-table-column>
-      <el-table-column prop="razonSocial" label="Razon social">
-      </el-table-column>
-      <el-table-column prop="estado" label="Estado">
+      <el-table-column prop="estado" label="Estado" :width="100">
         <template>
-          <el-tag>Activo</el-tag>
+          <el-tag>Inactivo</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Acciones" width="250">
+      <el-table-column label="Acciones" :width="130">
         <template slot-scope="props">
           <el-button
             type="primary"

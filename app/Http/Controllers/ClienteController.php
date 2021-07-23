@@ -33,7 +33,7 @@ class ClienteController extends Controller
             $cliente = new cliente();
             $cliente->nombre = $request->input('nombre');
             $cliente->nit = $request->input('nit');
-            $cliente->numeroOrden = $request->input('numeroOrden');
+            
             $cliente->razonSocial = $request->input('razonSocial');
             $cliente->save();
             
@@ -56,10 +56,6 @@ class ClienteController extends Controller
             
             if( !is_null($request->input('nit')) ){
                 $customer->nit = $request->input('nit');
-            }
-
-            if( !is_null($request->input('numeroOrden')) ){
-                $customer->numeroOrden = $request->input('numeroOrden');
             }
 
             if( !is_null($request->input('razonSocial')) ){
