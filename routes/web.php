@@ -34,6 +34,7 @@ Route::get('/vehiculos-manage', 'VehiculoController@manageVehicles')->middleware
 //PANTALLA CONDUCTORES
 Route::get('/conductores', 'ConductorController@index')->middleware('auth');
 Route::get('/conductores-manage', 'ConductorController@manageDrivers')->middleware('auth');
+Route::get('/conductores-manage/{id}', 'ConductorController@editDrivers')->middleware('auth');
 
 //PANTALLA LOGISTICA
 Route::get('/logistica', 'LogisticaController@index')->middleware('auth');
@@ -42,11 +43,33 @@ Route::get('/logistica-manage', 'LogisticaController@manageLogistic')->middlewar
 //PANTALLA CLIENTES
 Route::get('/clientes', 'ClienteController@index')->middleware('auth');
 Route::get('/clientes-manage', 'ClienteController@manageCustomers')->middleware('auth');
+Route::get('/clientes-manage/{id}', 'ClienteController@editCustomers')->middleware('auth');
+
+//PANTALLA HISTORIAL
+Route::get('/historial', 'HistorialController@index')->middleware('auth');
 
 //Routes API
+
+//USUARIOS
 
 Route::post('/api/usuario', 'UsuarioController@create')->middleware('auth');
 Route::patch('/api/usuario', 'UsuarioController@update')->middleware('auth');
 Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
 Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
 
+//CONDUCTORES
+
+Route::post('/api/conductores', 'ConductorController@create')->middleware('auth');
+Route::patch('/api/conductores', 'ConductorController@update')->middleware('auth');
+Route::delete('/api/conductores', 'ConductorController@delete')->middleware('auth');
+Route::get('/api/conductores', 'ConductorController@list')->middleware('auth');
+
+//CLIENTES
+
+Route::post('/api/cliente', 'ClienteController@create')->middleware('auth');
+Route::patch('/api/cliente', 'ClienteController@update')->middleware('auth');
+Route::delete('/api/cliente', 'ClienteController@delete')->middleware('auth');
+Route::get('/api/cliente', 'ClienteController@list')->middleware('auth');
+
+//HISTORIAL
+Route::get('/api/historial', 'HistorialController@list')->middleware('auth');

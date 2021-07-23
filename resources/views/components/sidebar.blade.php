@@ -20,6 +20,9 @@
         <a href="{{ url('/facturacion') }}"><i class="fas fa-file-invoice-dollar fa-2x" style="float: left; margin: 12px 3px"></i>Facturas</a>
     </li>
     <li class="active">
+        <a href="{{ url('/historial') }}"><i class="fas fa-history fa-2x" style="float: left; margin: 12px 3px"></i>Historial</a>
+    </li>
+    <li class="active">
         <a href="#"><i class="fas fa-cogs fa-2x" style="float: left; margin: 12px 3px"></i>Configuración</a>
     </li>
     </ul>

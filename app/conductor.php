@@ -11,6 +11,8 @@ class conductor extends Model
      *
      * @var array
      */
+    public $table = 'conductores';
+
     protected $fillable = [
         'id',
         'nombre',

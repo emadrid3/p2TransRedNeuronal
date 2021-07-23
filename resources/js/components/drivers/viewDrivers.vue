@@ -29,26 +29,32 @@
     </b-row>
 
     <el-table
+      v-if="!isLoading"
       :data="tableData"
       border
       class="table-main"
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="nombre" label="Nombre"> </el-table-column>
+      <el-table-column prop="nombre" label="Nombre Completo"> </el-table-column>
       <el-table-column prop="cedula" label="Cedula"> </el-table-column>
       <el-table-column prop="celular" label="Celular"> </el-table-column>
-      <el-table-column prop="estado" label="estado">
-        <template slot-scope="scope">
-          <el-tag>{{ scope.row.estado }}</el-tag>
+      <el-table-column prop="estado" label="Estado">
+        <template>
+          <el-tag>Activo</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Operations" width="250">
-        <template>
-          <el-button type="primary" size="mini">Ver..</el-button>
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+      <el-table-column label="Acciones" width="250">
+        <template slot-scope="props">
           <el-button
             type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            @click="goTo('/conductores-manage/' + props.row.id)"
+          ></el-button>
+          <el-button
+            @click="deleteDriver(props.row.id)"
+            type="danger"
             icon="el-icon-delete"
             size="mini"
           ></el-button>
@@ -56,17 +62,19 @@
       </el-table-column>
     </el-table>
 
+    <Spinner size="120" v-if="isLoading" />
+
     <b-row class="paginator-main">
       <b-col></b-col>
       <b-col align-self="center">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage2"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          @size-change="getDriver"
+          @current-change="getDriverPerPage"
+          :current-page.sync="currentPage"
+          :page-sizes="[5, 10, 20, 50]"
+          :page-size="sizeData"
           layout="sizes, prev, pager, next"
-          :total="1000"
+          :total="totalData"
         >
         </el-pagination>
       </b-col>
@@ -76,95 +84,100 @@
 </template>
 
 <script>
+import Spinner from "./../spinner/spinner.vue";
 export default {
-  mounted() {
-    console.log("Component mounted.");
-  },
-  methods: {
-    deleteRow(index, rows) {
-      rows.splice(index, 1);
-    },
-    goTo(location) {
-      window.location.href = location;
-    },
+  components: {
+    Spinner,
   },
   data() {
     return {
-      tableData: [
-        {
-          nombre: "JUAN FERNANDO AGUDELO",
-          cedula: "1.037.789",
-          celular: "+57 301 380 9053",
-          estado: "Activo",
-        },
-        {
-          nombre: "LUIS CARLOS SALDARRIAGA",
-          cedula: "70.237.789",
-          celular: "+57 321 380 9053",
-          estado: "Activo",
-        },
-        {
-          nombre: "HECTOR MAURICIO BEDOYA",
-          cedula: "80.707.789",
-          celular: "+57 311 680 9053",
-          estado: "Activo",
-        },
-        {
-          nombre: "CARLOS MARIO PUERTA",
-          cedula: "21.707.789",
-          celular: "+57 321 680 4444",
-          estado: "Activo",
-        },
-        {
-          nombre: "WILSON RICARDO BEDOYA",
-          cedula: "77.507.999",
-          celular: "+57 301 550 4444",
-          estado: "Activo",
-        },
-        {
-          nombre: "NICOLAS ANTONIO ALVAREZ",
-          cedula: "80.507.999",
-          celular: "+57 301 550 4444",
-          estado: "Activo",
-        },
-        {
-          nombre: "JUAN FERNANDO AGUDELO",
-          cedula: "1.037.789",
-          celular: "+57 301 380 9053",
-          estado: "Activo",
-        },
-        {
-          nombre: "LUIS CARLOS SALDARRIAGA",
-          cedula: "70.237.789",
-          celular: "+57 321 380 9053",
-          estado: "Activo",
-        },
-        {
-          nombre: "HECTOR MAURICIO BEDOYA",
-          cedula: "80.707.789",
-          celular: "+57 311 680 9053",
-          estado: "Activo",
-        },
-        {
-          nombre: "CARLOS MARIO PUERTA",
-          cedula: "21.707.789",
-          celular: "+57 321 680 4444",
-          estado: "Activo",
-        },
-        {
-          nombre: "WILSON RICARDO BEDOYA",
-          cedula: "77.507.999",
-          celular: "+57 301 550 4444",
-          estado: "Activo",
-        },
-        {
-          nombre: "NICOLAS ANTONIO ALVAREZ",
-          cedula: "80.507.999",
-          celular: "+57 301 550 4444",
-          estado: "Activo",
-        },
-      ],
+      isLoading: false,
+      currentPage: null,
+      sizeData: null,
+      totalData: null,
+      tableData: [],
     };
+  },
+  created() {
+    this.getDriver(5);
+  },
+  methods: {
+    goTo(location) {
+      window.location.href = location;
+    },
+    getDriver(size) {
+      this.currentPage = 1;
+      this.sizeData = size;
+      this.isLoading = true;
+      axios
+        .get("/api/conductores", { params: { size: size } })
+        .then((response) => {
+          this.tableData = response.data.data;
+          this.sizeData = response.data.per_page;
+          this.totalData = response.data.total;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
+
+    getDriverPerPage(page) {
+      this.currentPage = page;
+      this.isLoading = true;
+      axios
+        .get("/api/conductores", { params: { page: page, size: this.sizeData } })
+        .then((response) => {
+          this.tableData = response.data.data;
+          this.sizeData = response.data.per_page;
+          this.totalData = response.data.total;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
+
+    deleteDriver(id) {
+      this.swal({
+        title: "Atencion!",
+        text: "Esta seguro que desea eliminar este conductor?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios
+            .delete("/api/conductores", {
+              params: { id: id},
+            })
+            .then((response) => {
+              this.getDriverPerPage(this.currentPage);
+            })
+            .catch((error) => {
+              this.isLoading = false;
+              this.swal({
+                title: "Algo salio mal",
+                text: "Por favor intentelo nuevamente",
+                icon: "error",
+                button: "OK",
+              });
+            });
+        }
+      });
+    },
   },
 };
 </script>

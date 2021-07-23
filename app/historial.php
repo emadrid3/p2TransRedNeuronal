@@ -11,6 +11,8 @@ class historial extends Model
      *
      * @var array
      */
+    public $table = 'historiales';
+
     protected $fillable = [
         'id',
         'fecha',

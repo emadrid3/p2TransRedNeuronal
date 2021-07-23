@@ -8,7 +8,7 @@
     </el-breadcrumb>
 
     <b-row class="title">
-      <h2>Gestionar Cliente</h2>
+      <h2>{{ customerprop == null ? "Crear cliente" : "Editar cliente" }}</h2>
 
       <div class="title__info">
         <p>
@@ -21,52 +21,60 @@
     <b-row>
       <el-card class="box-card" style="width: 100%">
         <el-alert
-            v-if="isError"
-            title="Error de validación"
-            type="error"
-            :description="msgError"
-            show-icon>
+          v-if="isError"
+          title="Error de validación"
+          type="error"
+          :description="msgError"
+          show-icon
+        >
         </el-alert>
-        <br>
-        <b-container>
-          <label for="">Nombre:</label>
-          <el-input placeholder="Ingrese un nombre" v-model="user.name"></el-input>
-        </b-container>
         <br />
         <b-container>
-          <label for="">Email:</label>
-          <el-input placeholder="Ingrese un correo" v-model="user.email"></el-input>
+          <label for="">Nombre:</label>
+          <el-input
+            placeholder="Ingrese un nombre"
+            v-model="customer.nombre"
+          ></el-input>
         </b-container>
         <br />
         <b-container>
           <b-row>
             <b-col md="6" sm="12">
-              <label for="">Contraseña:</label>
+              <label for="">Nit o Numero de documento:</label>
               <el-input
-                placeholder="Ingrese una contraseña"
-                v-model="user.password"
-                show-password
+                placeholder="Ingrese un Nit"
+                v-model="customer.nit"
               ></el-input>
             </b-col>
             <b-col md="6" sm="12">
-              <label for="">Confirmar Contraseña:</label>
+              <label for="">Numero de orden:</label>
               <el-input
-                placeholder="Repita la contraseña"
-                v-model="confirmPassword"
-                show-password
+                placeholder="Ingrese un numero de orden"
+                v-model="customer.numeroOrden"
               ></el-input>
             </b-col>
           </b-row>
+        </b-container>
+        <br />
+        <b-container>
+          <label for="">Razon social:</label>
+          <el-input
+            placeholder="Ingrese una razon social"
+            v-model="customer.razonSocial"
+          ></el-input>
         </b-container>
       </el-card>
 
       <b-container class="buttons-form">
         <b-row class="justify-content-center">
-          <el-button type="success" size="large"
-            @click="submit()"
-            >Crear Usuario <i class="fas fa-save"></i
+          <el-button
+            type="success"
+            size="large"
+            @click="customerprop != null ? edit() : create()"
+            >{{ customerprop == null ? "Crear" : "Editar" }}
+            <i class="fas fa-save"></i
           ></el-button>
-          <el-button type="danger" size="large" @click="goTo('usuarios')"
+          <el-button type="danger" size="large" @click="goTo('/clientes')"
             >Cancelar <i class="far fa-window-close"></i
           ></el-button>
         </b-row>
@@ -77,82 +85,107 @@
 
 <script>
 export default {
-  name: "UserManage",
+  name: "CustomerManage",
+  props: ["customerprop"],
   data() {
     return {
-        isError: false,
-        msgError: "",
-        user: {
-            name: "",
-            email: "",
-            password: "",
-        },
-        confirmPassword: ""
+      isError: false,
+      msgError: "",
+      customer: {
+        id: "",
+        nombre: "",
+        nit: "",
+        numeroOrden: "",
+        razonSocial: ""
+      },
     };
   },
+  created() {
+    console.log(this);
+    console.log(this.customerprop)
+    console.log(this.customer)
+    if (this.customerprop != null) {
+      this.customer.id = this.customerprop.id;
+      this.customer.nombre = this.customerprop.nombre;
+      this.customer.nit = this.customerprop.nit;
+      this.customer.numeroOrden = this.customerprop.numeroOrden;
+      this.customer.razonSocial = this.customerprop.razonSocial;
+    }
+  },
+
   methods: {
     goTo(location) {
       window.location.href = location;
     },
 
-    validate(){
-        let emailRule = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-
-        if (!this.user.name) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese un nombre"
-            return false;
-        }else if (!this.user.email) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese un correo"
-            return false;
-        }else if (!this.user.password) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese una contraseña"
-            return false;
-        }else if (this.confirmPassword != this.user.password) {
-            this.isError = true;
-            this.msgError = "Las contraseñas no coinciden"
-            return false;
-        }else if (!emailRule.test(this.user.email)) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese un correo valido"
-            return false;
-        } else {
-            this.isError = false;
-            this.msgError = "";
-            return true;
-        }
+    validate() {
+      if (!this.customer.nombre) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese un nombre";
+        return false;
+      } else if (!this.customer.nit) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese un nit o un numero de documento";
+        return false;
+      } else if (!this.customer.razonSocial) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese una razon social";
+        return false;
+      } else {
+        this.isError = false;
+        this.msgError = "";
+        return true;
+      }
     },
 
-    submit(){
-        if(this.validate()){
-            axios.get('/api/usuariosall').then((response) =>{
-              this.swal({
-                    title: "Usuario creado correctamente",
-                    icon: "success"
-                });
-            }).catch((error)=>{
-              if(error.message == "Request failed with status code 401"){
-                this.swal({
-                    title: "No autorizado",
-                    text: "Por favor ingrese a la app nuevamente",
-                    icon: "warning",
-                    button: "OK"
-                }).then(() => {
-                  this.goTo('/')
-                });
-              }else{
-                this.swal({
-                    title: "Algo salio mal",
-                    text: "Por favor intentelo nuevamente",
-                    icon: "error",
-                    button: "OK"
-                });
-              } 
+    create() {
+      if (this.validate()) {
+        axios
+          .post("/api/cliente", this.customer)
+          .then(() => {
+            this.swal({
+              title: "Cliente creado correctamente",
+              icon: "success",
             });
-        }
-    }
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
+    },
+    edit() {
+      if (this.validate()) {
+        let params = {};
+        params.id = this.customerprop.id;
+        params.nombre = this.customer.nombre;
+        params.nit = this.customer.nit;
+        params.numeroOrden = this.customer.numeroOrden;
+        params.razonSocial = this.customer.razonSocial;
+        axios
+          .patch("/api/cliente", params)
+          .then(() => {
+            this.swal({
+              title: "Cliente actualizado correctamente",
+              icon: "success",
+            }).then(()=> {
+              this.goTo('/clientes');
+            });
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
+    },
   },
 };
 </script>
