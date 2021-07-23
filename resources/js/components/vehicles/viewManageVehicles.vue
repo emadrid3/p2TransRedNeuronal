@@ -23,10 +23,17 @@
         <el-card shadow="hover">
           <b-container>
             <b-row class="justify-content-center">
-              <b-col md="4" sm="12" class="view-plate">
+              <b-col
+                md="4"
+                sm="12"
+                class="view-plate"
+                :style="vehicle.plate ? '' : 'height:80px;'"
+              >
                 <div class="plate-content">
-                  <h1><b>XST345</b></h1>
-                  <h5>MEDELLIN</h5>
+                  <h1>
+                    <b>{{ vehicle.plate.toUpperCase() }}</b>
+                  </h1>
+                  <h5>{{ vehicle.city }}</h5>
                 </div>
               </b-col>
             </b-row>
@@ -42,23 +49,18 @@
           <br />
           <b-container>
             <b-row>
-              <b-col md="12" sm="12">
+              <b-col md="6" sm="12">
                 <label for="">Placa:</label>
                 <el-input
                   placeholder="Ingrese un nombre"
-                  v-model="user.name"
+                  v-model="vehicle.plate"
                 ></el-input>
               </b-col>
-            </b-row>
-          </b-container>
-          <br />
-          <b-container>
-            <b-row>
-              <b-col md="12" sm="12">
+              <b-col md="6" sm="12">
                 <label for="">Ciudad:</label>
                 <el-input
                   placeholder="Ingrese una ciudad"
-                  v-model="user.city"
+                  v-model="vehicle.city"
                 ></el-input>
               </b-col>
             </b-row>
@@ -69,7 +71,7 @@
               <b-col md="12" sm="12">
                 <label for="">Tipo:</label>
                 <el-select
-                  v-model="value"
+                  v-model="vehicle.type"
                   placeholder="Seleccione un tipo de vehiculo"
                 >
                   <el-option
@@ -89,20 +91,19 @@
               <b-col md="12" sm="12">
                 <label for="">Conductor:</label>
                 <el-select
-                  v-model="value"
-                  multiple
+                  v-model="vehicle.driver"
                   filterable
                   remote
                   reserve-keyword
                   placeholder="Ingrese la cedula o el nombre de un conductor"
-                  :remote-method="remoteMethod"
+                  :remote-method="remoteMethodDriver"
                   :loading="loading"
                 >
                   <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in driverList"
+                    :key="item.id"
+                    :label="item.nombre+' - '+item.cedula"
+                    :value="item.id"
                   >
                   </el-option>
                 </el-select>
@@ -113,10 +114,14 @@
 
         <b-container class="buttons-form">
           <b-row class="justify-content-center">
-            <el-button type="success" size="large" @click="submit()"
-              >Crear Vehiculo <i class="fas fa-save"></i
+            <el-button
+              type="success"
+              size="large"
+              @click="vehicleprop != null ? edit() : create()"
+              >{{ vehicleprop == null ? "Crear" : "Editar" }}
+              <i class="fas fa-save"></i
             ></el-button>
-            <el-button type="danger" size="large" @click="goTo('usuarios')"
+            <el-button type="danger" size="large" @click="goTo('/vehiculos')"
               >Cancelar <i class="far fa-window-close"></i
             ></el-button>
           </b-row>
@@ -129,54 +134,78 @@
 <script>
 export default {
   name: "UserManage",
+  props: ["vehicleprop"],
   data() {
     return {
-      optionsTipo : [{
-          value: 'propio',
-          label: 'PROPIO'
-        }, {
-          value: 'tercero',
-          label: 'TERCERO',
-        }],
-
+      optionsTipo: [
+        {
+          value: "propio",
+          label: "PROPIO",
+        },
+        {
+          value: "tercero",
+          label: "TERCERO",
+        },
+      ],
+      loading: false,
       isError: false,
       msgError: "",
-      user: {
-        name: "",
-        email: "",
-        password: "",
+      vehicle: {
+        plate: "",
+        city: "",
+        type: null,
+        driver: null,
       },
-      confirmPassword: "",
+      driverList: [],
     };
+  },
+  created() {
+    if (this.vehicleprop != null) {
+      this.remoteMethodDriver(this.vehicleprop.driver.nombre);
+      this.vehicle.plate = this.vehicleprop.placa;
+      this.vehicle.city = this.vehicleprop.ciudad;
+      this.vehicle.type = this.vehicleprop.tipo;
+      this.vehicle.driver = this.vehicleprop.conductor;
+    }
   },
   methods: {
     goTo(location) {
       window.location.href = location;
     },
 
-    validate() {
-      let emailRule =
-        /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+    remoteMethodDriver(query) {
+      if (query !== "") {
+        this.loading = true;
+        axios
+          .get("/api/conductores-search", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.driverList = response.data.data;
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      } else {
+        this.driverList = [];
+      }
 
-      if (!this.user.name) {
+      this.loading = false;
+    },
+
+    validate() {
+      if (!this.vehicle.plate) {
         this.isError = true;
-        this.msgError = "Por favor ingrese un nombre";
+        this.msgError = "Por favor ingrese una placa";
         return false;
-      } else if (!this.user.email) {
+      } else if (!this.vehicle.type) {
         this.isError = true;
-        this.msgError = "Por favor ingrese un correo";
-        return false;
-      } else if (!this.user.password) {
-        this.isError = true;
-        this.msgError = "Por favor ingrese una contraseña";
-        return false;
-      } else if (this.confirmPassword != this.user.password) {
-        this.isError = true;
-        this.msgError = "Las contraseñas no coinciden";
-        return false;
-      } else if (!emailRule.test(this.user.email)) {
-        this.isError = true;
-        this.msgError = "Por favor ingrese un correo valido";
+        this.msgError = "Por favor ingrese un tipo de vehiculo";
         return false;
       } else {
         this.isError = false;
@@ -185,36 +214,51 @@ export default {
       }
     },
 
-    submit() {
+    create() {
       if (this.validate()) {
         axios
-          .get("/api/usuariosall")
-          .then((response) => {
+          .post("/api/vehiculos", this.vehicle)
+          .then(() => {
             this.swal({
-              title: "Usuario creado correctamente",
+              title: "Vehiculo creado correctamente",
               icon: "success",
             });
           })
-          .catch((error) => {
-            if (error.message == "Request failed with status code 401") {
-              this.swal({
-                title: "No autorizado",
-                text: "Por favor ingrese a la app nuevamente",
-                icon: "warning",
-                button: "OK",
-              }).then(() => {
-                this.goTo("/");
-              });
-            } else {
-              this.swal({
-                title: "Algo salio mal",
-                text: "Por favor intentelo nuevamente",
-                icon: "error",
-                button: "OK",
-              });
-            }
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
           });
       }
+    },
+    async edit() {
+      let params = {};
+      params.id = this.vehicleprop.id;
+      params.placa = this.vehicle.plate;
+      params.ciudad = this.vehicle.city;
+      params.tipo = this.vehicle.type;
+      params.conductor = this.vehicle.driver;
+      await axios
+        .patch("/api/vehiculos", params)
+        .then(() => {
+          this.swal({
+            title: "Conductor actualizado correctamente",
+            icon: "success",
+          }).then(() => {
+            this.goTo("/vehiculos");
+          });
+        })
+        .catch(() => {
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
     },
   },
 };

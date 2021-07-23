@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<view-manage-vehicles></view-manage-vehicles>
+
+@if ($vehicle != null)
+    <view-manage-vehicles :vehicleprop="{{$vehicle}}"></view-manage-vehicles>
+@else
+    <view-manage-vehicles></view-manage-vehicles>
+@endif
 @endsection

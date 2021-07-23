@@ -11101,7 +11101,7 @@ a.text-dark:focus {
 
 #sidebar-wrapper {
   z-index: 1000;
-  position: fixed;
+  position: absolute;
   left: 250px;
   width: 0;
   height: 91.8%;

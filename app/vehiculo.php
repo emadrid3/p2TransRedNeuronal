@@ -18,4 +18,8 @@ class vehiculo extends Model
         'tipo',
         'conductor'
     ];
+
+    public function driver() {
+        return $this->hasOne(conductor::class, 'id', 'conductor');
+    }
 }

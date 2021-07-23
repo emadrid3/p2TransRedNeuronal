@@ -111,10 +111,11 @@ export default {
     };
   },
   created() {
-    console.log(this);
     if (this.userprop != null) {
       this.user.name = this.userprop.name;
       this.user.email = this.userprop.email;
+    }else{
+      this.passwordEnable = true;
     }
   },
   methods: {
@@ -144,7 +145,8 @@ export default {
             this.isError = true;
             this.msgError = "Por favor ingrese una contraseña";
             return false;
-          } else if (this.confirmPassword != this.user.password) {
+          }
+          if (this.confirmPassword != this.user.password) {
             this.isError = true;
             this.msgError = "Las contraseñas no coinciden";
             return false;

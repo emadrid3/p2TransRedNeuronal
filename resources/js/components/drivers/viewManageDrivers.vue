@@ -19,55 +19,58 @@
     </b-row>
 
     <b-row align-h="center">
-      <el-card shadow="hover">
-        <el-alert
-          v-if="isError"
-          title="Error de validación"
-          type="error"
-          :description="msgError"
-          show-icon
-        >
-        </el-alert>
-        <br />
-        <b-container>
-          <label for="">Nombre:</label>
-          <el-input
-            placeholder="Please input"
-            v-model="driver.nombre"
-          ></el-input>
-        </b-container>
-        <br />
-        <b-container>
-          <label for="">Cedula:</label>
-          <el-input
-            placeholder="Please input"
-            v-model="driver.cedula"
-          ></el-input>
-        </b-container>
-        <b-container>
-          <label for="">Celular:</label>
-          <el-input
-            placeholder="Please input"
-            v-model="driver.celular"
-          ></el-input>
-        </b-container>
-        <br />
-      </el-card>
+      <b-col md="8" sm="12">
+        <el-card shadow="hover">
+          <el-alert
+            v-if="isError"
+            title="Error de validación"
+            type="error"
+            :description="msgError"
+            show-icon
+          >
+          </el-alert>
+          <br />
+          <b-container>
+            <label for="">Nombre:</label>
+            <el-input
+              placeholder="Please input"
+              v-model="driver.nombre"
+            ></el-input>
+          </b-container>
+          <br />
+          <b-container>
+            <label for="">Cedula:</label>
+            <el-input
+              placeholder="Please input"
+              v-model="driver.cedula"
+            ></el-input>
+          </b-container>
+          <br>
+          <b-container>
+            <label for="">Celular:</label>
+            <el-input
+              placeholder="Please input"
+              v-model="driver.celular"
+            ></el-input>
+          </b-container>
+          <br />
+        </el-card>
 
-      <b-container class="buttons-form">
-        <b-row class="justify-content-center">
-          <el-button
-            type="success"
-            size="large"
-            @click="driverprop != null ? edit() : create()"
-            >{{ driverprop == null ? "Crear" : "Editar" }}
-            <i class="fas fa-save"></i
-          ></el-button>
-          <el-button type="danger" size="large" @click="goTo('/conductores')"
-            >Cancelar <i class="far fa-window-close"></i
-          ></el-button>
-        </b-row>
-      </b-container>
+        <b-container class="buttons-form">
+          <b-row class="justify-content-center">
+            <el-button
+              type="success"
+              size="large"
+              @click="driverprop != null ? edit() : create()"
+              >{{ driverprop == null ? "Crear" : "Editar" }}
+              <i class="fas fa-save"></i
+            ></el-button>
+            <el-button type="danger" size="large" @click="goTo('/conductores')"
+              >Cancelar <i class="far fa-window-close"></i
+            ></el-button>
+          </b-row>
+        </b-container>
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -107,7 +110,9 @@ export default {
           this.swal({
             title: "Usuario creado correctamente",
             icon: "success",
-          }).then(() => { this.goTo("/conductores") });
+          }).then(() => {
+            this.goTo("/conductores");
+          });
         })
         .catch(() => {
           this.swal({
@@ -128,12 +133,12 @@ export default {
       await axios
         .patch("/api/conductores", params)
         .then(() => {
-          this.swal(
-            {
-              title: "Conductor actualizado correctamente",
-              icon: "success",
-            }
-          ).then(() => { this.goTo("/conductores") });
+          this.swal({
+            title: "Conductor actualizado correctamente",
+            icon: "success",
+          }).then(() => {
+            this.goTo("/conductores");
+          });
         })
         .catch(() => {
           this.swal({

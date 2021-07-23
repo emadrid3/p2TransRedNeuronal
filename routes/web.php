@@ -30,6 +30,7 @@ Route::get('/usuarios-manage/{id}', 'UsuarioController@editUsers')->middleware('
 //PANTALLA VEHICULOS
 Route::get('/vehiculos', 'VehiculoController@index')->middleware('auth');
 Route::get('/vehiculos-manage', 'VehiculoController@manageVehicles')->middleware('auth');
+Route::get('/vehiculos-manage/{id}', 'VehiculoController@editVehicles')->middleware('auth');
 
 //PANTALLA CONDUCTORES
 Route::get('/conductores', 'ConductorController@index')->middleware('auth');
@@ -48,6 +49,7 @@ Route::get('/clientes-manage/{id}', 'ClienteController@editCustomers')->middlewa
 //PANTALLA HISTORIAL
 Route::get('/historial', 'HistorialController@index')->middleware('auth');
 
+
 //Routes API
 
 //USUARIOS
@@ -63,6 +65,7 @@ Route::post('/api/conductores', 'ConductorController@create')->middleware('auth'
 Route::patch('/api/conductores', 'ConductorController@update')->middleware('auth');
 Route::delete('/api/conductores', 'ConductorController@delete')->middleware('auth');
 Route::get('/api/conductores', 'ConductorController@list')->middleware('auth');
+Route::get('/api/conductores-search', 'ConductorController@searchByParams')->middleware('auth');
 
 //CLIENTES
 
@@ -73,3 +76,9 @@ Route::get('/api/cliente', 'ClienteController@list')->middleware('auth');
 
 //HISTORIAL
 Route::get('/api/historial', 'HistorialController@list')->middleware('auth');
+
+//VEHICULO
+Route::post('/api/vehiculos', 'VehiculoController@create')->middleware('auth');
+Route::patch('/api/vehiculos', 'VehiculoController@update')->middleware('auth');
+Route::delete('/api/vehiculos', 'VehiculoController@delete')->middleware('auth');
+Route::get('/api/vehiculos', 'VehiculoController@list')->middleware('auth');

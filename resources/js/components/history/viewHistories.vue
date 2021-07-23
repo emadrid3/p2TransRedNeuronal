@@ -17,6 +17,7 @@
     </b-row>
 
     <el-table
+      v-if="!isLoading"
       :data="tableData"
       border
       class="table-main"
@@ -27,10 +28,8 @@
       <el-table-column prop="placa" label="Placa"> </el-table-column>
       <el-table-column prop="tipoVehiculo" label="Tipo de Vehiculo">
       </el-table-column>
-      <el-table-column prop="tipo" label="Tipo">
-      </el-table-column>
-      <el-table-column prop="conductor" label="Conductor">
-      </el-table-column>
+      <el-table-column prop="tipo" label="Tipo"> </el-table-column>
+      <el-table-column prop="conductor" label="Conductor"> </el-table-column>
       <el-table-column prop="origen" label="Origen"> </el-table-column>
       <el-table-column prop="destino" label="Destino"> </el-table-column>
       <el-table-column prop="cliente" label="Cliente"> </el-table-column>

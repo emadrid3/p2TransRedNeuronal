@@ -29,6 +29,7 @@
     </b-row>
 
     <el-table
+      v-if="!isLoading"
       :data="tableData"
       border
       class="table-main"
@@ -37,8 +38,6 @@
     >
       <el-table-column prop="nombre" label="Nombre"> </el-table-column>
       <el-table-column prop="nit" label="Nit"> </el-table-column>
-      <el-table-column prop="numeroOrden" label="Numero de Orden">
-      </el-table-column>
       <el-table-column prop="razonSocial" label="Razon social">
       </el-table-column>
       <el-table-column prop="estado" label="Estado">
@@ -97,7 +96,7 @@ export default {
       currentPage: null,
       sizeData: null,
       totalData: null,
-      tableData: []
+      tableData: [],
     };
   },
   created() {
@@ -163,7 +162,7 @@ export default {
         if (willDelete) {
           axios
             .delete("/api/cliente", {
-              params: { id: id},
+              params: { id: id },
             })
             .then((response) => {
               this.getCustomerPerPage(this.currentPage);
