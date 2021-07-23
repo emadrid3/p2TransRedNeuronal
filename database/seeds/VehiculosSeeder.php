@@ -27,7 +27,9 @@ class VehiculosSeeder extends Seeder
                 array(
                     'id' => $id,
                     'placa' => $placa,
+                    'ciudad' => NULL,
                     'tipo' => $tipo,
+                    'conductor' => NULL,
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                 )

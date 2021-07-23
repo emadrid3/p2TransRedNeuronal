@@ -19,71 +19,76 @@
     </b-row>
 
     <b-row align-h="center">
-      <el-card shadow="hover">
-        <el-alert
-          v-if="isError"
-          title="Error de validación"
-          type="error"
-          :description="msgError"
-          show-icon
-        >
-        </el-alert>
-        <br />
-        <b-container>
-          <label for="">Nombre:</label>
-          <el-input placeholder="Please input" v-model="user.name"></el-input>
-        </b-container>
-        <br />
-        <b-container>
-          <label for="">Email:</label>
-          <el-input placeholder="Please input" v-model="user.email"></el-input>
-        </b-container>
-        <br />
-        <b-container v-if="userprop != null">
-          <el-checkbox
-            label="Desea cambiar la contraseña actual?"
-            v-model="passwordEnable"
-          ></el-checkbox>
-        </b-container>
-        <hr />
-        <b-container>
-          <b-row>
-            <b-col md="6" sm="12">
-              <label for="">Contraseña:</label>
-              <el-input
-                :disabled="userprop != null ? !passwordEnable : false"
-                placeholder="Please input"
-                v-model="user.password"
-                show-password
-              ></el-input>
-            </b-col>
-            <b-col md="6" sm="12">
-              <label for="">Confirmar Contraseña:</label>
-              <el-input
-                :disabled="userprop != null ? !passwordEnable : false"
-                placeholder="Please input"
-                v-model="confirmPassword"
-                show-password
-              ></el-input>
-            </b-col>
+      <b-col md="8" sm="12">
+        <el-card shadow="hover">
+          <el-alert
+            v-if="isError"
+            title="Error de validación"
+            type="error"
+            :description="msgError"
+            show-icon
+          >
+          </el-alert>
+          <br />
+          <b-container>
+            <label for="">Nombre:</label>
+            <el-input placeholder="Please input" v-model="user.name"></el-input>
+          </b-container>
+          <br />
+          <b-container>
+            <label for="">Email:</label>
+            <el-input
+              placeholder="Please input"
+              v-model="user.email"
+            ></el-input>
+          </b-container>
+          <br />
+          <b-container v-if="userprop != null">
+            <el-checkbox
+              label="Desea cambiar la contraseña actual?"
+              v-model="passwordEnable"
+            ></el-checkbox>
+          </b-container>
+          <hr />
+          <b-container>
+            <b-row>
+              <b-col md="6" sm="12">
+                <label for="">Contraseña:</label>
+                <el-input
+                  :disabled="userprop != null ? !passwordEnable : false"
+                  placeholder="Please input"
+                  v-model="user.password"
+                  show-password
+                ></el-input>
+              </b-col>
+              <b-col md="6" sm="12">
+                <label for="">Confirmar Contraseña:</label>
+                <el-input
+                  :disabled="userprop != null ? !passwordEnable : false"
+                  placeholder="Please input"
+                  v-model="confirmPassword"
+                  show-password
+                ></el-input>
+              </b-col>
+            </b-row>
+          </b-container>
+        </el-card>
+
+        <b-container class="buttons-form">
+          <b-row class="justify-content-center">
+            <el-button
+              type="success"
+              size="large"
+              @click="userprop != null ? edit() : create()"
+              >{{ userprop == null ? "Crear" : "Editar" }}
+              <i class="fas fa-save"></i
+            ></el-button>
+            <el-button type="danger" size="large" @click="goTo('/usuarios')"
+              >Cancelar <i class="far fa-window-close"></i
+            ></el-button>
           </b-row>
         </b-container>
-      </el-card>
-
-      <b-container class="buttons-form">
-        <b-row class="justify-content-center">
-          <el-button
-            type="success"
-            size="large"
-            @click="userprop != null ? edit() : create()"
-            >{{ userprop == null ? "Crear" : "Editar" }}
-            <i class="fas fa-save"></i
-          ></el-button>
-          <el-button type="danger" size="large" @click="goTo('/usuarios')"
-            >Cancelar <i class="far fa-window-close"></i
-          ></el-button>
-        </b-row>
-      </b-container>
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -144,7 +149,7 @@ export default {
             this.msgError = "Las contraseñas no coinciden";
             return false;
           }
-        } 
+        }
 
         this.isError = false;
         this.msgError = "";

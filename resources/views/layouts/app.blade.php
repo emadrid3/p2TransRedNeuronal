@@ -23,7 +23,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="display: flex; flex-direction: row; justify-content: space-between;">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="display: flex; flex-direction: row; justify-content: space-between; position: sticky; top: 0px; z-index: 10;">
         
             <div>
                 @guest

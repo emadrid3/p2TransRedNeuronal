@@ -14,6 +14,8 @@ class vehiculo extends Model
     protected $fillable = [
         'id',
         'placa',
+        'ciudad',
         'tipo',
+        'conductor'
     ];
 }
