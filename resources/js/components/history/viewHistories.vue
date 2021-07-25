@@ -17,6 +17,7 @@
     </b-row>
 
     <el-table
+      v-if="!isLoading"
       :data="tableData"
       border
       class="table-main"

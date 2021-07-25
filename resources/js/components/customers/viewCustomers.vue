@@ -29,6 +29,7 @@
     </b-row>
 
     <el-table
+      v-if="!isLoading"
       :data="tableData"
       border
       class="table-main"
@@ -95,7 +96,7 @@ export default {
       currentPage: null,
       sizeData: null,
       totalData: null,
-      tableData: []
+      tableData: [],
     };
   },
   created() {
@@ -161,7 +162,7 @@ export default {
         if (willDelete) {
           axios
             .delete("/api/cliente", {
-              params: { id: id},
+              params: { id: id },
             })
             .then((response) => {
               this.getCustomerPerPage(this.currentPage);

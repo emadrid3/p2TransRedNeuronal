@@ -14,6 +14,12 @@ class vehiculo extends Model
     protected $fillable = [
         'id',
         'placa',
+        'ciudad',
         'tipo',
+        'conductor'
     ];
+
+    public function driver() {
+        return $this->hasOne(conductor::class, 'id', 'conductor');
+    }
 }

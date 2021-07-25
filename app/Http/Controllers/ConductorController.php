@@ -80,4 +80,21 @@ class ConductorController extends Controller
         }
     }
 
+    public function searchByParams(Request $request)
+    {
+        try {
+            $size = $request->input('size');
+            $input = $request->input('input');
+
+            $drivers = conductor::where('nombre','like',"%$input%")
+            ->orWhere('cedula','like',"%$input%")
+            ->orWhere('celular','like',"%$input%")
+            ->paginate($request->input('size'));
+
+            return response()->json($drivers);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
 }
