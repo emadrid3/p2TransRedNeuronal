@@ -102,7 +102,7 @@
                   <el-option
                     v-for="item in driverList"
                     :key="item.id"
-                    :label="item.nombre+' - '+item.cedula"
+                    :label="item.nombre + ' - ' + item.cedula"
                     :value="item.id"
                   >
                   </el-option>
@@ -222,6 +222,8 @@ export default {
             this.swal({
               title: "Vehiculo creado correctamente",
               icon: "success",
+            }).then(() => {
+              this.goTo("/vehiculos");
             });
           })
           .catch(() => {

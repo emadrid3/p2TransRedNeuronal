@@ -43,6 +43,23 @@
             ></el-input>
           </b-container>
           <br />
+          <b-container>
+            <label>Rol:</label>
+            <el-select
+              style="width: 100%"
+              v-model="user.rol"
+              placeholder="Seleccione un rol"
+            >
+              <el-option
+                v-for="item in optionsRol"
+                :key="item.id"
+                :label="item.rol"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </b-container>
+          <br />
           <b-container v-if="userprop != null">
             <el-checkbox
               label="Desea cambiar la contraseña actual?"
@@ -105,16 +122,20 @@ export default {
         name: "",
         email: "",
         password: "",
+        rol: "",
       },
       confirmPassword: "",
       passwordEnable: false,
+      optionsRol: [],
+      value: "",
     };
   },
   created() {
+    this.getRoles();
     if (this.userprop != null) {
       this.user.name = this.userprop.name;
       this.user.email = this.userprop.email;
-    }else{
+    } else {
       this.passwordEnable = true;
     }
   },
@@ -122,7 +143,11 @@ export default {
     goTo(location) {
       window.location.href = location;
     },
-
+    getRoles() {
+      axios.get("/api/get-roles").then((result) => {
+        this.optionsRol = result.data;
+      });
+    },
     validate() {
       let emailRule =
         /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
@@ -138,6 +163,10 @@ export default {
       } else if (!emailRule.test(this.user.email)) {
         this.isError = true;
         this.msgError = "Por favor ingrese un correo valido";
+        return false;
+      } else if (!this.user.rol) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese un Rol";
         return false;
       } else {
         if (this.passwordEnable) {
@@ -169,6 +198,9 @@ export default {
               icon: "success",
             });
           })
+          .then(() => {
+            this.goTo("/usuarios");
+          })
           .catch(() => {
             this.swal({
               title: "Algo salio mal",
@@ -186,6 +218,7 @@ export default {
         params.id = this.userprop.id;
         params.name = this.user.name;
         params.email = this.user.email;
+        params.rol = this.user.rol;
         if (this.passwordEnable) {
           params.password = this.user.password;
         }
@@ -195,6 +228,8 @@ export default {
             this.swal({
               title: "Usuario actualizado correctamente",
               icon: "success",
+            }).then(() => {
+              this.goTo("/usuarios");
             });
           })
           .catch(() => {
@@ -203,7 +238,7 @@ export default {
               text: "Por favor intentelo nuevamente",
               icon: "error",
               button: "OK",
-            }).then(() => { this.goTo("/usuarios") });
+            });
           });
       }
     },

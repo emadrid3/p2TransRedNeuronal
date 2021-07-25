@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\rol;
 
 class UsuarioController extends Controller
 {
@@ -31,6 +32,7 @@ class UsuarioController extends Controller
             $user = new User();
             $user->name = $request->input('name');
             $user->email = $request->input('email');
+            $user->rol = $request->input('rol');
             $user->password = Hash::make($request->input('password'));
             $user->save();
 
@@ -50,7 +52,9 @@ class UsuarioController extends Controller
             if( !is_null($request->input('email')) ){
                 $user->email = $request->input('email');
             }
-
+            if( !is_null($request->input('rol')) ){
+                $user->rol = $request->input('rol');
+            }
             if( !is_null($request->input('password')) ){
                 $user->password = Hash::make($request->input('password'));
             }
@@ -76,6 +80,17 @@ class UsuarioController extends Controller
         try {
             $listUsers = User::paginate($request->input('size'));
             return response()->json($listUsers);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
+    public function getRoles(Request $request)
+    {
+        try {
+
+            return response()->json(rol::all());
+
         } catch (\Exception $e) {
            throw $e;
         }
