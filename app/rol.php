@@ -11,6 +11,8 @@ class rol extends Model
      *
      * @var array
      */
+    public $table = 'rols';
+
     protected $fillable = [
         'id',
         'rol'

@@ -21,7 +21,7 @@ class UsuarioController extends Controller
 
     public function editUsers($id)
     {
-        $user = User::find($id);
+        $user = User::with('user')->find($id);
         return view('users.usersManage', ['user' => $user]);
     }
 
@@ -78,7 +78,7 @@ class UsuarioController extends Controller
 
     public function list(Request $request){
         try {
-            $listUsers = User::paginate($request->input('size'));
+            $listUsers = User::with('user')->paginate($request->input('size'));
             return response()->json($listUsers);
         } catch (\Exception $e) {
            throw $e;

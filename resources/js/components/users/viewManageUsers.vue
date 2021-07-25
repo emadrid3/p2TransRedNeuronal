@@ -135,6 +135,7 @@ export default {
     if (this.userprop != null) {
       this.user.name = this.userprop.name;
       this.user.email = this.userprop.email;
+      this.user.rol = parseInt(this.userprop.rol);
     } else {
       this.passwordEnable = true;
     }

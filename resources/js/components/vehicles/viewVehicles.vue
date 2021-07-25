@@ -36,7 +36,11 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="placa" label="Placa"> </el-table-column>
+     <el-table-column prop="placa" label="Placa">
+        <template slot-scope="props">
+          <span v-if="props.row.placa != null">{{props.row.placa.toUpperCase()}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="ciudad" label="Ciudad">
         <template slot-scope="props">
           <span v-if="props.row.ciudad != null">{{props.row.ciudad.toUpperCase()}}</span>
