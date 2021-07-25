@@ -40,12 +40,7 @@
       <el-table-column prop="email" label="Correo"> </el-table-column>
       <el-table-column prop="rol" label="Rol">
         <template slot-scope="props">
-          {{ props.row.user.rol }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="estado" label="Estado" :width="100">
-        <template>
-          <el-tag>Activo</el-tag>
+          <el-tag> {{ props.row.user.rol }} </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" :width="130">

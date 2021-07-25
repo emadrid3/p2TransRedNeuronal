@@ -40,8 +40,8 @@
       <el-table-column prop="cedula" label="Cedula"> </el-table-column>
       <el-table-column prop="celular" label="Celular"> </el-table-column>
       <el-table-column prop="estado" label="Estado" :width="100">
-        <template>
-          <el-tag>Activo</el-tag>
+        <template slot-scope="props">
+          <el-tag>{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" :width="130">

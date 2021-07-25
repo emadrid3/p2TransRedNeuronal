@@ -18,6 +18,7 @@ class CreateConductoresTable extends Migration
             $table->string('nombre');
             $table->integer('cedula');
             $table->string('celular');
+            $table->boolean('estado');
             $table->timestamps();
         });
     }

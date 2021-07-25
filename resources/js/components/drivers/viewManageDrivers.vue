@@ -45,7 +45,7 @@
               v-model="driver.cedula"
             ></el-input>
           </b-container>
-          <br>
+          <br />
           <b-container>
             <label for="">Celular:</label>
             <el-input
@@ -54,8 +54,21 @@
             ></el-input>
           </b-container>
           <br />
+          <b-container>
+            <label>Estado:</label>
+            <el-checkbox
+              v-model="checked1"
+              label="Activo"
+              border
+            ></el-checkbox>
+            <el-checkbox
+              v-model="checked1"
+              label="Inactivo"
+              border
+            ></el-checkbox>
+          </b-container>
+          <br />
         </el-card>
-
         <b-container class="buttons-form">
           <b-row class="justify-content-center">
             <el-button

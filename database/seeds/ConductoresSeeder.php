@@ -28,6 +28,7 @@ class ConductoresSeeder extends Seeder
                     'nombre' => $nombre,
                     'cedula' => $cc,
                     'celular' => $celular,
+                    'estado' => 1,
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                 )

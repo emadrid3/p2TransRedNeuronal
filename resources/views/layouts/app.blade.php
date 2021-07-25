@@ -24,21 +24,18 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="display: flex; flex-direction: row; justify-content: space-between; position: sticky; top: 0px; z-index: 10;">
-        
             <div>
                 @guest
                 @else
                 <i class="fas fa-bars fa-2x toggled-2" onclick="event.preventDefault();  $('#wrapper').toggleClass('toggled-2'); $('#wrapper').toggleClass('toggled'); $('#menu ul').hide();" style="margin-right: 20px;">
                 </i>
                 @endguest
-                
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     <i class="fas fa-globe-americas"></i>
                         Transgirar
                 </a>
             </div>
             <div>
-            
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -46,17 +43,16 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="main-link-user nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <i class="fas fa-user-circle"></i>    
-                                    {{ Auth::user()->name }}
+                                    <i class="fas fa-user-circle"></i>
+                                    {{ Auth::user()->name  }}
                                 </a>
-                                <small><b>ADMINISTRADOR</b></small>
+                                <small><b>{{ Auth::user()->email }}</b></small>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         <i class="fas fa-door-open" style=" color: red;"></i>
-                                                     
                                         {{ __('Logout') }}
                                     </a>
 
@@ -83,7 +79,6 @@
                 <div class="row">
                 <div class="col-lg-12">
                         @yield('content')
-                        
                 </div>
                 </div>
             </div>
