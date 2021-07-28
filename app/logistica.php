@@ -19,6 +19,6 @@ class logistica extends Model
         'idVehiculo',
         'idConductor',
         'idCarga',
-        'idFactura',
+        'idFactura'
     ];
 }

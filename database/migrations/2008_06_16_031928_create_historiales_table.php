@@ -15,7 +15,7 @@ class CreateHistorialesTable extends Migration
     {
         Schema::create('historiales', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('fecha')->nullable();
+            $table->string('fecha')->nullable();
             $table->string('placa')->nullable();
             $table->string('tipoVehiculo')->nullable();
             $table->string('tipo')->nullable();
@@ -23,7 +23,7 @@ class CreateHistorialesTable extends Migration
             $table->string('origen')->nullable();
             $table->string('destino')->nullable();
             $table->string('cliente')->nullable();
-            $table->float('flete')->nullable();
+            $table->integer('flete')->nullable();
             $table->timestamps();
         });
     }

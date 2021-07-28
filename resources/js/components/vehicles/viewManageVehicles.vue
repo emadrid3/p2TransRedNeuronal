@@ -222,6 +222,8 @@ export default {
             this.swal({
               title: "Vehiculo creado correctamente",
               icon: "success",
+            }).then(() => {
+              this.goTo("/vehiculos");
             });
           })
           .catch(() => {

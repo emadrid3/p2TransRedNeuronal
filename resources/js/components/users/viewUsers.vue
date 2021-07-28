@@ -38,9 +38,9 @@
     >
       <el-table-column prop="name" label="Nombre Completo"> </el-table-column>
       <el-table-column prop="email" label="Correo"> </el-table-column>
-      <el-table-column prop="estado" label="Estado" :width="100">
-        <template>
-          <el-tag>Activo</el-tag>
+      <el-table-column prop="rol" label="Rol">
+        <template slot-scope="props">
+          <el-tag> {{ props.row.user.rol }} </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" :width="130">
@@ -160,7 +160,7 @@ export default {
         if (willDelete) {
           axios
             .delete("/api/usuario", {
-              params: { id: id},
+              params: { id: id },
             })
             .then((response) => {
               this.getUserPerPage(this.currentPage);

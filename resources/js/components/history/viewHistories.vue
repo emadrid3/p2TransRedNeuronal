@@ -24,7 +24,7 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="fecha" label="Fecha" :min-width="65"> </el-table-column>
+      <el-table-column prop="fecha" label="Fecha" :min-width="65" sortable> </el-table-column>
       <el-table-column prop="placa" label="Placa" :width="80"> </el-table-column>
       <el-table-column prop="tipoVehiculo" label="Tipo Vehiculo" :min-width="85">
       </el-table-column>
@@ -35,7 +35,11 @@
       <el-table-column prop="origen" label="Origen"> </el-table-column>
       <el-table-column prop="destino" label="Destino"> </el-table-column>
       <el-table-column prop="cliente" label="Cliente" :min-width="100"> </el-table-column>
-      <el-table-column prop="flete" label="Flete"> </el-table-column>
+      <el-table-column prop="flete" label="Flete" :width="100">
+        <template slot-scope="props">
+          {{props.row.flete | Flete}}
+        </template>
+      </el-table-column>
     </el-table>
 
     <Spinner size="120" v-if="isLoading" />
@@ -61,6 +65,7 @@
 
 <script>
 import Spinner from "../spinner/spinner.vue";
+
 export default {
   components: {
     Spinner,
@@ -74,6 +79,11 @@ export default {
       totalData: null,
       tableData: [],
     };
+  },
+  filters: {
+    Flete(valor) {
+      return `$${valor.toLocaleString()}`
+    }
   },
   created() {
     this.getCustomers(5);

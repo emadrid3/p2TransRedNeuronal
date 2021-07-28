@@ -18,5 +18,6 @@ class conductor extends Model
         'nombre',
         'cedula',
         'celular',
+        'estado'
     ];
 }
