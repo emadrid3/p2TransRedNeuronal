@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div id="sidebar-wrapper">
+<div id="sidebar-wrapper" style="position: fixed; height: 100%;">
     <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
     <li class="active">
         <a href="{{ url('/usuarios') }}"><i class="fas fa-user-friends fa-2x" style="float: left; margin-top: 12px; align-items: center"></i>Usuarios</a>

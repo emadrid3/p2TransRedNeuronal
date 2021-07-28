@@ -50,7 +50,15 @@
         ]"
       >
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.estado }}</el-tag>
+          <el-dropdown >
+            <el-button size="small" :type="scope.row.estado == 'En proceso' ? 'warning':'success'">
+              {{scope.row.estado}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>En proceso</el-dropdown-item>
+              <el-dropdown-item>Liquidado</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
       <el-table-column label="Operations" width="250">
@@ -107,7 +115,7 @@ export default {
           destino: "Cali",
           conductor: "JUAN FERNANDO AGUDELO",
           vehiculo: "SMG045",
-          estado: "Pago",
+          estado: "En proceso",
         },
         {
           fecha: "11/07/2021",
@@ -115,7 +123,7 @@ export default {
           destino: "Medellin",
           conductor: "HECTOR MAURICIO BEDOYA",
           vehiculo: "TMZ466",
-          estado: "Pendiente Pago",
+          estado: "En proceso",
         },
         {
           fecha: "12/07/2021",
@@ -123,7 +131,7 @@ export default {
           destino: "Medellin",
           conductor: "NICOLAS ANTONIO ALVAREZ",
           vehiculo: "STE402",
-          estado: "Pendiente Facturar",
+          estado: "Liquidado",
         },
       ],
     };
