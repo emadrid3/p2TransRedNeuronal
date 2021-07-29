@@ -58,6 +58,8 @@ Route::post('/api/usuario', 'UsuarioController@create')->middleware('auth');
 Route::patch('/api/usuario', 'UsuarioController@update')->middleware('auth');
 Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
 Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
+Route::get('/api/usuarios/searchByName', 'UsuarioController@searchByName')->middleware('auth');
+Route::get('/api/usuarios/searchByEmail', 'UsuarioController@searchByEmail')->middleware('auth');
 
 //CONDUCTORES
 

@@ -80,4 +80,24 @@ class UsuarioController extends Controller
            throw $e;
         }
     }
+
+    public function searchByName(Request $request){
+        try {
+            $response = User::where('name', 'like', '%'.$request->input('name').'%')
+            ->paginate($request->input('size'));
+            return response()->json($response);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
+    public function searchByEmail(Request $request){
+        try {
+            $response = User::where('email', 'like', '%'.$request->input('email').'%')
+            ->paginate($request->input('size'));
+            return response()->json($response);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
 }

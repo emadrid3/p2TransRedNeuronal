@@ -28,6 +28,50 @@
       </b-col>
     </b-row>
 
+
+    <!-- This b-row ahead is for search functionality  -->
+    <b-row>
+      <b-col lg="12" md="auto">
+      <div class="search-fields">
+        
+        <div class="search-fields__field">
+          <el-input placeholder="Buscar por nombre" v-model="toSearch.name"></el-input>
+          <el-button
+          class="button-search"
+          type="success"
+          @click="isSearchingFor = 'name';search(5,'searchByName',{ params: { size: 5, name: toSearch.name } });"
+          ><i class="fas fa-search"></i></el-button
+        >
+        </div>
+        
+        
+        <div class="search-fields__field">
+          <el-input placeholder="Buscar por correo" v-model="toSearch.email"></el-input>
+          <el-button
+          class="button-search"
+          type="success"
+          @click="isSearchingFor = 'email';search(5,'searchByEmail',{ params: { size: 5, email: toSearch.email } });"
+          ><i class="fas fa-search"></i></el-button
+        >
+        </div>
+
+      </div>
+      </b-col>
+    </b-row>
+
+    <b-row>
+      <b-col lg="1" md="auto">
+        <el-button
+          class="button-reset"
+          type="success"
+          @click="reset()"
+          ><i class="fas fa-list"></i>Mostrar todos</el-button
+        >
+      </b-col>
+    </b-row>
+    <!-- Ends b-row for search functionality  -->
+
+
     <el-table
       v-if="!isLoading"
       :data="tableData"
@@ -90,6 +134,11 @@ export default {
   },
   data() {
     return {
+      toSearch: {
+        name: "",
+        email: ""
+      },
+      isSearchingFor: "",
       isLoading: false,
       currentPage: null,
       sizeData: null,
@@ -101,16 +150,23 @@ export default {
     this.getUser(5);
   },
   methods: {
-    goTo(location) {
-      window.location.href = location;
-    },
-    getUser(size) {
+
+    reset(){
       this.currentPage = 1;
+      this.toSearch.name = "";
+      this.toSearch.email = "";
+      this.isSearchingFor = "";
+      this.getUser(5);
+    },
+
+    search(size, route, param){
+
       this.sizeData = size;
       this.isLoading = true;
       axios
-        .get("/api/usuarios", { params: { size: size } })
+        .get("/api/usuarios/"+route, param)
         .then((response) => {
+          console.log(response)
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;
           this.totalData = response.data.total;
@@ -127,11 +183,26 @@ export default {
         });
     },
 
-    getUserPerPage(page) {
-      this.currentPage = page;
+    goTo(location) {
+      window.location.href = location;
+    },
+    getUser(size) {      
+      this.currentPage = 1;
+      this.sizeData = size;
       this.isLoading = true;
-      axios
-        .get("/api/usuarios", { params: { page: page, size: this.sizeData } })
+
+      if(this.isSearchingFor == "name"){
+        
+        this.search(size, "searchByName", { params: { size: size, name: this.toSearch.name } });
+
+      }else if(this.isSearchingFor == "email"){
+
+        this.search(size, "searchByEmail", { params: { size: size, email: this.toSearch.email } });
+
+      }else{
+        
+        axios
+        .get("/api/usuarios", { params: { size: size } })
         .then((response) => {
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;
@@ -147,6 +218,42 @@ export default {
             button: "OK",
           });
         });
+      }
+    },
+
+    getUserPerPage(page) {
+
+      this.currentPage = page;
+      this.isLoading = true;
+
+      if(this.isSearchingFor == "name"){
+        
+        this.search(this.sizeData, 'searchByName',{ params: { page: page, size: this.sizeData, name: this.toSearch.name } });    
+
+      }else if(this.isSearchingFor == "email"){
+
+        this.search(this.sizeData, 'searchByEmail',{ params: { page: page, size: this.sizeData, email: this.toSearch.email } });
+
+      }else{
+
+        axios
+          .get("/api/usuarios", { params: { page: page, size: this.sizeData } })
+          .then((response) => {
+            this.tableData = response.data.data;
+            this.sizeData = response.data.per_page;
+            this.totalData = response.data.total;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            this.isLoading = false;
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
     },
 
     deleteUser(id) {
@@ -197,6 +304,48 @@ export default {
     background-color: #019901;
   }
 }
+
+::v-deep .button-search {
+  background-color: #007900;
+  margin-top: 10px;
+  height: 30px;
+  width: 40px;
+  padding-left: 10px;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+
+  &:hover {
+    background-color: #019901;
+  }
+}
+
+.search-container{
+  display: flex;
+}
+
+.search-fields{
+  display: flex;
+  margin-top: 20px;
+
+  &__field {
+    margin-right: 20px;
+  }
+}
+
+.button-reset {
+  background-color: #007900;
+  margin-top: 10px;
+  height: 30px;
+  padding-left: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &:hover {
+    background-color: #019901;
+  }
+}
+
 
 .table-main {
   margin-top: 20px;
