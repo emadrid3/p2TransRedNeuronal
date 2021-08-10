@@ -37,7 +37,7 @@ class ConductorController extends Controller
 
     public function update(Request $request){
         try {
-            $request->validate(["nombre"=>"required", "cedula"=>"required", "celular"=>"required"]);
+            $request->validate(["nombre"=>"required", "cedula"=>"required", "estado"=>"required"]);
             $driver = conductor::find($request->input('id'));
             if( !is_null($request->input('nombre')) ){
                 $driver->nombre = $request->input('nombre');
@@ -47,6 +47,9 @@ class ConductorController extends Controller
             }
             if( !is_null($request->input('celular')) ){
                 $driver->celular = $request->input('celular');
+            }
+            if( !is_null($request->input('estado')) ){
+                $driver->estado = $request->input('estado');
             }
             $driver->save();
             return response()->json(['message' => 'Conductor actualizado satisfactoriamente']);
@@ -67,11 +70,12 @@ class ConductorController extends Controller
     public function create(Request $request)
     {
         try {
-            $request->validate(["nombre"=>"required", "cedula"=>"required", "celular"=>"required"]);
+            $request->validate(["nombre"=>"required", "cedula"=>"required", "celular"=>"required", "estado"=>"required"]);
             $driver = new conductor();
             $driver->nombre = $request->input('nombre');
             $driver->cedula = $request->input('cedula');
             $driver->celular = $request->input('celular');
+            $driver->estado = $request->input('estado');
             $driver->save();
 
             return response()->json(['message' => 'Conductor creado satisfactoriamente']);

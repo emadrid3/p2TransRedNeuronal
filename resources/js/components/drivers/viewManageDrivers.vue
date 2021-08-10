@@ -56,16 +56,11 @@
           <br />
           <b-container>
             <label>Estado:</label>
-            <el-checkbox
-              v-model="checked1"
-              label="Activo"
-              border
-            ></el-checkbox>
-            <el-checkbox
-              v-model="checked1"
-              label="Inactivo"
-              border
-            ></el-checkbox>
+            <b-form-checkbox size="lg" v-model="driver.estado" switch
+              ><span>
+                {{ driver.estado == true ? "Inactivar" : "Activar" }}
+              </span></b-form-checkbox
+            >
           </b-container>
           <br />
         </el-card>
@@ -100,15 +95,16 @@ export default {
         nombre: "",
         cedula: "",
         celular: "",
+        estado: false,
       },
     };
   },
   created() {
-    console.log(this);
     if (this.driverprop != null) {
       this.driver.nombre = this.driverprop.nombre;
       this.driver.cedula = this.driverprop.cedula;
       this.driver.celular = this.driverprop.celular;
+      this.driver.estado = this.driverprop.estado;
     }
   },
   methods: {
@@ -143,6 +139,7 @@ export default {
       params.nombre = this.driver.nombre;
       params.cedula = this.driver.cedula;
       params.celular = this.driver.celular;
+      params.estado = this.driver.estado;
       await axios
         .patch("/api/conductores", params)
         .then(() => {

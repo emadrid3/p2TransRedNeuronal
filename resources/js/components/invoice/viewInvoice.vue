@@ -84,9 +84,9 @@
 
 <script>
 export default {
-  mounted() {
+  /* mounted() {
     console.log("Component mounted.");
-  },
+  }, */
   methods: {
     deleteRow(index, rows) {
       rows.splice(index, 1);

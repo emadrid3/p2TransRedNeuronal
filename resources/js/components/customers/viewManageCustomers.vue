@@ -92,9 +92,6 @@ export default {
     };
   },
   created() {
-    console.log(this);
-    console.log(this.customerprop)
-    console.log(this.customer)
     if (this.customerprop != null) {
       this.customer.id = this.customerprop.id;
       this.customer.nombre = this.customerprop.nombre;

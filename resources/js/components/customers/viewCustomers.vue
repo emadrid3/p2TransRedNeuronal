@@ -168,7 +168,6 @@ export default {
               this.getCustomerPerPage(this.currentPage);
             })
             .catch((error) => {
-              console.log(error);
               this.isLoading = false;
               this.swal({
                 title: "Algo salio mal",
