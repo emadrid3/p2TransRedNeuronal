@@ -49,6 +49,10 @@ Route::get('/clientes-manage/{id}', 'ClienteController@editCustomers')->middlewa
 //PANTALLA HISTORIAL
 Route::get('/historial', 'HistorialController@index')->middleware('auth');
 
+//PANTALLA FACTURAS
+Route::get('/facturacion', 'FacturaController@index')->middleware('auth');
+
+
 
 //Routes API
 
