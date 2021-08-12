@@ -13,7 +13,6 @@ class ClienteController extends Controller
     }
 
     public function manageCustomers(){
-        
         $customer = null;
         return view('customers.customersManage', ['customer' => $customer]);
     }
@@ -33,14 +32,12 @@ class ClienteController extends Controller
             $cliente = new cliente();
             $cliente->nombre = $request->input('nombre');
             $cliente->nit = $request->input('nit');
-            
             $cliente->razonSocial = $request->input('razonSocial');
+            $cliente->estado = $request->input('estado');
             $cliente->save();
-            
-            return response()->json(['message' => 'User create succesfully']);
-            
+            return response()->json(['message' => 'Cliente create succesfully']);
         } catch (\Exception $e) {
-           throw $e;
+            throw $e;
         }
     }
 
@@ -49,27 +46,25 @@ class ClienteController extends Controller
         try {
             $request->validate(["nombre"=>"required", "nit"=>"required", "razonSocial"=>"required"]);
             $customer = cliente::find($request->input('id'));
-            
             if( !is_null($request->input('nombre')) ){
                 $customer->nombre = $request->input('nombre');
             }
-            
             if( !is_null($request->input('nit')) ){
                 $customer->nit = $request->input('nit');
             }
-
             if( !is_null($request->input('razonSocial')) ){
                 $customer->razonSocial = $request->input('razonSocial');
             }
-
+            if( !is_null($request->input('estado')) ){
+                $customer->estado = $request->input('estado');
+            }
             error_log($request);
 
             $customer->save();
 
             return response()->json(['message' => 'Customer updated succesfully']);
-            
         } catch (\Exception $e) {
-           throw $e;
+            throw $e;
         }
     }
 
@@ -79,18 +74,16 @@ class ClienteController extends Controller
             $customer->delete();
 
         } catch (\Exception $e) {
-           throw $e;
+            throw $e;
         }
     }
 
     public function list(Request $request){
         try {
             $listCustomer = cliente::paginate($request->input('size'));
-            
             return response()->json($listCustomer);
-            
         } catch (\Exception $e) {
-           throw $e;
+            throw $e;
         }
     }
 }

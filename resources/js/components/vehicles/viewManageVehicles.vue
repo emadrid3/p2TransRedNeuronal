@@ -171,7 +171,9 @@ export default {
   },
   created() {
     if (this.vehicleprop != null) {
+      if(this.vehicleprop.driver != null){
       this.remoteMethodDriver(this.vehicleprop.driver.nombre);
+      }
       this.vehicle.plate = this.vehicleprop.placa;
       this.vehicle.city = this.vehicleprop.ciudad;
       this.vehicle.type = this.vehicleprop.tipo;

@@ -11,10 +11,10 @@
             <a href="{{ url('/vehiculos') }}"><i class="fas fa-bus-alt fa-2x" style="float: left; margin: 12px 3px"></i>Vehiculos</a>
         </li>
         <li class="active">
-            <a href="{{ url('/logistica') }}"><i class="fas fa-route fa-2x" style="float: left; margin: 12px 3px"></i>Logistica</a>
+            <a href="{{ url('/clientes') }}"><i class="fas fa-id-badge fa-2x" style="float: left; margin: 12px 3px"></i>Clientes</a>
         </li>
         <li class="active">
-            <a href="{{ url('/clientes') }}"><i class="fas fa-id-badge fa-2x" style="float: left; margin: 12px 3px"></i>Clientes</a>
+            <a href="{{ url('/logistica') }}"><i class="fas fa-route fa-2x" style="float: left; margin: 12px 3px"></i>Logistica</a>
         </li>
         <li class="active">
             <a href="{{ url('/facturacion') }}"><i class="fas fa-file-invoice-dollar fa-2x" style="float: left; margin: 12px 3px"></i>Facturas</a>

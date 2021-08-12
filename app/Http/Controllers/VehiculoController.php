@@ -20,7 +20,7 @@ class VehiculoController extends Controller
     }
     public function update(Request $request){
         try {
-            $request->validate(["placa"=>"required", "ciudad"=>"required", "tipo"=>"required",  "conductor"=>"required"]);
+            $request->validate(["placa"=>"required", "tipo"=>"required" ]);
             $vehicle = vehiculo::find($request->input('id'));
             if( !is_null($request->input('placa')) ){
                 $vehicle->placa = $request->input('placa');

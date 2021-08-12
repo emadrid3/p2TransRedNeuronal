@@ -41,7 +41,7 @@
       <el-table-column prop="celular" label="Celular"> </el-table-column>
       <el-table-column prop="estado" label="Estado" :width="100">
         <template slot-scope="props">
-          <el-tag>{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
+          <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" :width="130">
