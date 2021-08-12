@@ -104,7 +104,7 @@ export default {
       this.driver.nombre = this.driverprop.nombre;
       this.driver.cedula = this.driverprop.cedula;
       this.driver.celular = this.driverprop.celular;
-      this.driver.estado = this.driverprop.estado;
+      this.driver.estado = this.driverprop.estado == 1 ? true : false;
     }
   },
   methods: {
