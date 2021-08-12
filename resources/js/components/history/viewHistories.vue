@@ -25,17 +25,17 @@
       max-height="420"
     >
       <el-table-column prop="fecha" label="Fecha" :min-width="65" sortable> </el-table-column>
-      <el-table-column prop="placa" label="Placa" :width="80"> </el-table-column>
-      <el-table-column prop="tipoVehiculo" label="Tipo Vehiculo" :min-width="85">
+      <el-table-column prop="placa" label="Placa" :width="80" sortable> </el-table-column>
+      <el-table-column prop="tipoVehiculo" label="Tipo Vehiculo" :min-width="85" sortable>
       </el-table-column>
-      <el-table-column prop="tipo" label="Tipo" :width="85">
+      <el-table-column prop="tipo" label="Tipo" :width="85" sortable>
       </el-table-column>
-      <el-table-column prop="conductor" label="Conductor" :min-width="120">
+      <el-table-column prop="conductor" label="Conductor" :min-width="120" sortable>
       </el-table-column>
-      <el-table-column prop="origen" label="Origen"> </el-table-column>
-      <el-table-column prop="destino" label="Destino"> </el-table-column>
-      <el-table-column prop="cliente" label="Cliente" :min-width="100"> </el-table-column>
-      <el-table-column prop="flete" label="Flete" :width="100">
+      <el-table-column prop="origen" label="Origen" sortable> </el-table-column>
+      <el-table-column prop="destino" label="Destino" sortable> </el-table-column>
+      <el-table-column prop="cliente" label="Cliente" :min-width="100" sortable> </el-table-column>
+      <el-table-column prop="flete" label="Flete" :width="100" sortable>
         <template slot-scope="props">
           {{props.row.flete | Flete}}
         </template>
@@ -51,7 +51,7 @@
           @size-change="getCustomers"
           @current-change="getCustomerPerPage"
           :current-page.sync="currentPage"
-          :page-sizes="[5, 10, 20, 50]"
+          :page-sizes="[5, 10, 20, 50, 200]"
           :page-size="sizeData"
           layout="sizes, prev, pager, next"
           :total="totalData"

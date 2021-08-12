@@ -36,10 +36,10 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="nombre" label="Nombre Completo"> </el-table-column>
-      <el-table-column prop="cedula" label="Cedula"> </el-table-column>
+      <el-table-column prop="nombre" label="Nombre Completo" sortable> </el-table-column>
+      <el-table-column prop="cedula" label="Cedula" sortable> </el-table-column>
       <el-table-column prop="celular" label="Celular"> </el-table-column>
-      <el-table-column prop="estado" label="Estado" :width="100">
+      <el-table-column prop="estado" label="Estado" :width="100" sortable>
         <template slot-scope="props">
           <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
         </template>
