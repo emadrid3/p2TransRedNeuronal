@@ -31,14 +31,14 @@
           </el-alert>
           <br />
           <b-container>
-            <label for="">Nombre:</label>
-            <el-input placeholder="Please input" v-model="user.name"></el-input>
+            <label for="">Nombre Completo:</label>
+            <el-input placeholder="Ingrese un nombre completo" v-model="user.name"></el-input>
           </b-container>
           <br />
           <b-container>
             <label for="">Email:</label>
             <el-input
-              placeholder="Please input"
+              placeholder="Ingrese un email"
               v-model="user.email"
             ></el-input>
           </b-container>
@@ -73,7 +73,7 @@
                 <label for="">Contraseña:</label>
                 <el-input
                   :disabled="userprop != null ? !passwordEnable : false"
-                  placeholder="Please input"
+                  placeholder="Ingrese una contraseña"
                   v-model="user.password"
                   show-password
                 ></el-input>
@@ -82,7 +82,7 @@
                 <label for="">Confirmar Contraseña:</label>
                 <el-input
                   :disabled="userprop != null ? !passwordEnable : false"
-                  placeholder="Please input"
+                  placeholder="Ingrese la confirmación de la contraseña"
                   v-model="confirmPassword"
                   show-password
                 ></el-input>
@@ -197,10 +197,9 @@ export default {
             this.swal({
               title: "Usuario creado correctamente",
               icon: "success",
+            }).then(() => {
+              this.goTo("/usuarios");
             });
-          })
-          .then(() => {
-            this.goTo("/usuarios");
           })
           .catch(() => {
             this.swal({

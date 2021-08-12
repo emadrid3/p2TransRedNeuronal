@@ -33,7 +33,7 @@
           <b-container>
             <label for="">Nombre Completo:</label>
             <el-input
-              placeholder="Nombre completo"
+              placeholder="Ingrese un nombre completo"
               v-model="driver.nombre"
             ></el-input>
           </b-container>
@@ -41,7 +41,7 @@
           <b-container>
             <label for="">Cedula:</label>
             <el-input
-              placeholder="Cedula"
+              placeholder="Ingrese una cedula"
               v-model="driver.cedula"
             ></el-input>
           </b-container>
@@ -49,7 +49,7 @@
           <b-container>
             <label for="">Celular:</label>
             <el-input
-              placeholder="Celular"
+              placeholder="Ingrese un celular"
               v-model="driver.celular"
             ></el-input>
           </b-container>
@@ -136,7 +136,7 @@ export default {
           .post("/api/conductores", this.driver)
           .then(() => {
             this.swal({
-              title: "Usuario creado correctamente",
+              title: "Conductor creado correctamente",
               icon: "success",
             }).then(() => {
               this.goTo("/conductores");
