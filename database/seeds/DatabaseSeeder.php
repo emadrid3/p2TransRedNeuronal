@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(VehiculosSeeder::class);
         $this->call(RolesSeeder::class);
         $this->call(CiudadesSeeder::class);
-        $this->call(UsuarioSeeder::class);
+        $this->call(UsuariosSeeder::class);
     }
 }
