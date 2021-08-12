@@ -15,29 +15,24 @@ class CreateLogisticasTable extends Migration
     {
         Schema::create('logisticas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('fecha');
-            $table->string('origen');
-            $table->json('destino');
-            $table->integer('valorFactura')->nullable();
-            $table->integer('numeroOrden');
-            $table->integer('valorAdicional');
-            $table->mediumText('observacion');
-            $table->enum('estadoFactura', array('Pendiente Pago', 'Pendiente Facturar', 'Pago'));
-            $table->integer('flete')->nullable();
-            $table->integer('anticipo')->nullable();
-            $table->integer('porcentaje')->nullable();
-            $table->integer('saldo')->nullable();
-            $table->unsignedBigInteger('idCliente'); // Relación con Clientes
-            $table->unsignedBigInteger('idVehiculo'); //Relación con vehiculos
-            $table->unsignedBigInteger('idConductor'); //Relación con conductor
-            $table->unsignedBigInteger('idCarga'); //Relación con carga
-
-            //claves foraneas
-            $table->foreign('idCliente')->references('id')->on('clientes');
-            $table->foreign('idVehiculo')->references('id')->on('vehiculos');
-            $table->foreign('idConductor')->references('id')->on('conductores');
-            $table->foreign('idCarga')->references('id')->on('cargas');
-
+            $table->string('numero_factura')->nullable();
+            $table->string('numero_orden')->nullable();
+            $table->unsignedBigInteger('encargado_id')->nullable();
+            $table->date('fecha')->nullable();
+            $table->unsignedBigInteger('vehiculo_id')->nullable();
+            $table->float('flete')->nullable();
+            $table->float('anticipo')->nullable();
+            $table->float('descuento')->nullable();
+            $table->unsignedBigInteger('conductor_id')->nullable();
+            $table->unsignedBigInteger('origen')->nullable();
+            $table->unsignedBigInteger('destino')->nullable();
+            $table->json('trayecto')->nullable();
+            $table->unsignedBigInteger('carga_id')->nullable();
+            $table->unsignedBigInteger('cliente_id')->nullable();
+            $table->json('extra')->nullable();
+            $table->float('extra_total')->nullable();
+            $table->string('descripcion')->nullable();
+            $table->float('factura_total')->nullable();
             $table->timestamps();
         });
     }

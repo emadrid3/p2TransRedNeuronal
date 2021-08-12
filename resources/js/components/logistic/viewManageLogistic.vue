@@ -1,318 +1,328 @@
 <template>
   <div>
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">Inicio</el-breadcrumb-item>
-      <el-breadcrumb-item>Logistica</el-breadcrumb-item>
-      <el-breadcrumb-item>Lista de viajes</el-breadcrumb-item>
-      <el-breadcrumb-item>Gestionar viaje</el-breadcrumb-item>
-    </el-breadcrumb>
+    <div class="title-separator">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }">Inicio</el-breadcrumb-item>
+        <el-breadcrumb-item>Logistica</el-breadcrumb-item>
+        <el-breadcrumb-item>Lista de viajes</el-breadcrumb-item>
+        <el-breadcrumb-item>Gestionar viaje</el-breadcrumb-item>
+      </el-breadcrumb>
 
-    <b-row class="title">
-      <h2>Crear viaje</h2>
+      <b-row class="title">
+        <h2>Crear viaje</h2>
 
-      <div class="title__info">
-        <p>
-          <i class="fas fa-info-circle"></i>Desde esta ventana podras crear o
-          actualizar un viaje especifico
-        </p>
-      </div>
-    </b-row>
+        <div class="title__info">
+          <p>
+            <i class="fas fa-info-circle"></i>Desde esta ventana podras crear o
+            actualizar un viaje especifico
+          </p>
+        </div>
+      </b-row>
+    </div>
 
     <b-row align-h="center">
-      <b-col md="8" sm="12">
+      <b-col md="10" sm="12">
         <el-card shadow="hover">
           <div class="block">
-            <div class="el-divider-logistic">
-              <h5 style="padding: 10px; color: white">
-                <b>Encargado <i class="el-icon-user"></i></b>
-              </h5>
-            </div>
             <b-container>
               <b-row>
-                <b-col md="12" sm="12">
+                <b-col md="3" sm="6">
+                  <h1 style="color: #007900">FACTURA #</h1>
+                </b-col>
+                <b-col md="9" sm="6">
+                  <el-input v-model="logistic.bill_number" style="font-size: 40px;"></el-input>
+                </b-col>
+              </b-row><b-row>
+                <b-col md="3" sm="6">
+                  <h1 style="color: #007900">ORDENES #</h1>
+                </b-col>
+                <b-col md="9" sm="6">
+                  <el-input v-model="logistic.order_number" style="font-size: 25px;"></el-input>
+                </b-col>
+              </b-row>
+              <hr>
+            </b-container>
+            <b-container>
+              <b-row>
+                <b-col md="6" sm="12">
+                  <div class="el-divider-logistic">
+                    <h5 style="color: #007900; font-size: 25px">
+                      <small>Gestionar</small>
+                      <b>Encargado <i class="el-icon-user"></i></b>
+                    </h5>
+                    <hr />
+                  </div>
+
                   <el-select
+                    v-model="logistic.user"
+                    value-key="id"
                     filterable
                     remote
                     reserve-keyword
                     placeholder="Ingrese el nombre de un encargado"
-                    :loading="loadingManagment"
+                    :remote-method="remoteMethodUser"
                   >
                     <el-option
-                      v-for="item in users"
+                      v-for="item in listUsers"
                       :key="item.id"
-                      :label="item.nombre + ' - ' + item.cedula"
-                      :value="item.id"
+                      :label="item.name"
+                      :value="item"
                     >
                     </el-option>
                   </el-select>
+
+                  <b-container
+                    v-if="logistic.user != null"
+                    style="padding: 10px; border-radius: 10px"
+                  >
+                    <b-row>
+                      <b-col md="12" sm="12">
+                        <h5>{{ logistic.user.name }}</h5>
+                        <h6>{{ logistic.user.email }}</h6>
+                        <el-tag effect="dark">{{
+                          logistic.user.user.rol
+                        }}</el-tag>
+                      </b-col>
+                    </b-row>
+                  </b-container>
                 </b-col>
-              </b-row>
-            </b-container>
-            <br />
-            <b-container
-              style="
-                border: 1px solid #c0c4cc;
-                padding: 10px;
-                border-radius: 10px;
-              "
-            >
-              <b-row>
-                <b-col md="12" sm="12">
-                  <h5>CRISTIAN ARISTIZABAL GIRALDO</h5>
-                  <h6>aristizabalcristian9005@gmail.com</h6>
-                  <el-tag effect="dark">ADMINISTRADOR</el-tag>
-                </b-col>
-              </b-row>
-            </b-container>
-            <div class="el-divider-logistic">
-              <h5 style="padding: 10px; color: white">
-                <b>Fecha <i class="el-icon-date"></i></b>
-              </h5>
-            </div>
-            <b-container>
-              <b-row>
-                <b-col md="12" sm="12">
+                <b-col md="6" sm="12">
+                  <div class="el-divider-logistic">
+                    <h5 style="color: #007900; font-size: 25px">
+                      <small>Gestionar</small>
+                      <b>Fecha <i class="el-icon-date"></i></b>
+                    </h5>
+                    <hr />
+                  </div>
+
                   <el-date-picker
-                    v-model="value1"
+                    v-model="logistic.date"
                     type="date"
                     placeholder="Seleccione una fecha"
+                    value-format="dd-MM-yyyy"
                   >
                   </el-date-picker>
                 </b-col>
               </b-row>
             </b-container>
-            <br />
-            <b-container
-              style="
-                border: 1px solid #c0c4cc;
-                padding: 10px;
-                border-radius: 10px;
-              "
-            >
-              <b-row>
-                <b-col md="12" sm="12">
-                  <h5>6 de Febrero del 2021</h5>
-                </b-col>
-              </b-row>
-            </b-container>
-            <div class="el-divider-logistic">
-              <h5 style="padding: 10px; color: white">
-                <b>Vehículo <i class="el-icon-truck"></i></b>
-              </h5>
-            </div>
+
             <b-container>
               <b-row>
-                <b-col md="12" sm="12">
+                <b-col md="6" sm="12">
+                  <div class="el-divider-logistic">
+                    <h5 style="color: #007900; font-size: 25px">
+                      <small>Gestionar</small>
+                      <b>Vehículo <i class="el-icon-truck"></i></b>
+                    </h5>
+                    <hr />
+                  </div>
+
                   <el-select
+                    v-model="logistic.vehicle"
                     filterable
+                    value-key="id"
                     remote
                     reserve-keyword
                     placeholder="Ingrese la placa del vehículo"
+                    :remote-method="remoteMethodVehicle"
                     :loading="loadingManagment"
                   >
                     <el-option
-                      v-for="item in users"
+                      v-for="item in listVehicles"
                       :key="item.id"
-                      :label="item.nombre + ' - ' + item.cedula"
-                      :value="item.id"
+                      :label="item.placa"
+                      :value="item"
                     >
                     </el-option>
                   </el-select>
-                </b-col>
-              </b-row>
-            </b-container>
-            <br />
-            <b-container
-              style="
-                border: 1px solid #c0c4cc;
-                padding: 10px;
-                border-radius: 10px;
-              "
-            >
-              <b-row class="justify-content-center">
-                <b-col md="4" sm="12" class="view-plate">
-                  <div class="plate-content">
-                    <h1>
-                      <b>FGI379</b>
-                    </h1>
-                    <small>ENVIGADO</small>
-                  </div>
-                </b-col>
-              </b-row>
-              <br />
-              <b-row class="justify-content-center">
-                <b-col md="4" sm="12">
-                  <div class="plate-content">
-                    <h6>TIPO: PROPIO</h6>
-                  </div>
-                </b-col>
-              </b-row>
-              <br />
-              <b-row>
-                <b-col md="12" sm="12">
-                  <el-table
-                    :data="[{}]"
-                    border
-                    class="table-main"
-                    style="width: 100%"
-                    max-height="420"
+
+                  <b-container
+                    v-if="logistic.vehicle"
+                    style="padding: 10px; border-radius: 10px"
                   >
-                    <el-table-column prop="flete" label="Flete">
-                      <template>
-                        <el-input-number
-                          :controls="false"
-                          :min="1"
-                          :max="10"
-                        ></el-input-number>
-                      </template>
-                    </el-table-column>
-                    <el-table-column prop="anticipo" label="Anticipo">
-                      <el-input-number
-                        :controls="false"
-                        :min="1"
-                        :max="10"
-                      ></el-input-number>
-                    </el-table-column>
-                    <el-table-column prop="descuento" label="Descuento">
-                      <el-input-number
-                        :controls="false"
-                        :min="1"
-                        :max="10"
-                      ></el-input-number>
-                    </el-table-column>
-                  </el-table>
+                    <b-row class="justify-content-center">
+                      <b-col md="12" sm="12" class="view-plate">
+                        <div class="plate-content">
+                          <h1>
+                            <b>{{ logistic.vehicle.placa }}</b>
+                          </h1>
+                          <small>{{ logistic.vehicle.ciudad }}</small>
+                        </div>
+                      </b-col>
+                    </b-row>
+                    <br />
+                    <b-row class="justify-content-center">
+                      <b-col md="4" sm="12">
+                        <div class="plate-content">
+                          <h6>
+                            TIPO: {{ logistic.vehicle.tipo.toUpperCase() }}
+                          </h6>
+                        </div>
+                      </b-col>
+                    </b-row>
+                    <br />
+                    <b-row v-if="logistic.vehicle.tipo == 'tercero'">
+                      <b-col md="12" sm="12">
+                        <el-table
+                          :data="[{}]"
+                          border
+                          class="table-main"
+                          style="width: 100%"
+                          max-height="420"
+                        >
+                          <el-table-column prop="flete" label="Flete">
+                            <template>
+                              <el-input-number
+                                v-model="logistic.freight"
+                                :controls="false"
+                              ></el-input-number>
+                            </template>
+                          </el-table-column>
+                          <el-table-column prop="anticipo" label="Anticipo">
+                            <el-input-number
+                              v-model="logistic.advance"
+                              :controls="false"
+                            ></el-input-number>
+                          </el-table-column>
+                          <el-table-column prop="descuento" label="Descuento">
+                            <el-input-number
+                              v-model="logistic.discount"
+                              :controls="false"
+                            ></el-input-number>
+                          </el-table-column>
+                        </el-table>
+                      </b-col>
+                    </b-row>
+                  </b-container>
                 </b-col>
-              </b-row>
-            </b-container>
-            <br />
-            <div class="el-divider-logistic">
-              <h5 style="padding: 10px; color: white">
-                <b>Conductor <i class="el-icon-bank-card"></i></b>
-              </h5>
-            </div>
-            <b-container>
-              <b-row>
-                <b-col md="12" sm="12">
+                <b-col md="6" sm="12">
+                  <div class="el-divider-logistic">
+                    <h5 style="color: #007900; font-size: 25px">
+                      <small>Gestionar</small>
+                      <b>Conductor <i class="el-icon-bank-card"></i></b>
+                    </h5>
+                    <hr />
+                  </div>
+
                   <el-select
+                    v-model="logistic.driver"
                     filterable
+                    value-key="id"
                     remote
                     reserve-keyword
-                    placeholder="Ingrese el nombre de un conductor"
-                    :loading="loadingManagment"
+                    placeholder="Ingrese la cedula o el nombre de un conductor"
+                    :remote-method="remoteMethodDrivers"
                   >
                     <el-option
-                      v-for="item in users"
+                      v-for="item in listDrivers"
                       :key="item.id"
                       :label="item.nombre + ' - ' + item.cedula"
-                      :value="item.id"
+                      :value="item"
                     >
                     </el-option>
                   </el-select>
+                  <b-container
+                    v-if="logistic.driver != null"
+                    style="padding: 10px; border-radius: 10px"
+                  >
+                    <b-row>
+                      <b-col md="12" sm="12">
+                        <h5>{{ logistic.driver.nombre }}</h5>
+                        <h6><b>CC:</b>{{ logistic.driver.cedula }}</h6>
+                        <h6><b>Celular:</b>{{ logistic.driver.celular }}</h6>
+                      </b-col>
+                    </b-row>
+                  </b-container>
                 </b-col>
               </b-row>
             </b-container>
-            <br />
-            <b-container
-              style="
-                border: 1px solid #c0c4cc;
-                padding: 10px;
-                border-radius: 10px;
-              "
-            >
-              <b-row>
-                <b-col md="12" sm="12">
-                  <h5>Emanuel Madrid Restrepo</h5>
-                  <h6><b>CC:</b> 1035878854</h6>
-                  <h6><b>Celular:</b> 30078544214</h6>
-                </b-col>
-              </b-row>
-            </b-container>
-            <div class="el-divider-logistic">
-              <h5 style="padding: 10px; color: white">
-                <b>Trayecto <i class="el-icon-location-outline"></i></b>
-              </h5>
-            </div>
 
-            <b-container
-              style="
-                border: 1px solid #c0c4cc;
-                padding: 10px;
-                border-radius: 10px;
-              "
-            >
+            <b-container>
+              <div class="el-divider-logistic">
+                <hr />
+                <h5 style="color: #007900; font-size: 25px">
+                  <small>Gestionar</small>
+                  <b>Trayecto <i class="el-icon-location-outline"></i></b>
+                </h5>
+                <hr />
+              </div>
+            </b-container>
+
+            <b-container style="padding: 10px; border-radius: 10px">
               <el-timeline>
                 <el-timeline-item
                   timestamp="Destino"
                   placement="top"
                   color="#0bbd87"
+                  v-for="(city, index) in logistic.travel"
+                  :key="index"
                 >
                   <el-card>
-                    <el-select v-model="value" placeholder="Select">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                    <div class="body-travel">
+                      <el-select
+                        v-model="logistic.travel[index]"
+                        filterable
+                        value-key="id"
+                        remote
+                        reserve-keyword
+                        placeholder="Ingrese el nombre de una ciudad"
+                        :remote-method="remoteMethodCity"
                       >
-                      </el-option>
-                    </el-select>
-                  </el-card>
-                </el-timeline-item>
-                <el-timeline-item
-                  timestamp="Destino"
-                  placement="top"
-                  color="#0bbd87"
-                >
-                  <el-card>
-                    <el-select v-model="value" placeholder="Select">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      >
-                      </el-option>
-                    </el-select>
-                  </el-card>
-                </el-timeline-item>
-                <el-timeline-item
-                  timestamp="Destino"
-                  placement="top"
-                  color="#0bbd87"
-                >
-                  <el-card>
-                    <el-select v-model="value" placeholder="Select">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      >
-                      </el-option>
-                    </el-select>
+                        <el-option
+                          v-for="item in listCities"
+                          :key="item.id"
+                          :label="item.nombre"
+                          :value="item"
+                        >
+                        </el-option>
+                      </el-select>
+                      <div @click="splitTravel(index)">
+                        <i
+                          class="fas fa-trash-alt"
+                          style="color: red; padding: 10px"
+                        ></i>
+                      </div>
+                    </div>
                   </el-card>
                 </el-timeline-item>
               </el-timeline>
+              <b-container>
+                <b-row>
+                  <el-button
+                    class="button-add"
+                    type="success"
+                    @click="addTravel"
+                    ><i class="fas fa-plus"></i>Agregar un destino</el-button
+                  >
+                </b-row>
+              </b-container>
             </b-container>
-            <div class="el-divider-logistic">
-              <h5 style="padding: 10px; color: white">
-                <b>Tipo de carga <i class="el-icon-s-grid"></i></b>
-              </h5>
-            </div>
+            <b-container>
+              <div class="el-divider-logistic">
+                <hr />
+                <h5 style="color: #007900; font-size: 25px">
+                  <small>Gestionar</small>
+                  <b>Tipo de carga <i class="el-icon-s-grid"></i></b>
+                </h5>
+                <hr />
+              </div>
+            </b-container>
             <b-container>
               <b-row>
                 <b-col md="12" sm="12">
                   <el-select
+                    v-model="logistic.type"
                     filterable
+                    value-key="id"
                     remote
                     reserve-keyword
                     placeholder="Seleccione un tipo de carga"
-                    :loading="loadingManagment"
+                    :remote-method="remoteMethodType"
                   >
                     <el-option
-                      v-for="item in users"
+                      v-for="item in listType"
                       :key="item.id"
-                      :label="item.nombre + ' - ' + item.cedula"
+                      :label="item.tipo"
                       :value="item.id"
                     >
                     </el-option>
@@ -320,26 +330,33 @@
                 </b-col>
               </b-row>
             </b-container>
-            <div class="el-divider-logistic">
-              <h5 style="padding: 10px; color: white">
-                <b>Cliente <i class="el-icon-user"></i></b>
-              </h5>
-            </div>
+            <b-container>
+              <div class="el-divider-logistic">
+                <hr />
+                <h5 style="color: #007900; font-size: 25px">
+                  <small>Gestionar</small>
+                  <b>Cliente <i class="el-icon-user"></i></b>
+                </h5>
+                <hr />
+              </div>
+            </b-container>
             <b-container>
               <b-row>
                 <b-col md="12" sm="12">
                   <el-select
+                    v-model="logistic.customer"
                     filterable
+                    value-key="id"
                     remote
                     reserve-keyword
-                    placeholder="Ingrese el nombre de un encargado"
-                    :loading="loadingManagment"
+                    placeholder="Ingrese el nombre, NIT o razón social"
+                    :remote-method="remoteMethodCustomer"
                   >
                     <el-option
-                      v-for="item in users"
+                      v-for="item in listCustomer"
                       :key="item.id"
-                      :label="item.nombre + ' - ' + item.cedula"
-                      :value="item.id"
+                      :label="item.nombre"
+                      :value="item"
                     >
                     </el-option>
                   </el-select>
@@ -348,40 +365,36 @@
             </b-container>
             <br />
             <b-container
-              style="
-                border: 1px solid #c0c4cc;
-                padding: 10px;
-                border-radius: 10px;
-              "
+              v-if="logistic.customer != null"
+              style="padding: 10px; border-radius: 10px"
             >
               <b-row>
                 <b-col md="12" sm="12">
-                  <h5>TRASGIRAR S.A.S</h5>
-                  <h6><b>NIT:</b> 885544757</h6>
+                  <h5>{{ logistic.customer.nombre }}</h5>
+                  <h6><b>NIT:</b>{{ logistic.customer.nit }}</h6>
                   <el-tag effect="dark"
-                    ><b>RAZON SOCIAL: </b>TRASPORTADORA TRASGIRAR</el-tag
+                    ><b>RAZON SOCIAL: </b
+                    >{{ logistic.customer.razonSocial }}</el-tag
                   >
                 </b-col>
               </b-row>
             </b-container>
           </div>
-
-          <div class="el-divider-logistic">
-            <h5 style="padding: 10px; color: white">
-              <b>Valores adicionales <i class="el-icon-money"></i></b>
-            </h5>
-          </div>
-          <b-container
-            style="
-              border: 1px solid #c0c4cc;
-              padding: 10px;
-              border-radius: 10px;
-            "
-          >
+          <b-container>
+            <div class="el-divider-logistic">
+              <hr />
+              <h5 style="color: #007900; font-size: 25px">
+                <small>Gestionar</small>
+                <b>Valores adicionales <i class="el-icon-money"></i></b>
+              </h5>
+              <hr />
+            </div>
+          </b-container>
+          <b-container style="padding: 10px; border-radius: 10px">
             <b-row>
               <b-col md="12" sm="12">
                 <el-table
-                  :data="[{ value: 'DESCARGUE', key: '$100.000' }]"
+                  :data="logistic.extra"
                   border
                   class="table-main"
                   style="width: 100%"
@@ -389,35 +402,54 @@
                 >
                   <el-table-column prop="descripcion" label="Descripción">
                     <template slot-scope="props">
-                      {{ props.row.value }}
+                      <el-input
+                        v-model="logistic.extra[props.$index].description"
+                      ></el-input>
                     </template>
                   </el-table-column>
                   <el-table-column prop="valor" label="Valor">
                     <template slot-scope="props">
-                      {{ props.row.key }}
+                      <el-input-number
+                        v-model="logistic.extra[props.$index].value"
+                        :controls="false"
+                      ></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="Acción">
+                    <template slot-scope="props">
+                      <div @click="splitValue(props.$index)">
+                        <i
+                          class="fas fa-trash-alt"
+                          style="color: red; padding: 10px"
+                        ></i>
+                      </div>
                     </template>
                   </el-table-column>
                 </el-table>
               </b-col>
             </b-row>
+            <b-row>
+              <el-button class="button-add" type="success" @click="addValue"
+                ><i class="fas fa-plus"></i>Agregar un valor</el-button
+              >
+            </b-row>
           </b-container>
-          <div class="el-divider-logistic">
-            <h5 style="padding: 10px; color: white">
-              <b>Descripción del viaje <i class="el-icon-money"></i></b>
-            </h5>
-          </div>
-          <b-container
-            style="
-              border: 1px solid #c0c4cc;
-              padding: 10px;
-              border-radius: 10px;
-            "
-          >
+          <b-container>
+            <div class="el-divider-logistic">
+              <hr />
+              <h5 style="color: #007900; font-size: 25px">
+                <small>Gestionar</small>
+                <b>Descripción del viaje <i class="el-icon-money"></i></b>
+              </h5>
+              <hr />
+            </div>
+          </b-container>
+          <b-container style="padding: 10px; border-radius: 10px">
             <el-input
               type="textarea"
               :rows="2"
               placeholder="Please input"
-              v-model="textarea"
+              v-model="logistic.description"
             >
             </el-input>
           </b-container>
@@ -425,12 +457,8 @@
 
         <b-container class="buttons-form">
           <b-row class="justify-content-center">
-            <el-button
-              type="success"
-              size="large"
-              @click="userprop != null ? edit() : create()"
-              >{{ userprop == null ? "Crear" : "Editar" }}
-              <i class="fas fa-save"></i
+            <el-button type="success" size="large" @click="save()"
+              >Guardar cambios <i class="fas fa-save"></i
             ></el-button>
             <el-button type="danger" size="large" @click="goTo('/usuarios')"
               >Cancelar <i class="far fa-window-close"></i
@@ -448,61 +476,105 @@ export default {
   props: ["userprop"],
   data() {
     return {
-      loadingManagment: false,
-      users: [],
+      listUsers: [],
+      listVehicles: [],
+      listDrivers: [],
+      listType: [],
+      listCustomer: [],
+      listCities: [],
+
+      logistic: {
+        bill_number: null,
+        order_number: null,
+        user: null,
+        date: null,
+        vehicle: null,
+        freight: 0,
+        advance: 0,
+        discount: 0,
+        driver: null,
+        travel: [],
+        type: null,
+        customer: null,
+        extra: [],
+        description: null,
+      },
     };
   },
-  created() {},
+  created() {
+    this.logistic.travel.push(null);
+  },
   methods: {
     goTo(location) {
       window.location.href = location;
     },
 
-    validate() {
-      let emailRule =
-        /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+    addValue() {
+      this.logistic.extra.push({ description: "", value: 0 });
+    },
 
-      if (!this.user.name) {
-        this.isError = true;
-        this.msgError = "Por favor ingrese un nombre";
-        return false;
-      } else if (!this.user.email) {
-        this.isError = true;
-        this.msgError = "Por favor ingrese un correo";
-        return false;
-      } else if (!emailRule.test(this.user.email)) {
-        this.isError = true;
-        this.msgError = "Por favor ingrese un correo valido";
-        return false;
+    splitValue(index) {
+      this.logistic.extra.splice(index, 1);
+    },
+
+    addTravel() {
+      this.logistic.travel.push(null);
+    },
+
+    splitTravel(index) {
+      this.logistic.travel.splice(index, 1);
+    },
+
+    save() {
+      axios
+        .post("/api/logistica", this.logistic)
+        .then(() => {
+          this.swal({
+            title: "El registro de viaje se ha creado correctamente",
+            icon: "success",
+          }).then(() => {
+            this.goTo("/logistica");
+          });
+        })
+        .catch(() => {
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
+
+    remoteMethodUser(query) {
+      if (query !== "") {
+        axios
+          .get("/api/usuarios-search", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.listUsers = response.data.data;
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
       } else {
-        if (this.passwordEnable) {
-          if (!this.user.password) {
-            this.isError = true;
-            this.msgError = "Por favor ingrese una contraseña";
-            return false;
-          }
-          if (this.confirmPassword != this.user.password) {
-            this.isError = true;
-            this.msgError = "Las contraseñas no coinciden";
-            return false;
-          }
-        }
-
-        this.isError = false;
-        this.msgError = "";
-        return true;
+        this.listUsers = [];
       }
     },
-
-    create() {
-      if (this.validate()) {
+    remoteMethodVehicle(query) {
+      if (query !== "") {
         axios
-          .post("/api/usuario", this.user)
-          .then(() => {
-            this.swal({
-              title: "Usuario creado correctamente",
-              icon: "success",
-            });
+          .get("/api/vehiculo-search", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.listVehicles = response.data.data;
           })
           .catch(() => {
             this.swal({
@@ -512,25 +584,18 @@ export default {
               button: "OK",
             });
           });
+      } else {
+        this.listVehicles = [];
       }
     },
-
-    edit() {
-      if (this.validate()) {
-        let params = {};
-        params.id = this.userprop.id;
-        params.name = this.user.name;
-        params.email = this.user.email;
-        if (this.passwordEnable) {
-          params.password = this.user.password;
-        }
+    remoteMethodDrivers(query) {
+      if (query !== "") {
         axios
-          .patch("/api/usuario", params)
-          .then(() => {
-            this.swal({
-              title: "Usuario actualizado correctamente",
-              icon: "success",
-            });
+          .get("/api/conductores-search", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.listDrivers = response.data.data;
           })
           .catch(() => {
             this.swal({
@@ -538,10 +603,73 @@ export default {
               text: "Por favor intentelo nuevamente",
               icon: "error",
               button: "OK",
-            }).then(() => {
-              this.goTo("/usuarios");
             });
           });
+      } else {
+        this.listDrivers = [];
+      }
+    },
+    remoteMethodCity(query) {
+      if (query !== "") {
+        axios
+          .get("/api/ciudades-search", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.listCities = response.data.data;
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      } else {
+        this.listCities = [];
+      }
+    },
+    remoteMethodType(query) {
+      if (query !== "") {
+        axios
+          .get("/api/tipo-vehiculo-search", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.listType = response.data.data;
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      } else {
+        this.listType = [];
+      }
+    },
+    remoteMethodCustomer(query) {
+      if (query !== "") {
+        axios
+          .get("/api/cliente-search", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.listCustomer = response.data.data;
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      } else {
+        this.listCustomer = [];
       }
     },
   },
@@ -597,8 +725,6 @@ export default {
 .el-divider-logistic {
   margin: 20px 0px;
   width: 100%;
-  height: 40px;
-  background-color: green;
 }
 
 ::v-deep .el-table th,
@@ -613,5 +739,21 @@ export default {
 .el-table tr {
   font-size: 12px;
   font-weight: normal;
+}
+
+.button-add {
+  background-color: #007900;
+
+  &:hover {
+    background-color: #019901;
+  }
+}
+::v-deep .body-travel {
+  display: flex;
+  justify-content: space-between;
+}
+
+::v-deep .el-input-number {
+  width: 100px;
 }
 </style>

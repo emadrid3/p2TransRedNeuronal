@@ -13,12 +13,23 @@ class logistica extends Model
      */
     protected $fillable = [
         'id',
+        'numero_factura',
+        'numero_orden',
+        'encargado_id',
         'fecha',
+        'vehiculo_id',
+        'flete',
+        'anticipo',
+        'descuento',
+        'conductor_id',
         'origen',
         'destino',
-        'idVehiculo',
-        'idConductor',
-        'idCarga',
-        'idFactura'
+        'trayecto',
+        'carga_id',
+        'cliente_id',
+        'extra',
+        'extra_total',
+        'descripcion',
+        'factura_total'
     ];
 }

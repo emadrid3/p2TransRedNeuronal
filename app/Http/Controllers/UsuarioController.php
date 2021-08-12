@@ -85,6 +85,23 @@ class UsuarioController extends Controller
         }
     }
 
+    public function searchByParams(Request $request)
+    {
+        try {
+            $size = $request->input('size');
+            $input = $request->input('input');
+
+            $users = User::with('user')
+            ->where('name','like',"%$input%")
+            ->orWhere('email','like',"%$input%")
+            ->paginate($request->input('size'));
+
+            return response()->json($users);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
     public function getRoles(Request $request)
     {
         try {

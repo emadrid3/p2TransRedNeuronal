@@ -93,4 +93,21 @@ class ClienteController extends Controller
            throw $e;
         }
     }
+
+    public function searchByParams(Request $request)
+    {
+        try {
+            $size = $request->input('size');
+            $input = $request->input('input');
+
+            $customer = cliente::where('nombre','like',"%$input%")
+            ->orWhere('nit','like',"%$input%")
+            ->orWhere('razonSocial','like',"%$input%")
+            ->paginate($request->input('size'));
+
+            return response()->json($customer);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
 }

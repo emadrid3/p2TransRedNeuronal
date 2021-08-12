@@ -80,4 +80,20 @@ class VehiculoController extends Controller
            throw $e;
         }
     }
+
+    public function searchByParams(Request $request)
+    {
+        try {
+            $size = $request->input('size');
+            $input = $request->input('input');
+
+            $users = vehiculo::with('driver')
+            ->where('placa','like',"%$input%")
+            ->paginate($request->input('size'));
+
+            return response()->json($users);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
 }
