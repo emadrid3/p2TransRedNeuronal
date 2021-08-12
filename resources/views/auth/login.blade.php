@@ -38,7 +38,7 @@
                 @enderror
             </div>
             <div class="submit">
-                <button type="submit" class="btn btn-success btn-block submit__button">Ingresar <i class="fas fa-sign-in-alt"></i></b-button>
+            <button type="submit" class="btn btn-success btn-block submit__button">Ingresar <i class="fas fa-sign-in-alt"></i></b-button>
             </div>
         </form>
     </div>
