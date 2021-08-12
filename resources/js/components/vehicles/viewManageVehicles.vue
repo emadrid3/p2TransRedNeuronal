@@ -110,6 +110,15 @@
               </b-col>
             </b-row>
           </b-container>
+          <br />
+          <b-container>
+            <label>Estado:</label>
+            <b-form-checkbox size="lg" v-model="vehicle.estado" switch
+              ><span>
+                {{ vehicle.estado == true ? "Inactivar" : "Activar" }}
+              </span></b-form-checkbox
+            >
+          </b-container>
         </el-card>
 
         <b-container class="buttons-form">
@@ -155,6 +164,7 @@ export default {
         city: "",
         type: null,
         driver: null,
+        estado: false
       },
       driverList: [],
     };
@@ -166,6 +176,7 @@ export default {
       this.vehicle.city = this.vehicleprop.ciudad;
       this.vehicle.type = this.vehicleprop.tipo;
       this.vehicle.driver = this.vehicleprop.conductor;
+      this.vehicle.estado = this.vehicleprop.estado == 1 ? true : false;
     }
   },
   methods: {
@@ -243,6 +254,7 @@ export default {
       params.ciudad = this.vehicle.city;
       params.tipo = this.vehicle.type;
       params.conductor = this.vehicle.driver;
+      params.estado = this.vehicle.estado;
       await axios
         .patch("/api/vehiculos", params)
         .then(() => {

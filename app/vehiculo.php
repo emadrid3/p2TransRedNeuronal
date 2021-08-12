@@ -16,7 +16,8 @@ class vehiculo extends Model
         'placa',
         'ciudad',
         'tipo',
-        'conductor'
+        'conductor',
+        'estado'
     ];
 
     public function driver() {

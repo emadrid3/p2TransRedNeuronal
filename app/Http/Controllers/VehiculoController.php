@@ -34,6 +34,9 @@ class VehiculoController extends Controller
             if( !is_null($request->input('conductor')) ){
                 $vehicle->conductor = $request->input('conductor');
             }
+            if( !is_null($request->input('estado')) ){
+                $vehicle->estado = $request->input('estado');
+            }
             $vehicle->save();
             return response()->json(['message' => 'Vehiculo actualizado satisfactoriamente']);
         } catch (\Exception $e) {
@@ -73,6 +76,7 @@ class VehiculoController extends Controller
             $vehicle->ciudad = $request->input('city');
             $vehicle->tipo = $request->input('type');
             $vehicle->conductor = $request->input('driver');
+            $vehicle->estado = $request->input('estado');
             $vehicle->save();
 
             return response()->json(['message' => 'Vehiculo creado satisfactoriamente']);

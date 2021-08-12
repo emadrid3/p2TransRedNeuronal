@@ -58,9 +58,9 @@
           <el-tag type="warning" v-else>N/A</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="estado" label="Estado">
-        <template>
-          <el-tag>Activo</el-tag>
+      <el-table-column prop="estado" label="Estado" :width="100">
+        <template slot-scope="props">
+          <el-tag>{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" width="250">
