@@ -31,9 +31,9 @@
           </el-alert>
           <br />
           <b-container>
-            <label for="">Nombre:</label>
+            <label for="">Nombre Completo:</label>
             <el-input
-              placeholder="Please input"
+              placeholder="Nombre completo"
               v-model="driver.nombre"
             ></el-input>
           </b-container>
@@ -41,7 +41,7 @@
           <b-container>
             <label for="">Cedula:</label>
             <el-input
-              placeholder="Please input"
+              placeholder="Cedula"
               v-model="driver.cedula"
             ></el-input>
           </b-container>
@@ -49,7 +49,7 @@
           <b-container>
             <label for="">Celular:</label>
             <el-input
-              placeholder="Please input"
+              placeholder="Celular"
               v-model="driver.celular"
             ></el-input>
           </b-container>
@@ -111,26 +111,46 @@ export default {
     goTo(location) {
       window.location.href = location;
     },
-
+    validate() {
+      if (!this.driver.nombre) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese un nombre completo";
+        return false;
+      } else if (!this.driver.cedula) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese una cedula";
+        return false;
+      } else if (!this.driver.celular) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese un celular";
+        return false;
+      } else {
+        this.isError = false;
+        this.msgError = "";
+        return true;
+      }
+    },
     create() {
-      axios
-        .post("/api/conductores", this.driver)
-        .then(() => {
-          this.swal({
-            title: "Usuario creado correctamente",
-            icon: "success",
-          }).then(() => {
-            this.goTo("/conductores");
+      if (this.validate()) {
+        axios
+          .post("/api/conductores", this.driver)
+          .then(() => {
+            this.swal({
+              title: "Usuario creado correctamente",
+              icon: "success",
+            }).then(() => {
+              this.goTo("/conductores");
+            });
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
           });
-        })
-        .catch(() => {
-          this.swal({
-            title: "Algo salio mal",
-            text: "Por favor intentelo nuevamente",
-            icon: "error",
-            button: "OK",
-          });
-        });
+      }
     },
 
     async edit() {
