@@ -31,9 +31,9 @@
           </el-alert>
           <br />
           <b-container>
-            <label for="">Nombre:</label>
+            <label for="">Nombre Completo:</label>
             <el-input
-              placeholder="Please input"
+              placeholder="Ingrese un nombre completo"
               v-model="driver.nombre"
             ></el-input>
           </b-container>
@@ -41,7 +41,7 @@
           <b-container>
             <label for="">Cedula:</label>
             <el-input
-              placeholder="Please input"
+              placeholder="Ingrese una cedula"
               v-model="driver.cedula"
             ></el-input>
           </b-container>
@@ -49,23 +49,18 @@
           <b-container>
             <label for="">Celular:</label>
             <el-input
-              placeholder="Please input"
+              placeholder="Ingrese un celular"
               v-model="driver.celular"
             ></el-input>
           </b-container>
           <br />
           <b-container>
             <label>Estado:</label>
-            <el-checkbox
-              v-model="checked1"
-              label="Activo"
-              border
-            ></el-checkbox>
-            <el-checkbox
-              v-model="checked1"
-              label="Inactivo"
-              border
-            ></el-checkbox>
+            <b-form-checkbox size="lg" v-model="driver.estado" switch
+              ><span>
+                {{ driver.estado == true ? "Inactivar" : "Activar" }}
+              </span></b-form-checkbox
+            >
           </b-container>
           <br />
         </el-card>
@@ -100,41 +95,62 @@ export default {
         nombre: "",
         cedula: "",
         celular: "",
+        estado: false,
       },
     };
   },
   created() {
-    console.log(this);
     if (this.driverprop != null) {
       this.driver.nombre = this.driverprop.nombre;
       this.driver.cedula = this.driverprop.cedula;
       this.driver.celular = this.driverprop.celular;
+      this.driver.estado = this.driverprop.estado == 1 ? true : false;
     }
   },
   methods: {
     goTo(location) {
       window.location.href = location;
     },
-
+    validate() {
+      if (!this.driver.nombre) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese un nombre completo";
+        return false;
+      } else if (!this.driver.cedula) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese una cedula";
+        return false;
+      } else if (!this.driver.celular) {
+        this.isError = true;
+        this.msgError = "Por favor ingrese un celular";
+        return false;
+      } else {
+        this.isError = false;
+        this.msgError = "";
+        return true;
+      }
+    },
     create() {
-      axios
-        .post("/api/conductores", this.driver)
-        .then(() => {
-          this.swal({
-            title: "Usuario creado correctamente",
-            icon: "success",
-          }).then(() => {
-            this.goTo("/conductores");
+      if (this.validate()) {
+        axios
+          .post("/api/conductores", this.driver)
+          .then(() => {
+            this.swal({
+              title: "Conductor creado correctamente",
+              icon: "success",
+            }).then(() => {
+              this.goTo("/conductores");
+            });
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
           });
-        })
-        .catch(() => {
-          this.swal({
-            title: "Algo salio mal",
-            text: "Por favor intentelo nuevamente",
-            icon: "error",
-            button: "OK",
-          });
-        });
+      }
     },
 
     async edit() {
@@ -143,6 +159,7 @@ export default {
       params.nombre = this.driver.nombre;
       params.cedula = this.driver.cedula;
       params.celular = this.driver.celular;
+      params.estado = this.driver.estado;
       await axios
         .patch("/api/conductores", params)
         .then(() => {

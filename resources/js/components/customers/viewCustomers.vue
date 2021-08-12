@@ -36,13 +36,13 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="nombre" label="Nombre"> </el-table-column>
-      <el-table-column prop="nit" label="Nit"> </el-table-column>
-      <el-table-column prop="razonSocial" label="Razon social" :min-width="200">
+      <el-table-column prop="nombre" label="Nombre" sortable> </el-table-column>
+      <el-table-column prop="nit" label="Nit" sortable> </el-table-column>
+      <el-table-column prop="razonSocial" label="Razon social" :min-width="200" sortable>
       </el-table-column>
-      <el-table-column prop="estado" label="Estado" :width="100">
-        <template>
-          <el-tag>Inactivo</el-tag>
+      <el-table-column prop="estado" label="Estado" :width="100" sortable>
+        <template slot-scope="props">
+          <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" :width="130">
@@ -72,7 +72,7 @@
           @size-change="getCustomers"
           @current-change="getCustomerPerPage"
           :current-page.sync="currentPage"
-          :page-sizes="[5, 10, 20, 50]"
+          :page-sizes="[5, 10, 20, 50, 200]"
           :page-size="sizeData"
           layout="sizes, prev, pager, next"
           :total="totalData"
@@ -168,7 +168,6 @@ export default {
               this.getCustomerPerPage(this.currentPage);
             })
             .catch((error) => {
-              console.log(error);
               this.isLoading = false;
               this.swal({
                 title: "Algo salio mal",

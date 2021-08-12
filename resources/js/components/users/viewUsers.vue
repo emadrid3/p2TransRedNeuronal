@@ -36,9 +36,9 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="name" label="Nombre Completo"> </el-table-column>
+      <el-table-column prop="name" label="Nombre Completo" sortable> </el-table-column>
       <el-table-column prop="email" label="Correo"> </el-table-column>
-      <el-table-column prop="rol" label="Rol">
+      <el-table-column prop="rol" label="Rol" sortable>
         <template slot-scope="props">
           <el-tag> {{ props.row.user.rol }} </el-tag>
         </template>

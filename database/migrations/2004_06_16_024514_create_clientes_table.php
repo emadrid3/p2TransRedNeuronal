@@ -18,6 +18,7 @@ class CreateClientesTable extends Migration
             $table->string('nombre');
             $table->string('nit');
             $table->string('razonSocial');
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }

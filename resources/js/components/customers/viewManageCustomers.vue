@@ -55,6 +55,15 @@
             v-model="customer.razonSocial"
           ></el-input>
         </b-container>
+        <br />
+        <b-container>
+          <label>Estado:</label>
+          <b-form-checkbox size="lg" v-model="customer.estado" switch
+            ><span>
+              {{ customer.estado == true ? "Inactivar" : "Activar" }}
+            </span></b-form-checkbox
+          >
+        </b-container>
       </el-card>
 
       <b-container class="buttons-form">
@@ -87,19 +96,18 @@ export default {
         id: "",
         nombre: "",
         nit: "",
-        razonSocial: ""
+        razonSocial: "",
+        estado: false,
       },
     };
   },
   created() {
-    console.log(this);
-    console.log(this.customerprop)
-    console.log(this.customer)
     if (this.customerprop != null) {
       this.customer.id = this.customerprop.id;
       this.customer.nombre = this.customerprop.nombre;
       this.customer.nit = this.customerprop.nit;
       this.customer.razonSocial = this.customerprop.razonSocial;
+      this.customer.estado = this.customerprop.estado == 1 ? true : false;
     }
   },
 
@@ -136,6 +144,8 @@ export default {
             this.swal({
               title: "Cliente creado correctamente",
               icon: "success",
+            }).then(() => {
+              this.goTo("/clientes");
             });
           })
           .catch(() => {
@@ -155,14 +165,15 @@ export default {
         params.nombre = this.customer.nombre;
         params.nit = this.customer.nit;
         params.razonSocial = this.customer.razonSocial;
+        params.estado = this.customer.estado;
         axios
           .patch("/api/cliente", params)
           .then(() => {
             this.swal({
               title: "Cliente actualizado correctamente",
               icon: "success",
-            }).then(()=> {
-              this.goTo('/clientes');
+            }).then(() => {
+              this.goTo("/clientes");
             });
           })
           .catch(() => {

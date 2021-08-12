@@ -15,6 +15,7 @@ class cliente extends Model
         'id',
         'nombre',
         'nit',
-        'razonSocial'
+        'razonSocial',
+        'estado'
     ];
 }

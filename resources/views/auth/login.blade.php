@@ -37,29 +37,9 @@
                     </span>
                 @enderror
             </div>
-            <div class="remember">
-            <b-form-checkbox
-                class="remember__checkbox"
-                name="remember" 
-                id="remember" 
-                {{ old('remember') ? 'checked' : '' }}
-            >
-                Recuerdame
-            </b-form-checkbox>
-            </div>
-            <div class="remember">
-            <b-button
-                class="remember__button"
-                variant="link"
-                >Olvido su contraseña?</b-button
-            >
-            </div>
-
             <div class="submit">
-
-            <button type="submit" class="btn btn-success btn-block submit__button">Ingresar <i class="fas fa-sign-in-alt"></i></b-button
-                >
-            </div>   
+            <button type="submit" class="btn btn-success btn-block submit__button">Ingresar <i class="fas fa-sign-in-alt"></i></b-button>
+            </div>
         </form>
     </div>
 </div>

@@ -36,31 +36,31 @@
       style="width: 100%"
       max-height="420"
     >
-     <el-table-column prop="placa" label="Placa">
+      <el-table-column prop="placa" label="Placa" sortable>
         <template slot-scope="props">
           <span v-if="props.row.placa != null">{{props.row.placa.toUpperCase()}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ciudad" label="Ciudad">
+      <el-table-column prop="ciudad" label="Ciudad" sortable>
         <template slot-scope="props">
           <span v-if="props.row.ciudad != null">{{props.row.ciudad.toUpperCase()}}</span>
           <el-tag type="warning" v-else>N/A</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="tipo" label="Tipo">
+      <el-table-column prop="tipo" label="Tipo" sortable>
         <template slot-scope="props">
           {{props.row.tipo.toUpperCase()}}
         </template>
       </el-table-column>
-      <el-table-column prop="conductor" label="Conductor">
+      <el-table-column prop="conductor" label="Conductor" sortable>
         <template slot-scope="props">
           <span v-if="props.row.conductor != null">{{props.row.driver.nombre}}</span>
           <el-tag type="warning" v-else>N/A</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="estado" label="Estado">
-        <template>
-          <el-tag>Activo</el-tag>
+      <el-table-column prop="estado" label="Estado" :width="100" sortable>
+        <template slot-scope="props">
+          <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" width="250">
@@ -90,7 +90,7 @@
           @size-change="getVehicles"
           @current-change="getVehiclePerPage"
           :current-page.sync="currentPage"
-          :page-sizes="[5, 10, 20, 50]"
+          :page-sizes="[5, 10, 20, 50, 100]"
           :page-size="sizeData"
           layout="sizes, prev, pager, next"
           :total="totalData"
@@ -188,7 +188,6 @@ export default {
               this.getVehiclePerPage(this.currentPage);
             })
             .catch((error) => {
-              console.log(error);
               this.isLoading = false;
               this.swal({
                 title: "Algo salio mal",

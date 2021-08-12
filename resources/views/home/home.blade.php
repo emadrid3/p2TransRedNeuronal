@@ -41,7 +41,7 @@
       <i class="fas fa-wallet fa-4x" style="color: blue;"></i>
     </div>
     <div style="display: flex; flex-direction: column; padding: 10px; border: 2px solid #ECECEC;">
-      <span>Total facturaciòn</span>
+      <span>Total facturación</span>
       <h2><b style="font-size: 40px;">$5'000.000</b></h2>
     </div>
   </div>

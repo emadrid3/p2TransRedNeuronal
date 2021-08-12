@@ -19,6 +19,7 @@ class CreateVehiculosTable extends Migration
             $table->string('ciudad')->nullable();
             $table->enum('tipo',array('propio','tercero'));
             $table->unsignedBigInteger('conductor')->nullable();
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }
