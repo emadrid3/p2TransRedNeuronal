@@ -80,4 +80,20 @@ class VehiculoController extends Controller
            throw $e;
         }
     }
+
+    public function search(Request $request){
+        
+
+            $dataToSearch = $request->input('search');
+            $size = $request->input('size');
+
+            $response = vehiculo::with('driver')
+            ->where('placa', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('ciudad', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('tipo', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('conductor', 'like', '%'.$dataToSearch.'%')
+            ->paginate($size);
+            return response()->json($response);
+        
+    }
 }

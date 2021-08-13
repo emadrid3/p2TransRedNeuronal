@@ -20,4 +20,26 @@ class HistorialController extends Controller
            throw $e;
         }
     }
+
+    public function search(Request $request){
+    
+        try {
+
+            $dataToSearch = $request->input('search');
+            $size = $request->input('size');
+
+            $response = historial::where('placa', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('tipoVehiculo', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('tipo', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('conductor', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('origen', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('destino', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('cliente', 'like', '%'.$dataToSearch.'%')
+            ->paginate($size);
+            return response()->json($response);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+
+    }
 }

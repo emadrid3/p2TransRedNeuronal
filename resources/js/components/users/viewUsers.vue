@@ -32,27 +32,17 @@
     <!-- This b-row ahead is for search functionality  -->
     <b-row>
       <b-col lg="12" md="auto">
-      <div class="search-fields">
-        
-        <div class="search-fields__field">
-          <el-input placeholder="Buscar por nombre" v-model="toSearch.name"></el-input>
-          <el-button
-          class="button-search"
-          type="success"
-          @click="isSearchingFor = 'name';search(5,'searchByName',{ params: { size: 5, name: toSearch.name } });"
-          ><i class="fas fa-search"></i></el-button
-        >
+      <div class="search-container">
+        <div>
+          <el-input placeholder="Buscar" v-model="toSearch"></el-input>
         </div>
-        
-        
-        <div class="search-fields__field">
-          <el-input placeholder="Buscar por correo" v-model="toSearch.email"></el-input>
+        <div>
           <el-button
-          class="button-search"
-          type="success"
-          @click="isSearchingFor = 'email';search(5,'searchByEmail',{ params: { size: 5, email: toSearch.email } });"
-          ><i class="fas fa-search"></i></el-button
-        >
+            class="button-search"
+            type="success"
+            @click="search(5,{ params: { size: 5, search: toSearch } });"
+            ><i class="fas fa-search"></i></el-button
+          >
         </div>
 
       </div>
@@ -134,11 +124,8 @@ export default {
   },
   data() {
     return {
-      toSearch: {
-        name: "",
-        email: ""
-      },
-      isSearchingFor: "",
+      toSearch: "",
+
       isLoading: false,
       currentPage: null,
       sizeData: null,
@@ -153,20 +140,19 @@ export default {
 
     reset(){
       this.currentPage = 1;
-      this.toSearch.name = "";
-      this.toSearch.email = "";
+      this.toSearch = "";
       this.isSearchingFor = "";
       this.getUser(5);
     },
 
-    search(size, route, param){
+    search(size, param){
 
       this.sizeData = size;
       this.isLoading = true;
       axios
-        .get("/api/usuarios/"+route, param)
+        .get("/api/usuarios/search", param)
         .then((response) => {
-          console.log(response)
+          //console.log(response)
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;
           this.totalData = response.data.total;
@@ -191,18 +177,38 @@ export default {
       this.sizeData = size;
       this.isLoading = true;
 
-      if(this.isSearchingFor == "name"){
+      axios
+      .get("/api/usuarios", { params: { size: size } })
+      .then((response) => {
+        this.tableData = response.data.data;
+        this.sizeData = response.data.per_page;
+        this.totalData = response.data.total;
+        this.isLoading = false;
+      })
+      .catch((error) => {
+        this.isLoading = false;
+        this.swal({
+          title: "Algo salio mal",
+          text: "Por favor intentelo nuevamente",
+          icon: "error",
+          button: "OK",
+        });
+      });
+    },
+
+    getUserPerPage(page) {
+
+      this.currentPage = page;
+      this.isLoading = true;
+
+      if(this.toSearch != ""){
         
-        this.search(size, "searchByName", { params: { size: size, name: this.toSearch.name } });
-
-      }else if(this.isSearchingFor == "email"){
-
-        this.search(size, "searchByEmail", { params: { size: size, email: this.toSearch.email } });
-
+        this.search(this.sizeData,{ params: { page: page, size: this.sizeData, search: this.toSearch } });
+      
       }else{
-        
+
         axios
-        .get("/api/usuarios", { params: { size: size } })
+        .get("/api/usuarios", { params: { page: page, size: this.sizeData } })
         .then((response) => {
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;
@@ -218,41 +224,7 @@ export default {
             button: "OK",
           });
         });
-      }
-    },
 
-    getUserPerPage(page) {
-
-      this.currentPage = page;
-      this.isLoading = true;
-
-      if(this.isSearchingFor == "name"){
-        
-        this.search(this.sizeData, 'searchByName',{ params: { page: page, size: this.sizeData, name: this.toSearch.name } });    
-
-      }else if(this.isSearchingFor == "email"){
-
-        this.search(this.sizeData, 'searchByEmail',{ params: { page: page, size: this.sizeData, email: this.toSearch.email } });
-
-      }else{
-
-        axios
-          .get("/api/usuarios", { params: { page: page, size: this.sizeData } })
-          .then((response) => {
-            this.tableData = response.data.data;
-            this.sizeData = response.data.per_page;
-            this.totalData = response.data.total;
-            this.isLoading = false;
-          })
-          .catch((error) => {
-            this.isLoading = false;
-            this.swal({
-              title: "Algo salio mal",
-              text: "Por favor intentelo nuevamente",
-              icon: "error",
-              button: "OK",
-            });
-          });
       }
     },
 
@@ -307,8 +279,8 @@ export default {
 
 ::v-deep .button-search {
   background-color: #007900;
-  margin-top: 10px;
-  height: 30px;
+  margin: 0 20px 0 20px;
+  height: 40px;
   width: 40px;
   padding-left: 10px;
   padding-top: 0;
@@ -322,15 +294,7 @@ export default {
 
 .search-container{
   display: flex;
-}
-
-.search-fields{
-  display: flex;
   margin-top: 20px;
-
-  &__field {
-    margin-right: 20px;
-  }
 }
 
 .button-reset {
@@ -345,7 +309,6 @@ export default {
     background-color: #019901;
   }
 }
-
 
 .table-main {
   margin-top: 20px;
