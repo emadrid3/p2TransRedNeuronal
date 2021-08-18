@@ -64,6 +64,7 @@ Route::delete('/api/usuario', 'UsuarioController@delete')->middleware('auth');
 Route::get('/api/usuarios', 'UsuarioController@list')->middleware('auth');
 Route::get('/api/get-roles', 'UsuarioController@getRoles')->middleware('auth');
 Route::get('/api/usuarios-search', 'UsuarioController@searchByParams')->middleware('auth');
+Route::get('/api/usuarios/search', 'UsuarioController@search')->middleware('auth');
 
 //CONDUCTORES
 
@@ -72,6 +73,7 @@ Route::patch('/api/conductores', 'ConductorController@update')->middleware('auth
 Route::delete('/api/conductores', 'ConductorController@delete')->middleware('auth');
 Route::get('/api/conductores', 'ConductorController@list')->middleware('auth');
 Route::get('/api/conductores-search', 'ConductorController@searchByParams')->middleware('auth');
+Route::get('/api/conductores/search', 'ConductorController@search')->middleware('auth');
 
 
 //LOGISTICA
@@ -84,9 +86,12 @@ Route::patch('/api/cliente', 'ClienteController@update')->middleware('auth');
 Route::delete('/api/cliente', 'ClienteController@delete')->middleware('auth');
 Route::get('/api/cliente', 'ClienteController@list')->middleware('auth');
 Route::get('/api/cliente-search', 'ClienteController@searchByParams')->middleware('auth');
+Route::get('/api/cliente/search', 'ClienteController@search')->middleware('auth');
+
 
 //HISTORIAL
 Route::get('/api/historial', 'HistorialController@list')->middleware('auth');
+Route::get('/api/historial/search', 'HistorialController@search')->middleware('auth');
 
 //VEHICULO
 Route::post('/api/vehiculos', 'VehiculoController@create')->middleware('auth');
@@ -100,3 +105,4 @@ Route::get('/api/tipo-vehiculo-search', 'TipoVehiculoController@searchByParams')
 
 //CIUDADES
 Route::get('/api/ciudades-search', 'CiudadController@searchByParams')->middleware('auth');
+Route::get('/api/vehiculos/search', 'VehiculoController@search')->middleware('auth');

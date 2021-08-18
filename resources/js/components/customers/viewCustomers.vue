@@ -28,6 +28,34 @@
       </b-col>
     </b-row>
 
+    <!-- This b-row ahead is for search functionality  -->
+    <b-row>
+      <b-col lg="12" md="auto">
+        <div class="search-container">
+          <div>
+            <el-input placeholder="Buscar" v-model="toSearch"></el-input>
+          </div>
+          <div>
+            <el-button
+              class="button-search"
+              type="success"
+              @click="search(5, { params: { size: 5, search: toSearch } })"
+              ><i class="fas fa-search"></i
+            ></el-button>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+
+    <b-row>
+      <b-col lg="1" md="auto">
+        <el-button class="button-reset" type="success" @click="reset()"
+          ><i class="fas fa-list"></i>Mostrar todos</el-button
+        >
+      </b-col>
+    </b-row>
+    <!-- Ends b-row for search functionality  -->
+
     <el-table
       v-if="!isLoading"
       :data="tableData"
@@ -38,11 +66,18 @@
     >
       <el-table-column prop="nombre" label="Nombre" sortable> </el-table-column>
       <el-table-column prop="nit" label="Nit" sortable> </el-table-column>
-      <el-table-column prop="razonSocial" label="Razon social" :min-width="200" sortable>
+      <el-table-column
+        prop="razonSocial"
+        label="Razon social"
+        :min-width="200"
+        sortable
+      >
       </el-table-column>
       <el-table-column prop="estado" label="Estado" :width="100" sortable>
         <template slot-scope="props">
-          <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
+          <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{
+            props.row.estado == 1 ? "Activo" : "Inactivo"
+          }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" :width="130">
@@ -92,6 +127,8 @@ export default {
   },
   data() {
     return {
+      toSearch: "",
+
       isLoading: false,
       currentPage: null,
       sizeData: null,
@@ -103,6 +140,36 @@ export default {
     this.getCustomers(5);
   },
   methods: {
+    reset() {
+      this.currentPage = 1;
+      this.toSearch = "";
+      this.isSearchingFor = "";
+      this.getCustomers(5);
+    },
+
+    search(size, param) {
+      this.sizeData = size;
+      this.isLoading = true;
+      axios
+        .get("/api/cliente/search", param)
+        .then((response) => {
+          //console.log(response)
+          this.tableData = response.data.data;
+          this.sizeData = response.data.per_page;
+          this.totalData = response.data.total;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
+
     goTo(location) {
       window.location.href = location;
     },
@@ -132,23 +199,30 @@ export default {
     getCustomerPerPage(page) {
       this.currentPage = page;
       this.isLoading = true;
-      axios
-        .get("/api/cliente", { params: { page: page, size: this.sizeData } })
-        .then((response) => {
-          this.tableData = response.data.data;
-          this.sizeData = response.data.per_page;
-          this.totalData = response.data.total;
-          this.isLoading = false;
-        })
-        .catch((error) => {
-          this.isLoading = false;
-          this.swal({
-            title: "Algo salio mal",
-            text: "Por favor intentelo nuevamente",
-            icon: "error",
-            button: "OK",
-          });
+
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: page, size: this.sizeData, search: this.toSearch },
         });
+      } else {
+        axios
+          .get("/api/cliente", { params: { page: page, size: this.sizeData } })
+          .then((response) => {
+            this.tableData = response.data.data;
+            this.sizeData = response.data.per_page;
+            this.totalData = response.data.total;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            this.isLoading = false;
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
     },
 
     deleteCustomer(id) {
@@ -224,5 +298,38 @@ export default {
 
 ::v-deep .el-table td {
   padding: 3px;
+}
+
+::v-deep .button-search {
+  background-color: #007900;
+  margin: 0 20px 0 20px;
+  height: 40px;
+  width: 40px;
+  padding-left: 10px;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+
+  &:hover {
+    background-color: #019901;
+  }
+}
+
+.search-container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.button-reset {
+  background-color: #007900;
+  margin-top: 10px;
+  height: 30px;
+  padding-left: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &:hover {
+    background-color: #019901;
+  }
 }
 </style>
