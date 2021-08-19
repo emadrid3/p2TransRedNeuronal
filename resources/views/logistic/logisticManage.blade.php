@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<view-manage-logistic></view-manage-logistic>
+
+@if ($logistica != null)
+    <view-manage-logistic :logisticaprop="{{$logistica}}"></view-manage-logistic>
+@else
+    <view-manage-logistic></view-manage-logistic>
+@endif
+
 @endsection

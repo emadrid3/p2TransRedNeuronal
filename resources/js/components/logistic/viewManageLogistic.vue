@@ -26,21 +26,65 @@
           <div class="block">
             <b-container>
               <b-row>
-                <b-col md="3" sm="6">
-                  <h1 style="color: #007900">FACTURA #</h1>
+                <b-col
+                  md="3"
+                  sm="6"
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                  "
+                >
+                  <h4 style="color: #007900">FACTURA #</h4>
                 </b-col>
                 <b-col md="9" sm="6">
-                  <el-input v-model="logistic.bill_number" style="font-size: 40px;"></el-input>
-                </b-col>
-              </b-row><b-row>
-                <b-col md="3" sm="6">
-                  <h1 style="color: #007900">ORDENES #</h1>
-                </b-col>
-                <b-col md="9" sm="6">
-                  <el-input v-model="logistic.order_number" style="font-size: 25px;"></el-input>
+                  <el-input
+                    v-model="logistic.bill_number"
+                    style="font-size: 25px"
+                  ></el-input>
                 </b-col>
               </b-row>
-              <hr>
+              <br />
+              <b-row>
+                <b-col
+                  md="3"
+                  sm="6"
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                  "
+                >
+                  <h4 style="color: #007900">ORDEN #</h4>
+                </b-col>
+                <b-col md="9" sm="6">
+                  <el-input
+                    v-model="logistic.order_number"
+                    style="font-size: 25px"
+                  ></el-input>
+                </b-col>
+              </b-row>
+              <br />
+              <b-row>
+                <b-col
+                  md="3"
+                  sm="6"
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                  "
+                >
+                  <h4 style="color: #007900">FACTURAS CLIENTE #</h4>
+                </b-col>
+                <b-col md="9" sm="6">
+                  <el-input
+                    v-model="logistic.customer_number"
+                    style="font-size: 25px"
+                  ></el-input>
+                </b-col>
+              </b-row>
+              <hr />
             </b-container>
             <b-container>
               <b-row>
@@ -99,7 +143,7 @@
                     v-model="logistic.date"
                     type="date"
                     placeholder="Seleccione una fecha"
-                    value-format="dd-MM-yyyy"
+                    value-format="yyyy-MM-dd"
                   >
                   </el-date-picker>
                 </b-col>
@@ -125,7 +169,6 @@
                     reserve-keyword
                     placeholder="Ingrese la placa del vehículo"
                     :remote-method="remoteMethodVehicle"
-                    :loading="loadingManagment"
                   >
                     <el-option
                       v-for="item in listVehicles"
@@ -191,6 +234,25 @@
                             ></el-input-number>
                           </el-table-column>
                         </el-table>
+                      </b-col>
+                    </b-row>
+                    <b-row v-else>
+                      <b-col
+                        md="6"
+                        sm="12"
+                        style="
+                          display: flex;
+                          flex-direction: column;
+                          justify-content: center;
+                        "
+                      >
+                        <h4 style="color: #007900">VALOR VIAJE</h4>
+                      </b-col>
+                      <b-col md="6" sm="12">
+                        <el-input
+                          v-model="logistic.freight"
+                          style="font-size: 25px"
+                        ></el-input>
                       </b-col>
                     </b-row>
                   </b-container>
@@ -302,7 +364,7 @@
                 <hr />
                 <h5 style="color: #007900; font-size: 25px">
                   <small>Gestionar</small>
-                  <b>Tipo de carga <i class="el-icon-s-grid"></i></b>
+                  <b>Tipo de vehiculo <i class="el-icon-s-grid"></i></b>
                 </h5>
                 <hr />
               </div>
@@ -323,6 +385,39 @@
                       v-for="item in listType"
                       :key="item.id"
                       :label="item.tipo"
+                      :value="item.id"
+                    >
+                    </el-option>
+                  </el-select>
+                </b-col>
+              </b-row>
+            </b-container>
+            <b-container>
+              <div class="el-divider-logistic">
+                <hr />
+                <h5 style="color: #007900; font-size: 25px">
+                  <small>Gestionar</small>
+                  <b>Tipo de carga <i class="el-icon-s-grid"></i></b>
+                </h5>
+                <hr />
+              </div>
+            </b-container>
+            <b-container>
+              <b-row>
+                <b-col md="12" sm="12">
+                  <el-select
+                    v-model="logistic.charge"
+                    filterable
+                    value-key="id"
+                    remote
+                    reserve-keyword
+                    placeholder="Seleccione un tipo de carga"
+                    :remote-method="remoteMethodCharge"
+                  >
+                    <el-option
+                      v-for="item in listCarga"
+                      :key="item.id"
+                      :label="item.tipoCarga"
                       :value="item.id"
                     >
                     </el-option>
@@ -473,19 +568,21 @@
 <script>
 export default {
   name: "UserManage",
-  props: ["userprop"],
+  props: ["logisticaprop"],
   data() {
     return {
       listUsers: [],
       listVehicles: [],
       listDrivers: [],
       listType: [],
+      listCarga: [],
       listCustomer: [],
       listCities: [],
 
       logistic: {
         bill_number: null,
         order_number: null,
+        customer_number: null,
         user: null,
         date: null,
         vehicle: null,
@@ -495,6 +592,7 @@ export default {
         driver: null,
         travel: [],
         type: null,
+        charge: null,
         customer: null,
         extra: [],
         description: null,
@@ -503,6 +601,32 @@ export default {
   },
   created() {
     this.logistic.travel.push(null);
+
+    if (this.logisticaprop != null) {
+      this.logistic.bill_number = this.logisticaprop.numero_factura;
+      this.logistic.order_number = this.logisticaprop.numero_orden;
+      this.logistic.customer_number = this.logisticaprop.numero_factura_cliente;
+      this.listUsers.push(this.logisticaprop.encargado);
+      this.logistic.user = this.logisticaprop.encargado;
+      this.logistic.date = this.logisticaprop.fecha;
+      this.listVehicles.push(this.logisticaprop.vehiculo);
+      this.logistic.vehicle = this.logisticaprop.vehiculo;
+      this.listDrivers.push(this.logisticaprop.conductor);
+      this.logistic.driver = this.logisticaprop.conductor;
+      this.logistic.freight = this.logisticaprop.flete;
+      this.logistic.advance = this.logisticaprop.anticipo;
+      this.logistic.discount = this.logisticaprop.descuento;
+      this.listCities.push(...JSON.parse(this.logisticaprop.trayecto));
+      this.logistic.travel = JSON.parse(this.logisticaprop.trayecto);
+      this.listType.push(this.logisticaprop.tipo);
+      this.logistic.type = this.logisticaprop.tipo.id;
+      this.listCarga.push(this.logisticaprop.carga);
+      this.logistic.charge = this.logisticaprop.carga.id;
+      this.listCustomer.push(this.logisticaprop.cliente);
+      this.logistic.customer = this.logisticaprop.cliente;
+      this.logistic.extra = JSON.parse(this.logisticaprop.extra);
+      this.logistic.description = this.logisticaprop.descripcion;
+    }
   },
   methods: {
     goTo(location) {
@@ -649,6 +773,27 @@ export default {
           });
       } else {
         this.listType = [];
+      }
+    },
+    remoteMethodCharge(query) {
+      if (query !== "") {
+        axios
+          .get("/api/tipo-carga", {
+            params: { size: 10, input: query },
+          })
+          .then((response) => {
+            this.listCarga = response.data.data;
+          })
+          .catch(() => {
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      } else {
+        this.listCarga = [];
       }
     },
     remoteMethodCustomer(query) {

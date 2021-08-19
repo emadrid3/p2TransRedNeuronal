@@ -14,7 +14,14 @@ class LogisticaController extends Controller
     }
     public function manageLogistic()
     {
-        return view('logistic.logisticManage');
+        $logistica = null;
+        return view('logistic.logisticManage', ['logistica' => $logistica]);
+    }
+
+    public function editLogistic($id)
+    {
+        $logistica = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('cliente')->with('carga')->with('tipo')->find($id);
+        return view('logistic.logisticManage', ['logistica' => $logistica]);
     }
 
     public function create(Request $request)
@@ -23,6 +30,7 @@ class LogisticaController extends Controller
             $logistica = new logistica();
             $logistica->numero_factura = NULL;
             $logistica->numero_orden = NULL;
+            $logistica->numero_factura_cliente = NULL;
             $logistica->encargado_id = NULL;
             $logistica->fecha = NULL;
             $logistica->vehiculo_id = NULL;
@@ -34,12 +42,17 @@ class LogisticaController extends Controller
             $logistica->destino = NULL;
             $logistica->trayecto = NULL;
             $logistica->carga_id = NULL;
+            $logistica->tipo_id = NULL;
             $logistica->cliente_id = NULL;
             $logistica->extra = NULL;
             $logistica->extra_total = 0;
             $logistica->descripcion = NULL;
             $logistica->factura_total = 0;
             $sum = 0;
+
+            $logistica->estado = "en proceso";
+
+
 
             if($request->input('bill_number') != NULL || $request->input('bill_number') != ""){
                 $logistica->numero_factura = $request->input('bill_number');
@@ -48,13 +61,17 @@ class LogisticaController extends Controller
             if($request->input('order_number') != NULL || $request->input('order_number') != ""){
                 $logistica->numero_orden = $request->input('order_number');
             }
+            
+            if($request->input('customer_number') != NULL || $request->input('customer_number') != ""){
+                $logistica->numero_factura_cliente = $request->input('customer_number');
+            }
 
             if($request->input('user') != NULL){
                 $logistica->encargado_id = $request->input('user')['id'];
             }
 
             if($request->input('date') != NULL || $request->input('date') != ""){
-                $logistica->fecha = Carbon::createFromFormat('d-m-Y',$request->input('date'));
+                $logistica->fecha = Carbon::createFromFormat('Y-m-d',$request->input('date'));
             }
 
             if($request->input('vehicle') != NULL){
@@ -87,8 +104,12 @@ class LogisticaController extends Controller
                 $logistica->trayecto = json_encode($request->input('travel'));
             }
 
+            if($request->input('charge') != NULL){
+                $logistica->carga_id = $request->input('charge');
+            }
+
             if($request->input('type') != NULL){
-                $logistica->carga_id = $request->input('type');
+                $logistica->tipo_id = $request->input('type');
             }
 
             if($request->input('customer') != NULL){
@@ -115,7 +136,7 @@ class LogisticaController extends Controller
                 }
             }
 
-            $logistica->factura_total = $sum;
+            $logistica->factura_total = $sum + $request->input('freight');
             
             $logistica->save();
 

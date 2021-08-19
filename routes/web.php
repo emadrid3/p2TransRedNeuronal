@@ -40,6 +40,7 @@ Route::get('/conductores-manage/{id}', 'ConductorController@editDrivers')->middl
 //PANTALLA LOGISTICA
 Route::get('/logistica', 'LogisticaController@index')->middleware('auth');
 Route::get('/logistica-manage', 'LogisticaController@manageLogistic')->middleware('auth');
+Route::get('/logistica-manage/{id}', 'LogisticaController@editLogistic')->middleware('auth');
 
 //PANTALLA CLIENTES
 Route::get('/clientes', 'ClienteController@index')->middleware('auth');
@@ -102,6 +103,9 @@ Route::get('/api/vehiculo-search', 'VehiculoController@searchByParams')->middlew
 
 //TIPO VEHICULO
 Route::get('/api/tipo-vehiculo-search', 'TipoVehiculoController@searchByParams')->middleware('auth');
+
+//TIPO CARGA
+Route::get('/api/tipo-carga', 'CargaController@searchByParams')->middleware('auth');
 
 //CIUDADES
 Route::get('/api/ciudades-search', 'CiudadController@searchByParams')->middleware('auth');

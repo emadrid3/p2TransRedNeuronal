@@ -15,6 +15,7 @@ class logistica extends Model
         'id',
         'numero_factura',
         'numero_orden',
+        'numero_factura_cliente',
         'encargado_id',
         'fecha',
         'vehiculo_id',
@@ -26,10 +27,31 @@ class logistica extends Model
         'destino',
         'trayecto',
         'carga_id',
+        'tipo_id',
         'cliente_id',
         'extra',
         'extra_total',
         'descripcion',
-        'factura_total'
+        'factura_total',
+        'estado'
     ];
+
+    public function encargado() {
+        return $this->hasOne(User::class, 'id', 'encargado_id');
+    }
+    public function conductor() {
+        return $this->hasOne(conductor::class, 'id', 'conductor_id');
+    }
+    public function vehiculo() {
+        return $this->hasOne(vehiculo::class, 'id', 'vehiculo_id');
+    }
+    public function cliente() {
+        return $this->hasOne(cliente::class, 'id', 'cliente_id');
+    }
+    public function carga() {
+        return $this->hasOne(carga::class, 'id', 'carga_id');
+    }
+    public function tipo() {
+        return $this->hasOne(tipo_vehiculo::class, 'id', 'tipo_id');
+    }
 }

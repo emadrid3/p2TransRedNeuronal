@@ -17,6 +17,7 @@ class CreateLogisticasTable extends Migration
             $table->bigIncrements('id');
             $table->string('numero_factura')->nullable();
             $table->string('numero_orden')->nullable();
+            $table->string('numero_factura_cliente')->nullable();
             $table->unsignedBigInteger('encargado_id')->nullable();
             $table->date('fecha')->nullable();
             $table->unsignedBigInteger('vehiculo_id')->nullable();
@@ -28,11 +29,13 @@ class CreateLogisticasTable extends Migration
             $table->unsignedBigInteger('destino')->nullable();
             $table->json('trayecto')->nullable();
             $table->unsignedBigInteger('carga_id')->nullable();
+            $table->unsignedBigInteger('tipo_id')->nullable();
             $table->unsignedBigInteger('cliente_id')->nullable();
             $table->json('extra')->nullable();
             $table->float('extra_total')->nullable();
             $table->string('descripcion')->nullable();
             $table->float('factura_total')->nullable();
+            $table->enum('estado',array('en proceso','liquidado'));
             $table->timestamps();
         });
     }
