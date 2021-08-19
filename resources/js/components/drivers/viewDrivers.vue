@@ -31,29 +31,25 @@
     <!-- This b-row ahead is for search functionality  -->
     <b-row>
       <b-col lg="12" md="auto">
-      <div class="search-container">
-        <div>
-          <el-input placeholder="Buscar" v-model="toSearch"></el-input>
+        <div class="search-container">
+          <div>
+            <el-input placeholder="Buscar" v-model="toSearch"></el-input>
+          </div>
+          <div>
+            <el-button
+              class="button-search"
+              type="success"
+              @click="search(5, { params: { size: 5, search: toSearch } })"
+              ><i class="fas fa-search"></i
+            ></el-button>
+          </div>
         </div>
-        <div>
-          <el-button
-            class="button-search"
-            type="success"
-            @click="search(5,{ params: { size: 5, search: toSearch } });"
-            ><i class="fas fa-search"></i></el-button
-          >
-        </div>
-
-      </div>
       </b-col>
     </b-row>
 
     <b-row>
       <b-col lg="1" md="auto">
-        <el-button
-          class="button-reset"
-          type="success"
-          @click="reset()"
+        <el-button class="button-reset" type="success" @click="reset()"
           ><i class="fas fa-list"></i>Mostrar todos</el-button
         >
       </b-col>
@@ -68,12 +64,15 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="nombre" label="Nombre Completo" sortable> </el-table-column>
+      <el-table-column prop="nombre" label="Nombre Completo" sortable>
+      </el-table-column>
       <el-table-column prop="cedula" label="Cedula" sortable> </el-table-column>
       <el-table-column prop="celular" label="Celular"> </el-table-column>
       <el-table-column prop="estado" label="Estado" :width="100" sortable>
         <template slot-scope="props">
-          <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{props.row.estado == 1 ? 'Activo' : 'Inactivo'}}</el-tag>
+          <el-tag :type="props.row.estado == 1 ? 'success' : 'danger'">{{
+            props.row.estado == 1 ? "Activo" : "Inactivo"
+          }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Acciones" :width="130">
@@ -112,6 +111,36 @@
       </b-col>
       <b-col></b-col>
     </b-row>
+    <div>
+      <h1>Hola</h1>
+      <div style="width: 50%"><view-home></view-home></div>
+      <div style="width: 50%; display: flex; flex-direction">
+        <div
+          style="
+            background-color: #ececec;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+          "
+        >
+          <i class="fas fa-route fa-4x" style="color: orange"></i>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border: 2px solid #ececec;
+          "
+        >
+          <span>Total viajes mes</span>
+          <h2><b style="font-size: 40px">250</b></h2>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -136,16 +165,14 @@ export default {
     this.getDriver(5);
   },
   methods: {
-
-    reset(){
+    reset() {
       this.currentPage = 1;
       this.toSearch = "";
       this.isSearchingFor = "";
       this.getDriver(5);
     },
 
-    search(size, param){
-
+    search(size, param) {
       this.sizeData = size;
       this.isLoading = true;
       axios
@@ -203,19 +230,18 @@ export default {
     },
 
     getDriverPerPage(page) {
-
       this.currentPage = page;
       this.isLoading = true;
 
-      if(this.toSearch != ""){
-        
-        this.search(this.sizeData,{ params: { page: page, size: this.sizeData, search: this.toSearch } });
-      
-      }else{
-
-
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: page, size: this.sizeData, search: this.toSearch },
+        });
+      } else {
         axios
-          .get("/api/conductores", { params: { page: page, size: this.sizeData } })
+          .get("/api/conductores", {
+            params: { page: page, size: this.sizeData },
+          })
           .then((response) => {
             this.tableData = response.data.data;
             this.sizeData = response.data.per_page;
@@ -245,7 +271,7 @@ export default {
         if (willDelete) {
           axios
             .delete("/api/conductores", {
-              params: { id: id},
+              params: { id: id },
             })
             .then((response) => {
               this.getDriverPerPage(this.currentPage);
@@ -324,7 +350,7 @@ export default {
   }
 }
 
-.search-container{
+.search-container {
   display: flex;
   margin-top: 20px;
 }
@@ -341,5 +367,4 @@ export default {
     background-color: #019901;
   }
 }
-
 </style>
