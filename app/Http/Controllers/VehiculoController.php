@@ -107,10 +107,10 @@ class VehiculoController extends Controller
             $size = $request->input('size');
 
             $response = vehiculo::with('driver')
-            ->where('placa', 'like', '%'.$dataToSearch.'%')
+            ->whereHas('driver', function ($query) use ($dataToSearch) { $query->where('nombre', 'like', '%'.$dataToSearch.'%');})
+            ->orWhere('placa', 'like', '%'.$dataToSearch.'%')
             ->orWhere('ciudad', 'like', '%'.$dataToSearch.'%')
             ->orWhere('tipo', 'like', '%'.$dataToSearch.'%')
-            ->orWhere('conductor', 'like', '%'.$dataToSearch.'%')
             ->paginate($size);
             return response()->json($response);
         

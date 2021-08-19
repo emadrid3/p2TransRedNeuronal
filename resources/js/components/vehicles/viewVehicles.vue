@@ -174,7 +174,6 @@ export default {
       axios
         .get("/api/vehiculos/search", param)
         .then((response) => {
-          //console.log(response)
           this.tableData = response.data.data;
           this.sizeData = response.data.per_page;
           this.totalData = response.data.total;
@@ -194,28 +193,37 @@ export default {
     goTo(location) {
       window.location.href = location;
     },
-    getVehicles(size) {
-      this.currentPage = 1;
-      this.sizeData = size;
-      this.isLoading = true;
 
-      axios
-        .get("/api/vehiculos", { params: { size: size } })
-        .then((response) => {
-          this.tableData = response.data.data;
-          this.sizeData = response.data.per_page;
-          this.totalData = response.data.total;
-          this.isLoading = false;
-        })
-        .catch((error) => {
-          this.isLoading = false;
-          this.swal({
-            title: "Algo salio mal",
-            text: "Por favor intentelo nuevamente",
-            icon: "error",
-            button: "OK",
+    getVehicles(size) {
+
+      if(this.toSearch != ""){
+        
+        this.search(this.sizeData,{ params: { page: this.currentPage, size: size, search: this.toSearch } });
+      
+      }else{
+
+        this.currentPage = 1;
+        this.sizeData = size;
+        this.isLoading = true;
+
+        axios
+          .get("/api/vehiculos", { params: { size: size } })
+          .then((response) => {
+            this.tableData = response.data.data;
+            this.sizeData = response.data.per_page;
+            this.totalData = response.data.total;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            this.isLoading = false;
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
           });
-        });
+      }
     },
 
     getVehiclePerPage(page) {

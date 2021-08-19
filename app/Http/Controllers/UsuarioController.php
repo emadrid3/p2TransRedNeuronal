@@ -120,7 +120,9 @@ class UsuarioController extends Controller
             $dataToSearch = $request->input('search');
             $size = $request->input('size');
 
-            $response = User::where('name', 'like', '%'.$dataToSearch.'%')
+            $response = User::with('user')
+            ->whereHas('user', function ($query) use ($dataToSearch) { $query->where('rol', 'like', '%'.$dataToSearch.'%');})
+            ->orWhere('name', 'like', '%'.$dataToSearch.'%')
             ->orWhere('email', 'like', '%'.$dataToSearch.'%')
             ->paginate($size);
             return response()->json($response);

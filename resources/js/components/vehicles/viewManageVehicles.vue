@@ -102,7 +102,7 @@
                   <el-option
                     v-for="item in driverList"
                     :key="item.id"
-                    :label="item.placa"
+                    :label="item.nombre"
                     :value="item.id"
                   >
                   </el-option>
