@@ -111,33 +111,81 @@
       </b-col>
       <b-col></b-col>
     </b-row>
-    <div>
-      <h1>Hola</h1>
+    <br />
+    <b-row class="title">
+      <h2>Dashboard</h2>
+
+      <div class="title__info">
+        <p>
+          <i class="fas fa-info-circle"></i>Desde esta sección podras ver
+          metricas de tus datos.
+        </p>
+      </div>
+    </b-row>
+    <div style="display: flex; flex-direction: row">
       <div style="width: 50%"><view-home></view-home></div>
-      <div style="width: 50%; display: flex; flex-direction">
-        <div
-          style="
-            background-color: #ececec;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
-          "
-        >
-          <i class="fas fa-route fa-4x" style="color: orange"></i>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          justify-content: space-around;
+        "
+      >
+        <div style="display: flex; height: 100px; width: 100%">
+          <div
+            style="
+              background-color: #ececec;
+              padding: 10px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              border-top-left-radius: 20px;
+              border-bottom-left-radius: 20px;
+            "
+          >
+            <i class="fas fa-user-tag fa-4x" style="color: green"></i>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              padding: 10px;
+              border: 2px solid #ececec;
+              width: 100%;
+            "
+          >
+            <span>Total conductores activos</span>
+            <h2><b style="font-size: 40px">350</b></h2>
+          </div>
         </div>
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            border: 2px solid #ececec;
-          "
-        >
-          <span>Total viajes mes</span>
-          <h2><b style="font-size: 40px">250</b></h2>
+
+        <div style="display: flex; height: 100px; width: 100%">
+          <div
+            style="
+              background-color: #ececec;
+              padding: 10px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              border-top-left-radius: 20px;
+              border-bottom-left-radius: 20px;
+            "
+          >
+            <i class="fas fa-user-tag fa-4x" style="color: red"></i>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              padding: 10px;
+              border: 2px solid #ececec;
+              width: 100%;
+            "
+          >
+            <span>Total conductores inactivos</span>
+            <h2><b style="font-size: 40px">250</b></h2>
+          </div>
         </div>
       </div>
     </div>
@@ -199,13 +247,11 @@ export default {
       window.location.href = location;
     },
     getDriver(size) {
-
-      if(this.toSearch != ""){
-        
-        this.search(this.sizeData,{ params: { page: this.currentPage, size: size, search: this.toSearch } });
-      
-      }else{
-
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: this.currentPage, size: size, search: this.toSearch },
+        });
+      } else {
         this.currentPage = 1;
         this.sizeData = size;
         this.isLoading = true;
