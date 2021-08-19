@@ -135,6 +135,147 @@
       </b-col>
       <b-col></b-col>
     </b-row>
+    <br />
+    <b-row class="title">
+      <h2>Dashboard</h2>
+
+      <div class="title__info">
+        <p>
+          <i class="fas fa-info-circle"></i>Desde esta sección podras ver
+          metricas de tus datos.
+        </p>
+      </div>
+    </b-row>
+    <div style="display: flex; flex-direction: row">
+      <div style="width: 50%"><view-home></view-home></div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          justify-content: space-around;
+        "
+      >
+        <b-row>
+          <b-col>
+            <div style="display: flex; height: 100px; width: 100%">
+              <div
+                style="
+                  background-color: #ececec;
+                  padding: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  border-top-left-radius: 20px;
+                  border-bottom-left-radius: 20px;
+                "
+              >
+                <i class="fas fa-truck-moving fa-4x" style="color: green"></i>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  padding: 10px;
+                  border: 2px solid #ececec;
+                  width: 100%;
+                "
+              >
+                <span>Total vehiculos activos</span>
+                <h2><b style="font-size: 40px">350</b></h2>
+              </div>
+            </div>
+
+            <div style="display: flex; height: 100px; width: 100%">
+              <div
+                style="
+                  background-color: #ececec;
+                  padding: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  border-top-left-radius: 20px;
+                  border-bottom-left-radius: 20px;
+                "
+              >
+                <i class="fas fa-truck-moving fa-4x" style="color: red"></i>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  padding: 10px;
+                  border: 2px solid #ececec;
+                  width: 100%;
+                "
+              >
+                <span>Total vehiculos inactivos</span>
+                <h2><b style="font-size: 40px">250</b></h2>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <div style="display: flex; height: 100px; width: 100%">
+              <div
+                style="
+                  background-color: #ececec;
+                  padding: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  border-top-left-radius: 20px;
+                  border-bottom-left-radius: 20px;
+                "
+              >
+                <i class="fas fa-user-circle fa-4x" style="color: olive"></i>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  padding: 10px;
+                  border: 2px solid #ececec;
+                  width: 100%;
+                "
+              >
+                <span>Total vehiculos propios</span>
+                <h2><b style="font-size: 40px">250</b></h2>
+              </div>
+            </div>
+
+            <div style="display: flex; height: 100px; width: 100%">
+              <div
+                style="
+                  background-color: #ececec;
+                  padding: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  border-top-left-radius: 20px;
+                  border-bottom-left-radius: 20px;
+                "
+              >
+                <i class="fas fa-users fa-4x" style="color: brown"></i>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  padding: 10px;
+                  border: 2px solid #ececec;
+                  width: 100%;
+                "
+              >
+                <span>Total vehiculos terceros</span>
+                <h2><b style="font-size: 40px">250</b></h2>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -195,13 +336,11 @@ export default {
     },
 
     getVehicles(size) {
-
-      if(this.toSearch != ""){
-        
-        this.search(this.sizeData,{ params: { page: this.currentPage, size: size, search: this.toSearch } });
-      
-      }else{
-
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: this.currentPage, size: size, search: this.toSearch },
+        });
+      } else {
         this.currentPage = 1;
         this.sizeData = size;
         this.isLoading = true;
