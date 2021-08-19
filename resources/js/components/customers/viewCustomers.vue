@@ -116,6 +116,84 @@
       </b-col>
       <b-col></b-col>
     </b-row>
+    <br />
+    <b-row class="title">
+      <h2>Dashboard</h2>
+
+      <div class="title__info">
+        <p>
+          <i class="fas fa-info-circle"></i>Desde esta sección podras ver
+          metricas de tus datos.
+        </p>
+      </div>
+    </b-row>
+    <div style="display: flex; flex-direction: row">
+      <div style="width: 50%"><view-home></view-home></div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          justify-content: space-around;
+        "
+      >
+        <div style="display: flex; height: 100px; width: 100%">
+          <div
+            style="
+              background-color: #ececec;
+              padding: 10px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              border-top-left-radius: 20px;
+              border-bottom-left-radius: 20px;
+            "
+          >
+            <i class="fas fa-address-book fa-4x" style="color: green"></i>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              padding: 10px;
+              border: 2px solid #ececec;
+              width: 100%;
+            "
+          >
+            <span>Total clientes activos</span>
+            <h2><b style="font-size: 40px">350</b></h2>
+          </div>
+        </div>
+
+        <div style="display: flex; height: 100px; width: 100%">
+          <div
+            style="
+              background-color: #ececec;
+              padding: 10px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              border-top-left-radius: 20px;
+              border-bottom-left-radius: 20px;
+            "
+          >
+            <i class="far fa-address-book fa-4x" style="color: red"></i>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              padding: 10px;
+              border: 2px solid #ececec;
+              width: 100%;
+            "
+          >
+            <span>Total clientes inactivos</span>
+            <h2><b style="font-size: 40px">250</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -175,13 +253,11 @@ export default {
     },
 
     getCustomers(size) {
-    
-    if(this.toSearch != ""){
-        
-        this.search(this.sizeData,{ params: { page: this.currentPage, size: size, search: this.toSearch } });
-      
-      }else{
-    
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: this.currentPage, size: size, search: this.toSearch },
+        });
+      } else {
         this.currentPage = 1;
         this.sizeData = size;
         this.isLoading = true;
