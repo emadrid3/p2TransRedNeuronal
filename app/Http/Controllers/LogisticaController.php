@@ -27,32 +27,37 @@ class LogisticaController extends Controller
     public function create(Request $request)
     {
         try {
-            $logistica = new logistica();
-            $logistica->numero_factura = NULL;
-            $logistica->numero_orden = NULL;
-            $logistica->numero_factura_cliente = NULL;
-            $logistica->encargado_id = NULL;
-            $logistica->fecha = NULL;
-            $logistica->vehiculo_id = NULL;
-            $logistica->flete = 0;
-            $logistica->anticipo = 0;
-            $logistica->descuento = 0;
-            $logistica->conductor_id = NULL;
-            $logistica->origen = NULL;
-            $logistica->destino = NULL;
-            $logistica->trayecto = NULL;
-            $logistica->carga_id = NULL;
-            $logistica->tipo_id = NULL;
-            $logistica->cliente_id = NULL;
-            $logistica->extra = NULL;
-            $logistica->extra_total = 0;
-            $logistica->descripcion = NULL;
-            $logistica->factura_total = 0;
+
+            if($request->input('id') != NULL){
+                $logistica = logistica::find($request->input('id'));
+            }else{
+                $logistica = new logistica();
+                $logistica->numero_factura = NULL;
+                $logistica->numero_orden = NULL;
+                $logistica->numero_factura_cliente = NULL;
+                $logistica->encargado_id = NULL;
+                $logistica->fecha = NULL;
+                $logistica->vehiculo_id = NULL;
+                $logistica->flete = 0;
+                $logistica->anticipo = 0;
+                $logistica->descuento = 0;
+                $logistica->conductor_id = NULL;
+                $logistica->origen = NULL;
+                $logistica->destino = NULL;
+                $logistica->trayecto = NULL;
+                $logistica->carga_id = NULL;
+                $logistica->tipo_id = NULL;
+                $logistica->cliente_id = NULL;
+                $logistica->extra = NULL;
+                $logistica->extra_total = 0;
+                $logistica->descripcion = NULL;
+                $logistica->factura_total = 0;
+
+                $logistica->estado = "en proceso";
+            }
+
             $sum = 0;
-
-            $logistica->estado = "en proceso";
-
-
+            
 
             if($request->input('bill_number') != NULL || $request->input('bill_number') != ""){
                 $logistica->numero_factura = $request->input('bill_number');

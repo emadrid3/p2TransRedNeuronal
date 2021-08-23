@@ -603,6 +603,7 @@ export default {
     this.logistic.travel.push(null);
 
     if (this.logisticaprop != null) {
+      this.logistic.id = this.logisticaprop.id;
       this.logistic.bill_number = this.logisticaprop.numero_factura;
       this.logistic.order_number = this.logisticaprop.numero_orden;
       this.logistic.customer_number = this.logisticaprop.numero_factura_cliente;
