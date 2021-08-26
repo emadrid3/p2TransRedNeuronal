@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\conductor;
 
+use Illuminate\Support\Facades\Auth;
+
 class ConductorController extends Controller
 {
     public function index()
     {
-        return view('drivers.drivers');
+        $user = Auth::user();
+        return view('drivers.drivers', ['auth' => $user]);
     }
 
     public function manageDrivers()

@@ -23,6 +23,7 @@
           class="button-add"
           type="success"
           @click="goTo('usuarios-manage')"
+          :disabled="auth.rol !=1"
           ><i class="fas fa-plus"></i>Crear un nuevo usuario</el-button
         >
       </b-col>
@@ -84,12 +85,14 @@
             icon="el-icon-edit"
             size="mini"
             @click="goTo('/usuarios-manage/' + props.row.id)"
+            :disabled="auth.rol !=1"
           ></el-button>
           <el-button
             @click="deleteUser(props.row.id)"
             type="danger"
             icon="el-icon-delete"
             size="mini"
+            :disabled="auth.rol !=1"
           ></el-button>
         </template>
       </el-table-column>

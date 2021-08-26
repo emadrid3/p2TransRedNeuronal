@@ -7,7 +7,7 @@
     </el-breadcrumb>
 
     <b-row class="title">
-      <h2>Conductores</h2>
+      <h2>Conductores </h2>
 
       <div class="title__info">
         <p>
@@ -23,6 +23,7 @@
           class="button-add"
           type="success"
           @click="goTo('conductores-manage')"
+          :disabled="auth.rol !=1"
           ><i class="fas fa-plus"></i>Crear un nuevo conductor</el-button
         >
       </b-col>
@@ -198,6 +199,7 @@ export default {
   components: {
     Spinner,
   },
+  props: ["auth"],
   data() {
     return {
       toSearch: "",
