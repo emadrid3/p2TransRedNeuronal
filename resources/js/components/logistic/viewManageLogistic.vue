@@ -13,8 +13,8 @@
 
         <div class="title__info">
           <p>
-            <i class="fas fa-info-circle"></i>Desde esta ventana podras crear o
-            actualizar un viaje especifico
+            <i class="fas fa-info-circle"></i>Desde esta ventana podras
+                    crear o actualizar un viaje especifico
           </p>
         </div>
       </b-row>
@@ -76,6 +76,9 @@
                   "
                 >
                   <h4 style="color: #007900">FACTURAS CLIENTE #</h4>
+                  <p>
+                    <i class="fas fa-info-circle"></i>Ingresar la primer letra en Mayuscula y separar por comas (,)
+                  </p>
                 </b-col>
                 <b-col md="9" sm="6">
                   <el-input
