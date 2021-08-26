@@ -290,7 +290,6 @@ export default {
   data() {
     return {
       toSearch: "",
-
       isLoading: false,
       currentPage: null,
       sizeData: null,

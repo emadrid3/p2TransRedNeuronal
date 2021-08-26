@@ -150,4 +150,13 @@ class LogisticaController extends Controller
            throw $e;
         }
     }
+
+    public function list(Request $request){
+        try {
+            $listLogistic = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('cliente')->with('carga')->with('tipo')->with('origen_obj')->with('destino_obj')->paginate($request->input('size'));
+            return response()->json($listLogistic);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
 }

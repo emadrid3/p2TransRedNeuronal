@@ -54,4 +54,10 @@ class logistica extends Model
     public function tipo() {
         return $this->hasOne(tipo_vehiculo::class, 'id', 'tipo_id');
     }
+    public function origen_obj() {
+        return $this->hasOne(ciudad::class, 'id', 'origen');
+    }
+    public function destino_obj() {
+        return $this->hasOne(ciudad::class, 'id', 'destino');
+    }
 }
