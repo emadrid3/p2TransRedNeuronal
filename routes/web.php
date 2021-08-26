@@ -79,6 +79,7 @@ Route::get('/api/conductores/search', 'ConductorController@search')->middleware(
 
 //LOGISTICA
 Route::post('/api/logistica', 'LogisticaController@create')->middleware('auth');
+Route::get('/api/logistica', 'LogisticaController@list')->middleware('auth');
 
 //CLIENTES
 

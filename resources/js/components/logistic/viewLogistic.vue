@@ -35,24 +35,72 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="fecha" label="Fecha" sortable> </el-table-column>
-      <el-table-column prop="origen" label="Origen"> </el-table-column>
-      <el-table-column prop="destino" label="Destino"> </el-table-column>
-      <el-table-column prop="conductor" label="Conductor"> </el-table-column>
-      <el-table-column prop="vehiculo" label="Vehiculo"> </el-table-column>
       <el-table-column
-        prop="estado"
-        label="Estado"
-        :filters="[
-          { text: 'Pago', value: 'Pago' },
-          { text: 'Pendiente Pago', value: 'Pendiente Pago' },
-          { text: 'Pendiente facturar', value: 'Pendiente facturar' },
-        ]"
+        width="120"
+        prop="numero_factura"
+        label="# factura"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column width="120" prop="numero_orden" label="# Orden">
+      </el-table-column>
+      <el-table-column width="250" prop="encargado" label="Encargado">
+        <template slot-scope="scope">
+          <el-tag effect="dark" size="mini">
+            {{ scope.row.encargado.name.toUpperCase() }} 
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column width="120" prop="fecha" label="Fecha">
+      </el-table-column>
+      <el-table-column width="120" prop="vehiculo" label="Vehiculo">
+        <template slot-scope="scope">
+          <el-tag effect="dark" type="warning" size="mini">
+            {{ scope.row.vehiculo.placa.toUpperCase() }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column width="270" prop="conductor" label="Conductor">
+        <template slot-scope="scope">
+          {{ scope.row.conductor.nombre.toUpperCase() }}
+        </template>
+      </el-table-column>
+      <el-table-column width="200" prop="origen" label="Origen">
+        <template slot-scope="scope">
+            {{ scope.row.origen_obj.nombre.toUpperCase() }}
+        </template>
+      </el-table-column>
+      <el-table-column width="200" prop="destino" label="Destino">
+        <template slot-scope="scope">
+            {{ scope.row.destino_obj.nombre.toUpperCase() }}
+        </template>
+      </el-table-column>
+      <el-table-column width="350" prop="cliente" label="Cliente">
+        <template slot-scope="scope">
+          <el-tag effect="dark" size="mini">
+            {{ scope.row.cliente.razonSocial.toUpperCase() }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        width="120"
+        prop="total"
+        label="factura_total"
+        fixed="right"
       >
         <template slot-scope="scope">
-          <el-dropdown >
-            <el-button size="small" :type="scope.row.estado == 'En proceso' ? 'warning':'success'">
-              {{scope.row.estado}}<i class="el-icon-arrow-down el-icon--right"></i>
+          <b style="font-size: 18px">{{ scope.row.factura_total | Flete}}</b>
+        </template>
+      </el-table-column>
+      <el-table-column width="150" prop="estado" label="Estado" fixed="right">
+        <template slot-scope="scope">
+          <el-dropdown>
+            <el-button
+              size="small"
+              :type="scope.row.estado == 'En proceso' ? 'warning' : 'success'"
+            >
+              {{ scope.row.estado
+              }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>En proceso</el-dropdown-item>
@@ -61,7 +109,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="Operations" width="250">
+      <el-table-column fixed="right" label="Operations" width="250">
         <template>
           <el-button type="primary" size="mini">Ver mas..</el-button>
           <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
@@ -78,13 +126,13 @@
       <b-col></b-col>
       <b-col align-self="center">
         <el-pagination
-          @size-change="handleSizeChange"
+          @size-change="getLogistic"
           @current-change="handleCurrentChange"
-          :current-page.sync="currentPage2"
+          :current-page.sync="currentPage"
           :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          :page-size="sizeData"
           layout="sizes, prev, pager, next"
-          :total="1000"
+          :total="totalData"
         >
         </el-pagination>
       </b-col>
@@ -94,47 +142,95 @@
 </template>
 
 <script>
+import Spinner from "../spinner/spinner.vue";
 export default {
-  /* mounted() {
-    console.log("Component mounted.");
-  }, */
-  methods: {
-    deleteRow(index, rows) {
-      rows.splice(index, 1);
-    },
-    goTo(location) {
-      window.location.href = location;
-    },
+  components: {
+    Spinner,
   },
   data() {
     return {
-      tableData: [
-        {
-          fecha: "17/07/2021",
-          origen: "Medellin",
-          destino: "Cali",
-          conductor: "JUAN FERNANDO AGUDELO",
-          vehiculo: "SMG045",
-          estado: "En proceso",
-        },
-        {
-          fecha: "11/07/2021",
-          origen: "Cartagena",
-          destino: "Medellin",
-          conductor: "HECTOR MAURICIO BEDOYA",
-          vehiculo: "TMZ466",
-          estado: "En proceso",
-        },
-        {
-          fecha: "12/07/2021",
-          origen: "Barranquilla",
-          destino: "Medellin",
-          conductor: "NICOLAS ANTONIO ALVAREZ",
-          vehiculo: "STE402",
-          estado: "Liquidado",
-        },
-      ],
+      toSearch: "",
+      isLoading: false,
+      currentPage: null,
+      sizeData: null,
+      totalData: null,
+      tableData: [],
     };
+  },
+  filters: {
+    Flete(valor) {
+      return `$${valor.toLocaleString()}`
+    }
+  },
+  created() {
+    this.getLogistic(5);
+  },
+  methods: {
+    getLogistic(size) {
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: this.currentPage, size: size, search: this.toSearch },
+        });
+      } else {
+        this.currentPage = 1;
+        this.sizeData = size;
+        this.isLoading = true;
+
+        axios
+          .get("/api/logistica", { params: { size: size } })
+          .then((response) => {
+            console.log(response);
+            this.tableData = response.data.data;
+            this.sizeData = response.data.per_page;
+            this.totalData = response.data.total;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            this.isLoading = false;
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
+    },
+
+    getLogisticPerPage(page) {
+      this.currentPage = page;
+      this.isLoading = true;
+
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: page, size: this.sizeData, search: this.toSearch },
+        });
+      } else {
+        axios
+          .get("/api/vehiculos/search", {
+            params: { page: page, size: this.sizeData },
+          })
+          .then((response) => {
+            this.tableData = response.data.data;
+            this.sizeData = response.data.per_page;
+            this.totalData = response.data.total;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            this.isLoading = false;
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
+    },
+
+    goTo(location) {
+      window.location.href = location;
+    },
   },
 };
 </script>

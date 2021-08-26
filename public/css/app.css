@@ -10962,7 +10962,7 @@ a.text-dark:focus {
 }
 
 .login-view__img {
-  background-image: url("/img/logo2.png");
+  background-image: url("/img/inicio.jpg");
   min-height: 81vh;
   background-position: center center;
   background-size: cover;
