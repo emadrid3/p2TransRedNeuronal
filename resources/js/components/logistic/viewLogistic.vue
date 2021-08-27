@@ -114,7 +114,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="250">
         <template slot-scope="scope">
-          <el-button
+          <el-button 
             type="primary"
             size="mini"
             :disabled="auth.rol != 1 && auth.rol != 3"
