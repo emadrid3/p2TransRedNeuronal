@@ -114,3 +114,9 @@ Route::get('/api/tipo-carga', 'CargaController@searchByParams')->middleware('aut
 //CIUDADES
 Route::get('/api/ciudades-search', 'CiudadController@searchByParams')->middleware('auth');
 Route::get('/api/vehiculos/search', 'VehiculoController@search')->middleware('auth');
+
+//FACTURAS
+Route::delete('/api/factura', 'FacturaController@delete')->middleware('auth');
+Route::patch('/api/factura', 'FacturaController@update')->middleware('auth');
+Route::get('/api/factura', 'FacturaController@list')->middleware('auth');
+Route::get('/api/factura-search', 'FacturaController@searchByParams')->middleware('auth');

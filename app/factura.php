@@ -25,4 +25,10 @@ class factura extends Model
         'idCliente',
         'estado',
     ];
+    public function vehiculo() {
+        return $this->hasOne(vehiculo::class, 'id', 'idVehiculo');
+    }
+    public function cliente() {
+        return $this->hasOne(cliente::class, 'id', 'idCliente');
+    }
 }
