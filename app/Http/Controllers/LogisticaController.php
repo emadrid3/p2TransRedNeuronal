@@ -90,7 +90,6 @@ class LogisticaController extends Controller
             $logistica->flete = $request->input('freight');
 
 
-
             $logistica->anticipo = $request->input('advance');
 
 

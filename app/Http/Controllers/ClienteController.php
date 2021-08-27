@@ -30,6 +30,7 @@ class ClienteController extends Controller
     {
         //return view('customers.customersManage');
         try {
+
             $request->validate([ "nombre"=>"required", "nit"=>"required", "razonSocial"=>"required"]);
             $cliente = new cliente();
             $cliente->nombre = $request->input('nombre');

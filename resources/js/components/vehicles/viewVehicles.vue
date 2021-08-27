@@ -290,6 +290,7 @@ export default {
   components: {
     Spinner,
   },
+  
   props: ["auth"],
   data() {
     return {

@@ -10,7 +10,7 @@ use App\rol;
 class UsuarioController extends Controller
 {
     public function index()
-    {   
+    {
         $user = Auth::user();
         return view('users.users', ['auth' => $user]);
     }
@@ -30,6 +30,7 @@ class UsuarioController extends Controller
     public function create(Request $request)
     {
         try {
+            
             $request->validate(["name"=>"required", "email"=>"required"]);
             $user = new User();
             $user->name = $request->input('name');
