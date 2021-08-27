@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\vehiculo;
 
 
@@ -11,7 +12,8 @@ class VehiculoController extends Controller
 {
     public function index()
     {
-        return view('vehicles.vehicles');
+        $user = Auth::user();
+        return view('vehicles.vehicles', ['auth' => $user]);
     }
     public function manageVehicles()
     {
@@ -20,6 +22,7 @@ class VehiculoController extends Controller
     }
     public function update(Request $request){
         try {
+            
             $request->validate(["placa"=>"required", "tipo"=>"required" ]);
             $vehicle = vehiculo::find($request->input('id'));
             if( !is_null($request->input('placa')) ){

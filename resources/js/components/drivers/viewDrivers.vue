@@ -7,7 +7,7 @@
     </el-breadcrumb>
 
     <b-row class="title">
-      <h2>Conductores</h2>
+      <h2>Conductores </h2>
 
       <div class="title__info">
         <p>
@@ -23,7 +23,8 @@
           class="button-add"
           type="success"
           @click="goTo('conductores-manage')"
-          ><i class="fas fa-plus"></i>Crear un nuevo conductor</el-button
+          :disabled="auth.rol !=1 && auth.rol !=3"
+          ><i class="fas fa-plus"></i>Crear un nuevo conductor </el-button
         >
       </b-col>
     </b-row>
@@ -82,12 +83,14 @@
             icon="el-icon-edit"
             size="mini"
             @click="goTo('/conductores-manage/' + props.row.id)"
+            :disabled="auth.rol !=1 && auth.rol !=3"
           ></el-button>
           <el-button
             @click="deleteDriver(props.row.id)"
             type="danger"
             icon="el-icon-delete"
             size="mini"
+            :disabled="auth.rol !=1 && auth.rol !=3"
           ></el-button>
         </template>
       </el-table-column>
@@ -198,6 +201,7 @@ export default {
   components: {
     Spinner,
   },
+  props: ["auth"],
   data() {
     return {
       toSearch: "",

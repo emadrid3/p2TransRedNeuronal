@@ -23,6 +23,7 @@
           class="button-add"
           type="success"
           @click="goTo('logistica-manage')"
+          :disabled="auth.rol != 1 && auth.rol != 3 "
           ><i class="fas fa-plus"></i>Crear un nuevo viaje</el-button
         >
       </b-col>
@@ -113,19 +114,24 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="250">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini">Ver mas..</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            :disabled="auth.rol != 1 && auth.rol != 3"
+            >Ver mas..
+          </el-button>
           <el-button
             type="primary"
             icon="el-icon-edit"
             size="mini"
             @click="goTo('/logistica-manage/' + scope.row.id)"
-            :disabled="scope.row.estado == 'liquidado'"
+            :disabled="(auth.rol != 1 && auth.rol != 3) || scope.row.estado == 'liquidado'"
           ></el-button>
           <el-button
-            :disabled="scope.row.estado == 'liquidado'"
             type="danger"
             icon="el-icon-delete"
             size="mini"
+            :disabled="(auth.rol != 1 && auth.rol != 3) || scope.row.estado == 'liquidado'"
             @click="deleteLogistic(scope.row.id)"
           ></el-button>
         </template>
@@ -153,12 +159,14 @@
   </div>
 </template>
 
+
 <script>
 import Spinner from "../spinner/spinner.vue";
 export default {
   components: {
     Spinner,
   },
+  props: ["auth"],
   data() {
     return {
       toSearch: "",

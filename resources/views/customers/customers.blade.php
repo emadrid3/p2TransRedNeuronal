@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<view-customers></view-customers>
+<view-customers :auth="{{$auth}}"></view-customers>
 @endsection

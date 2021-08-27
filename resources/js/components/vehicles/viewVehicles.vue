@@ -23,6 +23,7 @@
           class="button-add"
           type="success"
           @click="goTo('vehiculos-manage')"
+          :disabled="auth.rol !=1 && auth.rol !=3"
           ><i class="fas fa-plus"></i>Crear un nuevo vehiculo</el-button
         >
       </b-col>
@@ -106,12 +107,14 @@
             icon="el-icon-edit"
             size="mini"
             @click="goTo('/vehiculos-manage/' + props.row.id)"
+            :disabled="auth.rol !=1 && auth.rol !=3"
           ></el-button>
           <el-button
             @click="deleteVehicle(props.row.id)"
             type="danger"
             icon="el-icon-delete"
             size="mini"
+            :disabled="auth.rol !=1 && auth.rol !=3"
           ></el-button>
         </template>
       </el-table-column>
@@ -287,6 +290,8 @@ export default {
   components: {
     Spinner,
   },
+  
+  props: ["auth"],
   data() {
     return {
       toSearch: "",
