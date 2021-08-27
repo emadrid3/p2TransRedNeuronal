@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<view-logistic></view-logistic>
+<view-logistic :auth="{{$auth}}"></view-logistic>
 @endsection

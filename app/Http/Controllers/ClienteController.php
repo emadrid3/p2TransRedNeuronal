@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\cliente;
 
 class ClienteController extends Controller
 {
     public function index()
     {
-        return view('customers.customers');
+        $user = Auth::user();
+        return view('customers.customers', ['auth' => $user]);
     }
 
     public function manageCustomers(){

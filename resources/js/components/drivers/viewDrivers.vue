@@ -7,7 +7,7 @@
     </el-breadcrumb>
 
     <b-row class="title">
-      <h2>Conductores {{auth.rol}}{{auth.rol !=1 && auth.rol !=3}}</h2>
+      <h2>Conductores </h2>
 
       <div class="title__info">
         <p>

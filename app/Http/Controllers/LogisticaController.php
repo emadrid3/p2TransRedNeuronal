@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 use App\logistica;
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
 
 class LogisticaController extends Controller
 {
     public function index()
     {
-        return view('logistic.logistic');
+        $user = Auth::user();
+        return view('logistic.logistic', ['auth' => $user]);
     }
     public function manageLogistic()
     {

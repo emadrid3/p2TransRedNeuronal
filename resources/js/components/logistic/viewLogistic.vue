@@ -23,6 +23,7 @@
           class="button-add"
           type="success"
           @click="goTo('logistica-manage')"
+          :disabled="auth.rol != 1 && auth.rol != 3"
           ><i class="fas fa-plus"></i>Crear un nuevo viaje</el-button
         >
       </b-col>
@@ -47,7 +48,7 @@
       <el-table-column width="250" prop="encargado" label="Encargado">
         <template slot-scope="scope">
           <el-tag effect="dark" size="mini">
-            {{ scope.row.encargado.name.toUpperCase() }} 
+            {{ scope.row.encargado.name.toUpperCase() }}
           </el-tag>
         </template>
       </el-table-column>
@@ -67,12 +68,12 @@
       </el-table-column>
       <el-table-column width="200" prop="origen" label="Origen">
         <template slot-scope="scope">
-            {{ scope.row.origen_obj.nombre.toUpperCase() }}
+          {{ scope.row.origen_obj.nombre.toUpperCase() }}
         </template>
       </el-table-column>
       <el-table-column width="200" prop="destino" label="Destino">
         <template slot-scope="scope">
-            {{ scope.row.destino_obj.nombre.toUpperCase() }}
+          {{ scope.row.destino_obj.nombre.toUpperCase() }}
         </template>
       </el-table-column>
       <el-table-column width="350" prop="cliente" label="Cliente">
@@ -89,7 +90,7 @@
         fixed="right"
       >
         <template slot-scope="scope">
-          <b style="font-size: 18px">{{ scope.row.factura_total | Flete}}</b>
+          <b style="font-size: 18px">{{ scope.row.factura_total | Flete }}</b>
         </template>
       </el-table-column>
       <el-table-column width="150" prop="estado" label="Estado" fixed="right">
@@ -111,12 +112,23 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="250">
         <template>
-          <el-button type="primary" size="mini">Ver mas..</el-button>
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
           <el-button
             type="primary"
+            size="mini"
+            :disabled="auth.rol != 1 && auth.rol != 3"
+            >Ver mas..
+          </el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            :disabled="auth.rol != 1 && auth.rol != 3"
+          ></el-button>
+          <el-button
+            type="danger"
             icon="el-icon-delete"
             size="mini"
+            :disabled="auth.rol != 1 && auth.rol != 3"
           ></el-button>
         </template>
       </el-table-column>
@@ -147,6 +159,7 @@ export default {
   components: {
     Spinner,
   },
+  props: ["auth"],
   data() {
     return {
       toSearch: "",
@@ -159,8 +172,8 @@ export default {
   },
   filters: {
     Flete(valor) {
-      return `$${valor.toLocaleString()}`
-    }
+      return `$${valor.toLocaleString()}`;
+    },
   },
   created() {
     this.getLogistic(5);
