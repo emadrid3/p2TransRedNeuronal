@@ -95,6 +95,7 @@ export default {
       window.location.href = location;
     },
   },
+  props: ["auth"],
   data() {
     return {
       tableData: [
