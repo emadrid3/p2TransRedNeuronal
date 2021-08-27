@@ -46,7 +46,7 @@ class VehiculoController extends Controller
     
     public function list(Request $request){
         try {
-            $listVehicles = vehiculo::with('driver')->paginate($request->input('size'));
+            $listVehicles = vehiculo::with('driver')->orderBy('created_at', 'desc')->paginate($request->input('size'));
             return response()->json($listVehicles);
         } catch (\Exception $e) {
            throw $e;
@@ -93,6 +93,7 @@ class VehiculoController extends Controller
 
             $users = vehiculo::with('driver')
             ->where('placa','like',"%$input%")
+            ->orderBy('created_at', 'desc')
             ->paginate($request->input('size'));
 
             return response()->json($users);
@@ -111,6 +112,7 @@ class VehiculoController extends Controller
             ->orWhere('placa', 'like', '%'.$dataToSearch.'%')
             ->orWhere('ciudad', 'like', '%'.$dataToSearch.'%')
             ->orWhere('tipo', 'like', '%'.$dataToSearch.'%')
+            ->orderBy('created_at', 'desc')
             ->paginate($size);
             return response()->json($response);
         

@@ -151,10 +151,30 @@ class LogisticaController extends Controller
         }
     }
 
+    public function delete(Request $request){
+        try {
+            $logistic = logistica::find($request->input('id'));
+            $logistic->delete();
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
     public function list(Request $request){
         try {
-            $listLogistic = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('cliente')->with('carga')->with('tipo')->with('origen_obj')->with('destino_obj')->paginate($request->input('size'));
+            $listLogistic = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('cliente')->with('carga')->with('tipo')->with('origen_obj')->with('destino_obj')->orderBy('created_at', 'desc')->paginate($request->input('size'));
             return response()->json($listLogistic);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
+    public function changeStatus(Request $request){
+        try {
+            $logistic = logistica::find($request->input('id'));
+            $logistic->estado = $request->input('estado');
+            $logistic->save();
+            return response()->json('OK');
         } catch (\Exception $e) {
            throw $e;
         }

@@ -80,7 +80,7 @@ class UsuarioController extends Controller
 
     public function list(Request $request){
         try {
-            $listUsers = User::with('user')->paginate($request->input('size'));
+            $listUsers = User::with('user')->orderBy('created_at', 'desc')->paginate($request->input('size'));
             return response()->json($listUsers);
         } catch (\Exception $e) {
            throw $e;
@@ -96,6 +96,7 @@ class UsuarioController extends Controller
             $users = User::with('user')
             ->where('name','like',"%$input%")
             ->orWhere('email','like',"%$input%")
+            ->orderBy('created_at', 'desc')
             ->paginate($request->input('size'));
 
             return response()->json($users);
@@ -126,6 +127,7 @@ class UsuarioController extends Controller
             ->whereHas('user', function ($query) use ($dataToSearch) { $query->where('rol', 'like', '%'.$dataToSearch.'%');})
             ->orWhere('name', 'like', '%'.$dataToSearch.'%')
             ->orWhere('email', 'like', '%'.$dataToSearch.'%')
+            ->orderBy('created_at', 'desc')
             ->paginate($size);
             return response()->json($response);
         } catch (\Exception $e) {

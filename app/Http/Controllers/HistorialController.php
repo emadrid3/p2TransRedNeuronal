@@ -14,7 +14,7 @@ class HistorialController extends Controller
     }
     public function list(Request $request){
         try {
-            $listHistory = historial::paginate($request->input('size'));
+            $listHistory = historial::orderBy('created_at', 'desc')->paginate($request->input('size'));
             return response()->json($listHistory);
         } catch (\Exception $e) {
            throw $e;
@@ -35,6 +35,7 @@ class HistorialController extends Controller
             ->orWhere('origen', 'like', '%'.$dataToSearch.'%')
             ->orWhere('destino', 'like', '%'.$dataToSearch.'%')
             ->orWhere('cliente', 'like', '%'.$dataToSearch.'%')
+            ->orderBy('created_at', 'desc')
             ->paginate($size);
             return response()->json($response);
         } catch (\Exception $e) {
