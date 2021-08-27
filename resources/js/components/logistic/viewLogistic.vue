@@ -30,6 +30,7 @@
     </b-row>
 
     <el-table
+      v-if="!isLoading"
       :data="tableData"
       border
       class="table-main"
@@ -95,24 +96,25 @@
       </el-table-column>
       <el-table-column width="150" prop="estado" label="Estado" fixed="right">
         <template slot-scope="scope">
-          <el-dropdown>
+          <el-dropdown @command="changeState($event, scope.row)">
             <el-button
+              :disabled="scope.row.estado == 'liquidado'"
               size="small"
-              :type="scope.row.estado == 'En proceso' ? 'warning' : 'success'"
+              :type="scope.row.estado == 'en proceso' ? 'warning' : 'success'"
             >
               {{ scope.row.estado
               }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>En proceso</el-dropdown-item>
-              <el-dropdown-item>Liquidado</el-dropdown-item>
+              <el-dropdown-item command="en proceso">En proceso</el-dropdown-item>
+              <el-dropdown-item command="liquidado">Liquidado</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="250">
-        <template>
-          <el-button
+        <template slot-scope="scope">
+          <el-button 
             type="primary"
             size="mini"
             :disabled="auth.rol != 1 && auth.rol != 3"
@@ -122,17 +124,21 @@
             type="primary"
             icon="el-icon-edit"
             size="mini"
-            :disabled="auth.rol != 1 && auth.rol != 3"
+            @click="goTo('/logistica-manage/' + scope.row.id)"
+            :disabled="(auth.rol != 1 && auth.rol != 3) || scope.row.estado == 'liquidado'"
           ></el-button>
           <el-button
             type="danger"
             icon="el-icon-delete"
             size="mini"
-            :disabled="auth.rol != 1 && auth.rol != 3"
+            :disabled="(auth.rol != 1 && auth.rol != 3) || scope.row.estado == 'liquidado'"
+            @click="deleteLogistic(scope.row.id)"
           ></el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <Spinner size="120" v-if="isLoading" />
 
     <b-row class="paginator-main">
       <b-col></b-col>
@@ -152,6 +158,7 @@
     </b-row>
   </div>
 </template>
+
 
 <script>
 import Spinner from "../spinner/spinner.vue";
@@ -220,7 +227,7 @@ export default {
         });
       } else {
         axios
-          .get("/api/vehiculos/search", {
+          .get("/api/logistica/search", {
             params: { page: page, size: this.sizeData },
           })
           .then((response) => {
@@ -239,6 +246,62 @@ export default {
             });
           });
       }
+    },
+
+    changeState(state, logistic) {
+      this.isLoading = true;
+
+      axios
+        .get("/api/logistica-status", {
+          params: { id: logistic.id, estado: state },
+        })
+        .then((response) => {
+          logistic.estado = state;
+          this.swal({
+            title: "El estado se ha actualizado correctamente",
+            icon: "success",
+          });
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+
+      this.isLoading = false;
+    },
+
+    deleteLogistic(id) {
+      this.swal({
+        title: "Atencion!",
+        text: "Esta seguro que desea eliminar esta logistica?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios
+            .delete("/api/logistica", {
+              params: { id: id },
+            })
+            .then((response) => {
+              this.getLogistic(this.currentPage);
+            })
+            .catch((error) => {
+              this.isLoading = false;
+              this.swal({
+                title: "Algo salio mal",
+                text: "Por favor intentelo nuevamente",
+                icon: "error",
+                button: "OK",
+              });
+            });
+        }
+      });
     },
 
     goTo(location) {

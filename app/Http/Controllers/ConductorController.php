@@ -25,7 +25,7 @@ class ConductorController extends Controller
 
     public function list(Request $request){
         try {
-            $listDrivers = conductor::paginate($request->input('size'));
+            $listDrivers = conductor::orderBy('created_at', 'desc')->paginate($request->input('size'));
             return response()->json($listDrivers);
         } catch (\Exception $e) {
            throw $e;
@@ -96,6 +96,7 @@ class ConductorController extends Controller
             $drivers = conductor::where('nombre','like',"%$input%")
             ->orWhere('cedula','like',"%$input%")
             ->orWhere('celular','like',"%$input%")
+            ->orderBy('created_at', 'desc')
             ->paginate($request->input('size'));
 
             return response()->json($drivers);
@@ -114,6 +115,7 @@ class ConductorController extends Controller
             $response = conductor::where('nombre', 'like', '%'.$dataToSearch.'%')
             ->orWhere('cedula', 'like', '%'.$dataToSearch.'%')
             ->orWhere('celular', 'like', '%'.$dataToSearch.'%')
+            ->orderBy('created_at', 'desc')
             ->paginate($size);
             return response()->json($response);
         } catch (\Exception $e) {

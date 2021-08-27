@@ -13,16 +13,16 @@ class factura extends Model
      */
     protected $fillable = [
         'id',
+        'idLogistica',
         'valorFactura',
+        'numeroFactura',
         'numeroOrden',
         'valorAdicional',
-        'observacion',
-        'estadoFactura',
         'flete',
         'anticipo',
         'porcentaje',
-        'saldo',
-        'idCliente',
         'idVehiculo',
+        'idCliente',
+        'estado',
     ];
 }

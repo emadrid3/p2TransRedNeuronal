@@ -83,7 +83,7 @@ class ClienteController extends Controller
 
     public function list(Request $request){
         try {
-            $listCustomer = cliente::paginate($request->input('size'));
+            $listCustomer = cliente::orderBy('created_at', 'desc')->paginate($request->input('size'));
             return response()->json($listCustomer);
         } catch (\Exception $e) {
             throw $e;
@@ -99,6 +99,7 @@ class ClienteController extends Controller
             $customer = cliente::where('nombre','like',"%$input%")
             ->orWhere('nit','like',"%$input%")
             ->orWhere('razonSocial','like',"%$input%")
+            ->orderBy('created_at', 'desc')
             ->paginate($request->input('size'));
 
             return response()->json($customer);
@@ -117,6 +118,7 @@ class ClienteController extends Controller
             $response = cliente::where('nombre', 'like', '%'.$dataToSearch.'%')
             ->orWhere('nit', 'like', '%'.$dataToSearch.'%')
             ->orWhere('razonSocial', 'like', '%'.$dataToSearch.'%')
+            ->orderBy('created_at', 'desc')
             ->paginate($size);
             return response()->json($response);
         } catch (\Exception $e) {

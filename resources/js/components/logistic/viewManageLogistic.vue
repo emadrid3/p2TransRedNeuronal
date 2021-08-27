@@ -558,7 +558,7 @@
             <el-button type="success" size="large" @click="save()"
               >Guardar cambios <i class="fas fa-save"></i
             ></el-button>
-            <el-button type="danger" size="large" @click="goTo('/usuarios')"
+            <el-button type="danger" size="large" @click="goTo('/logistica')"
               >Cancelar <i class="far fa-window-close"></i
             ></el-button>
           </b-row>
