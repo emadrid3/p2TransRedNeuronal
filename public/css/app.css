@@ -10955,7 +10955,7 @@ a.text-dark:focus {
 }
 
 .login-view {
-  min-height: 90vh;
+  min-height: 100vh;
   width: 100%;
   display: grid;
   grid-template-columns: 6.5fr 3.5fr;
@@ -10963,7 +10963,7 @@ a.text-dark:focus {
 
 .login-view__img {
   background-image: url("/img/unnamed.jpg");
-  min-height: 90vh;
+  min-height: 100vh;
   background-position: center center;
   background-size: cover;
 }

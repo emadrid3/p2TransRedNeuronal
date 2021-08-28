@@ -1,13 +1,13 @@
 $color-dark: #1d1f1f;
 
 .login-view {
-    min-height: 90vh;
+    min-height: 100vh;
     width: 100%;
     display: grid;
     grid-template-columns: 6.5fr 3.5fr;
     &__img {
         background-image: url("/img/unnamed.jpg");
-        min-height: 90vh;
+        min-height: 100vh;
         background-position: center center;
         background-size: cover;
     }
