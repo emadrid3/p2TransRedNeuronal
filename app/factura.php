@@ -11,6 +11,7 @@ class factura extends Model
      *
      * @var array
      */
+    public $table = 'invoice';
     protected $fillable = [
         'id',
         'idLogistica',

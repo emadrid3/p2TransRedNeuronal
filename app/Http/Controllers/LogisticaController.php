@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\logistica;
+use App\factura;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -176,6 +177,22 @@ class LogisticaController extends Controller
             $logistic = logistica::find($request->input('id'));
             $logistic->estado = $request->input('estado');
             $logistic->save();
+
+            if($request->input('estado') == 'liquidado'){
+                $factura = new factura();
+                $factura->idLogistica = $logistic->id;
+                $factura->valorFactura = $logistic->factura_total;
+                $factura->numeroFactura = $logistic->numero_factura;
+                $factura->numeroOrden = $logistic->numero_orden;
+                $factura->valorAdicional = $logistic->extra_total;
+                $factura->flete = $logistic->flete;
+                $factura->anticipo = $logistic->anticipo;
+                $factura->porcentaje = $logistic->descuento;
+                $factura->idVehiculo = $logistic->vehiculo_id;
+                $factura->idCliente = $logistic->cliente_id;
+                $factura->estado = "pendiente de pago";
+                $factura->save();
+            }
             return response()->json('OK');
         } catch (\Exception $e) {
            throw $e;

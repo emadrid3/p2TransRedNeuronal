@@ -120,3 +120,4 @@ Route::delete('/api/factura', 'FacturaController@delete')->middleware('auth');
 Route::patch('/api/factura', 'FacturaController@update')->middleware('auth');
 Route::get('/api/factura', 'FacturaController@list')->middleware('auth');
 Route::get('/api/factura-search', 'FacturaController@searchByParams')->middleware('auth');
+Route::get('/api/factura-status', 'FacturaController@changeStatus')->middleware('auth');

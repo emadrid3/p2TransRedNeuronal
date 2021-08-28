@@ -72,6 +72,7 @@
             @include('components.sidebar')
 
       @endguest
+      @yield('login')
       <!-- /#sidebar-wrapper -->
       <!-- Page Content -->
         <div id="page-content-wrapper">

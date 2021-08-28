@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\factura;
+use App\logistica;
 
 class FacturaController extends Controller
 {
@@ -16,6 +18,9 @@ class FacturaController extends Controller
     public function delete(Request $request){
         try {
             $invoice = factura::find($request->input('id'));
+            $logistic = logistica::find($invoice->idLogistica);
+            $logistic->estado = "en proceso";
+            $logistic->save();
             $invoice->delete();
 
         } catch (\Exception $e) {
@@ -84,6 +89,18 @@ class FacturaController extends Controller
             ->paginate($request->input('size'));
 
             return response()->json($invoice);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
+    public function changeStatus(Request $request){
+        try {
+            $invoice = factura::find($request->input('id'));
+            $invoice->estado = $request->input('estado');
+            $invoice->save();
+
+            return response()->json('OK');
         } catch (\Exception $e) {
            throw $e;
         }

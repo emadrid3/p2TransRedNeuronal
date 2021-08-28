@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('content')
+@section('login')
 
-<div class="login-view">
+<div class="login-view" style="heigth: 100%;">
     <div class="login-view__img"></div>
     <div class="login-view__form">
     

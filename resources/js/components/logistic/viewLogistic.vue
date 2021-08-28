@@ -91,7 +91,7 @@
         fixed="right"
       >
         <template slot-scope="scope">
-          <b style="font-size: 18px">{{ scope.row.factura_total | Flete }}</b>
+          <b style="font-size: 15px">{{ scope.row.factura_total | Flete }}</b>
         </template>
       </el-table-column>
       <el-table-column width="150" prop="estado" label="Estado" fixed="right">
@@ -145,9 +145,9 @@
       <b-col align-self="center">
         <el-pagination
           @size-change="getLogistic"
-          @current-change="handleCurrentChange"
+          @current-change="getLogisticPerPage"
           :current-page.sync="currentPage"
-          :page-sizes="[100, 200, 300, 400]"
+          :page-sizes="[5, 10, 20, 50]"
           :page-size="sizeData"
           layout="sizes, prev, pager, next"
           :total="totalData"
@@ -227,7 +227,7 @@ export default {
         });
       } else {
         axios
-          .get("/api/logistica/search", {
+          .get("/api/logistica", {
             params: { page: page, size: this.sizeData },
           })
           .then((response) => {

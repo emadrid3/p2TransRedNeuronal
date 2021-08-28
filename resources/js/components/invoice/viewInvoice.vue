@@ -18,17 +18,40 @@
     </b-row>
 
     <el-table
+      v-if="!isLoading"
       :data="tableData"
       border
       class="table-main"
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="fecha" label="Fecha" sortable> </el-table-column>
-      <el-table-column prop="origen" label="Origen"> </el-table-column>
-      <el-table-column prop="destino" label="Destino"> </el-table-column>
-      <el-table-column prop="conductor" label="Conductor"> </el-table-column>
-      <el-table-column prop="vehiculo" label="Vehiculo"> </el-table-column>
+      <el-table-column prop="numeroFactura" label="# Factura"> </el-table-column>
+      <el-table-column prop="numeroOrden" label="# Orden"> </el-table-column>
+      <el-table-column prop="flete" label="Flete">
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.flete | Flete }}</b>
+        </template>
+      </el-table-column>
+      <el-table-column prop="anticipo" label="Anticipo">
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.anticipo | Flete }}</b>
+        </template>
+      </el-table-column>
+      <el-table-column prop="porcentaje" label="Porcentaje">
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.porcentaje | Flete }}</b>
+        </template>
+      </el-table-column>
+      <el-table-column prop="valorAdicional" label="Valor Extra">
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.valorAdicional | Flete }}</b>
+        </template>
+      </el-table-column>
+      <el-table-column prop="valorFactura" label="Valor factura" sortable>
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.valorFactura | Flete }}</b>
+        </template> 
+      </el-table-column>
       <el-table-column
         prop="estado"
         label="Estado"
@@ -39,41 +62,42 @@
         ]"
       >
         <template slot-scope="scope">
-          <el-dropdown >
-            <el-button size="small" :type="scope.row.estado == 'En proceso' ? 'warning':'success'">
+          <el-dropdown @command="changeState($event, scope.row)">
+            <el-button size="small" :type="scope.row.estado == 'pendiente de pago' ? 'danger':'success'">
               {{scope.row.estado}}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>En proceso</el-dropdown-item>
-              <el-dropdown-item>Liquidado</el-dropdown-item>
+            <el-dropdown-menu slot="dropdown" >
+              <el-dropdown-item command="pendiente de pago">Pendiente de pago</el-dropdown-item>
+              <el-dropdown-item command="pagado">pagado</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
       </el-table-column>
       <el-table-column label="Operations" width="250">
-        <template>
-          <el-button type="primary" size="mini">Ver mas..</el-button>
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+        <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="danger"
             icon="el-icon-delete"
             size="mini"
+            @click="deleteInvoice(scope.row.id)"
           ></el-button>
         </template>
       </el-table-column>
     </el-table>
 
+    <Spinner size="120" v-if="isLoading" />
+
     <b-row class="paginator-main">
       <b-col></b-col>
       <b-col align-self="center">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage2"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          @size-change="getInvoice"
+          @current-change="getInvoicePerPage"
+          :current-page.sync="currentPage"
+          :page-sizes="[5, 10, 20, 50]"
+          :page-size="sizeData"
           layout="sizes, prev, pager, next"
-          :total="1000"
+          :total="totalData"
         >
         </el-pagination>
       </b-col>
@@ -83,48 +107,150 @@
 </template>
 
 <script>
+import Spinner from "./../spinner/spinner.vue";
 export default {
-  /* mounted() {
-    console.log("Component mounted.");
-  }, */
-  methods: {
-    deleteRow(index, rows) {
-      rows.splice(index, 1);
-    },
-    goTo(location) {
-      window.location.href = location;
-    },
+  components: {
+    Spinner,
   },
   props: ["auth"],
   data() {
     return {
-      tableData: [
-        {
-          fecha: "17/07/2021",
-          origen: "Medellin",
-          destino: "Cali",
-          conductor: "JUAN FERNANDO AGUDELO",
-          vehiculo: "SMG045",
-          estado: "En proceso",
-        },
-        {
-          fecha: "11/07/2021",
-          origen: "Cartagena",
-          destino: "Medellin",
-          conductor: "HECTOR MAURICIO BEDOYA",
-          vehiculo: "TMZ466",
-          estado: "En proceso",
-        },
-        {
-          fecha: "12/07/2021",
-          origen: "Barranquilla",
-          destino: "Medellin",
-          conductor: "NICOLAS ANTONIO ALVAREZ",
-          vehiculo: "STE402",
-          estado: "Liquidado",
-        },
-      ],
+      toSearch: "",
+
+      isLoading: false,
+      currentPage: null,
+      sizeData: null,
+      totalData: null,
+      tableData: [],
     };
+  },
+  filters: {
+    Flete(valor) {
+      return `$${valor.toLocaleString()}`;
+    },
+  },
+  created() {
+    this.getInvoice(5);
+  },
+  methods: {
+    goTo(location) {
+      window.location.href = location;
+    },
+    getInvoice(size) {
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: this.currentPage, size: size, search: this.toSearch },
+        });
+      } else {
+        this.currentPage = 1;
+        this.sizeData = size;
+        this.isLoading = true;
+        axios
+          .get("/api/factura", { params: { size: size } })
+          .then((response) => {
+            this.tableData = response.data.data;
+            this.sizeData = response.data.per_page;
+            this.totalData = response.data.total;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            this.isLoading = false;
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
+    },
+
+    getInvoicePerPage(page) {
+      this.currentPage = page;
+      this.isLoading = true;
+
+      if (this.toSearch != "") {
+        this.search(this.sizeData, {
+          params: { page: page, size: this.sizeData, search: this.toSearch },
+        });
+      } else {
+        axios
+          .get("/api/factura", {
+            params: { page: page, size: this.sizeData },
+          })
+          .then((response) => {
+            this.tableData = response.data.data;
+            this.sizeData = response.data.per_page;
+            this.totalData = response.data.total;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            this.isLoading = false;
+            this.swal({
+              title: "Algo salio mal",
+              text: "Por favor intentelo nuevamente",
+              icon: "error",
+              button: "OK",
+            });
+          });
+      }
+    },
+
+    deleteInvoice(id) {
+      this.swal({
+        title: "Atencion!",
+        text: "Esta seguro que desea eliminar esta factura?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios
+            .delete("/api/factura", {
+              params: { id: id },
+            })
+            .then((response) => {
+              this.getInvoicePerPage(this.currentPage);
+            })
+            .catch((error) => {
+              this.isLoading = false;
+              this.swal({
+                title: "Algo salio mal",
+                text: "Por favor intentelo nuevamente",
+                icon: "error",
+                button: "OK",
+              });
+            });
+        }
+      });
+    },
+
+    changeState(state, logistic) {
+      this.isLoading = true;
+
+      axios
+        .get("/api/factura-status", {
+          params: { id: logistic.id, estado: state },
+        })
+        .then((response) => {
+          logistic.estado = state;
+          this.swal({
+            title: "El estado se ha actualizado correctamente",
+            icon: "success",
+          });
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+
+      this.isLoading = false;
+    },
   },
 };
 </script>

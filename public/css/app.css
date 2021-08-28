@@ -10955,15 +10955,15 @@ a.text-dark:focus {
 }
 
 .login-view {
-  min-height: 81vh;
+  min-height: 90vh;
   width: 100%;
   display: grid;
   grid-template-columns: 6.5fr 3.5fr;
 }
 
 .login-view__img {
-  background-image: url("/img/inicio.jpg");
-  min-height: 81vh;
+  background-image: url("/img/unnamed.jpg");
+  min-height: 90vh;
   background-position: center center;
   background-size: cover;
 }
