@@ -82,6 +82,7 @@ Route::post('/api/logistica', 'LogisticaController@create')->middleware('auth');
 Route::delete('/api/logistica', 'LogisticaController@delete')->middleware('auth');
 Route::get('/api/logistica', 'LogisticaController@list')->middleware('auth');
 Route::get('/api/logistica-status', 'LogisticaController@changeStatus')->middleware('auth');
+Route::get('/api/logistica/search', 'LogisticaController@search')->middleware('auth');
 
 
 //CLIENTES
@@ -121,3 +122,4 @@ Route::patch('/api/factura', 'FacturaController@update')->middleware('auth');
 Route::get('/api/factura', 'FacturaController@list')->middleware('auth');
 Route::get('/api/factura-search', 'FacturaController@searchByParams')->middleware('auth');
 Route::get('/api/factura-status', 'FacturaController@changeStatus')->middleware('auth');
+Route::get('/api/factura/search', 'FacturaController@search')->middleware('auth');

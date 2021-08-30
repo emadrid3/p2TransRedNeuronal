@@ -106,6 +106,7 @@ class VehiculoController extends Controller
     }
     public function search(Request $request){
         
+        try {
 
             $dataToSearch = $request->input('search');
             $size = $request->input('size');
@@ -119,5 +120,8 @@ class VehiculoController extends Controller
             ->paginate($size);
             return response()->json($response);
         
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

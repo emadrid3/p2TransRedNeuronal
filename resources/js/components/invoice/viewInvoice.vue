@@ -17,6 +17,36 @@
       </div>
     </b-row>
 
+    <!-- This b-row ahead is for search functionality  -->
+    <b-row>
+      <b-col lg="12" md="auto">
+        <div class="search-container">
+          <div>
+            <el-input placeholder="Buscar" v-model="toSearch"></el-input>
+          </div>
+          <div>
+            <el-button
+              class="button-search"
+              type="success"
+              @click="search(5, { params: { size: 5, search: toSearch } })"
+              ><i class="fas fa-search"></i
+            ></el-button>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+
+    <b-row>
+      <b-col lg="1" md="auto">
+        <el-button class="button-reset" type="success" @click="reset()"
+          ><i class="fas fa-list"></i>Mostrar todos</el-button
+        >
+      </b-col>
+    </b-row>
+    <!-- Ends b-row for search functionality  -->
+
+
+
     <el-table
       v-if="!isLoading"
       :data="tableData"
@@ -55,6 +85,7 @@
       <el-table-column
         prop="estado"
         label="Estado"
+        width="180"
         :filters="[
           { text: 'Pago', value: 'Pago' },
           { text: 'Pendiente Pago', value: 'Pendiente Pago' },
@@ -73,7 +104,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="Operations" width="250">
+      <el-table-column label="Operations" width="100">
         <template slot-scope="scope">
           <el-button
             type="danger"
@@ -133,6 +164,36 @@ export default {
     this.getInvoice(5);
   },
   methods: {
+    reset() {
+      this.currentPage = 1;
+      this.toSearch = "";
+      this.isSearchingFor = "";
+      this.getCustomers(5);
+    },
+
+    search(size, param) {
+      this.sizeData = size;
+      this.isLoading = true;
+      axios
+        .get("/api/factura/search", param)
+        .then((response) => {
+          //console.log(response)
+          this.tableData = response.data.data;
+          this.sizeData = response.data.per_page;
+          this.totalData = response.data.total;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          this.swal({
+            title: "Algo salio mal",
+            text: "Por favor intentelo nuevamente",
+            icon: "error",
+            button: "OK",
+          });
+        });
+    },
+
     goTo(location) {
       window.location.href = location;
     },
@@ -297,4 +358,38 @@ export default {
 ::v-deep .el-table td {
   padding: 3px;
 }
+
+::v-deep .button-search {
+  background-color: #007900;
+  margin: 0 20px 0 20px;
+  height: 40px;
+  width: 40px;
+  padding-left: 10px;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+
+  &:hover {
+    background-color: #019901;
+  }
+}
+
+.search-container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.button-reset {
+  background-color: #007900;
+  margin-top: 10px;
+  height: 30px;
+  padding-left: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &:hover {
+    background-color: #019901;
+  }
+}
+
 </style>

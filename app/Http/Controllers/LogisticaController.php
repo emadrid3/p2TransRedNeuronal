@@ -198,4 +198,36 @@ class LogisticaController extends Controller
            throw $e;
         }
     }
+
+    public function search(Request $request){
+    
+        try {
+
+            $dataToSearch = $request->input('search');
+            $size = $request->input('size');
+
+            $response = logistica::with('encargado.user')
+            ->with('conductor')
+            ->with('vehiculo')
+            ->with('cliente')
+            ->with('carga')
+            ->with('tipo')
+            ->with('origen_obj')
+            ->with('destino_obj')
+            ->whereHas('encargado.user', function ($query) use ($dataToSearch) { $query->where('name', 'like', '%'.$dataToSearch.'%');})
+            ->orWhereHas('vehiculo', function ($query) use ($dataToSearch) { $query->where('placa', 'like', '%'.$dataToSearch.'%');})
+            ->orWhereHas('conductor', function ($query) use ($dataToSearch) { $query->where('nombre', 'like', '%'.$dataToSearch.'%');})
+            ->orWhereHas('origen_obj', function ($query) use ($dataToSearch) { $query->where('nombre', 'like', '%'.$dataToSearch.'%');})
+            ->orWhereHas('destino_obj', function ($query) use ($dataToSearch) { $query->where('nombre', 'like', '%'.$dataToSearch.'%');})
+            ->orWhereHas('cliente', function ($query) use ($dataToSearch) { $query->where('razonSocial', 'like', '%'.$dataToSearch.'%');})
+            ->orWhere('numero_factura', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('numero_orden', 'like', '%'.$dataToSearch.'%')
+            ->orderBy('created_at', 'desc')
+            ->paginate($size);
+
+            return response()->json($response);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
 }
