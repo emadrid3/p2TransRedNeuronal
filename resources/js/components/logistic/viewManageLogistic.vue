@@ -75,7 +75,7 @@
                     justify-content: center;
                   "
                 >
-                  <h4 style="color: #007900">FACTURAS CLIENTE #</h4>
+                  <h4 style="color: #007900">REMISIONES CLIENTE #</h4>
                   <p>
                     <i class="fas fa-info-circle"></i>Ingresar la primer letra en Mayuscula y separar por comas (,)
                   </p>
