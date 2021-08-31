@@ -316,7 +316,7 @@
             <b-container style="padding: 10px; border-radius: 10px">
               <el-timeline>
                 <el-timeline-item
-                  timestamp="Destino"
+                  timestamp="Seleccione una ciudad"
                   placement="top"
                   color="#0bbd87"
                   v-for="(city, index) in logistic.travel"
