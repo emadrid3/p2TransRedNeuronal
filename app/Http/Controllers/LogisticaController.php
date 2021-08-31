@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\logistica;
 use App\factura;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -63,17 +64,11 @@ class LogisticaController extends Controller
             $sum = 0;
             
 
-            if($request->input('bill_number') != NULL || $request->input('bill_number') != ""){
-                $logistica->numero_factura = $request->input('bill_number');
-            }
 
-            if($request->input('order_number') != NULL || $request->input('order_number') != ""){
-                $logistica->numero_orden = $request->input('order_number');
-            }
-            
-            if($request->input('customer_number') != NULL || $request->input('customer_number') != ""){
-                $logistica->numero_factura_cliente = $request->input('customer_number');
-            }
+            $logistica->numero_factura = $request->input('bill_number');
+            $logistica->numero_orden = $request->input('order_number');
+            $logistica->numero_factura_cliente = $request->input('customer_number');
+
 
             if($request->input('user') != NULL){
                 $logistica->encargado_id = $request->input('user')['id'];
@@ -107,9 +102,15 @@ class LogisticaController extends Controller
 
                 if(count($request->input('travel')) > 1){
                     $logistica->destino = $request->input('travel')[count($request->input('travel'))-1]['id'];
+                }else{
+                    $logistica->destino = NULL;
                 }
 
                 $logistica->trayecto = json_encode($request->input('travel'));
+            }else{
+                $logistica->origen = NULL;
+                $logistica->trayecto = NULL;
+                $logistica->destino = NULL;
             }
 
             if($request->input('charge') != NULL){
@@ -134,7 +135,7 @@ class LogisticaController extends Controller
                 $logistica->extra_total = $sum;
             }
 
-            if($request->input('description') != NULL || $request->input('description') != ""){
+            if($request->input('description') != NULL){
                 $logistica->descripcion = $request->input('description');
             }
 
@@ -174,6 +175,7 @@ class LogisticaController extends Controller
 
     public function changeStatus(Request $request){
         try {
+            DB::beginTransaction();
             $logistic = logistica::find($request->input('id'));
             $logistic->estado = $request->input('estado');
             $logistic->save();
@@ -193,8 +195,11 @@ class LogisticaController extends Controller
                 $factura->estado = "pendiente de pago";
                 $factura->save();
             }
+
+            DB::commit();
             return response()->json('OK');
         } catch (\Exception $e) {
+            DB::rollback();
            throw $e;
         }
     }

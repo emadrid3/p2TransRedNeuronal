@@ -23,7 +23,7 @@
           class="button-add"
           type="success"
           @click="goTo('logistica-manage')"
-          :disabled="auth.rol != 1 && auth.rol != 3 "
+          :disabled="auth.rol != 1 && auth.rol != 3"
           ><i class="fas fa-plus"></i>Crear un nuevo viaje</el-button
         >
       </b-col>
@@ -43,45 +43,75 @@
         label="# factura"
         sortable
       >
+        <template slot-scope="scope">
+          <div v-if="scope.row.numero_factura != null">
+            {{ scope.row.numero_factura.toUpperCase() }}
+          </div>
+          <el-tag type="danger" v-else>N/A</el-tag>
+        </template>
       </el-table-column>
       <el-table-column width="120" prop="numero_orden" label="# Orden">
+        <template slot-scope="scope">
+          <div v-if="scope.row.numero_orden != null">
+            {{ scope.row.numero_orden.toUpperCase() }}
+          </div>
+          <el-tag type="danger" v-else>N/A</el-tag>
+        </template>
       </el-table-column>
       <el-table-column width="250" prop="encargado" label="Encargado">
         <template slot-scope="scope">
-          <el-tag effect="dark" size="mini">
+          <el-tag effect="dark" size="mini" v-if="scope.row.encargado != null">
             {{ scope.row.encargado.name.toUpperCase() }}
           </el-tag>
+          <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="120" prop="fecha" label="Fecha">
+        <template slot-scope="scope">
+          <div v-if="scope.row.fecha != null">
+            {{ scope.row.fecha.toUpperCase() }}
+          </div>
+          <el-tag type="danger" v-else>N/A</el-tag>
+        </template>
       </el-table-column>
       <el-table-column width="120" prop="vehiculo" label="Vehiculo">
         <template slot-scope="scope">
-          <el-tag effect="dark" type="warning" size="mini">
+          <el-tag effect="dark" type="warning" size="mini" v-if="scope.row.vehiculo != null">
             {{ scope.row.vehiculo.placa.toUpperCase() }}
           </el-tag>
+          <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="270" prop="conductor" label="Conductor">
-        <template slot-scope="scope">
-          {{ scope.row.conductor.nombre.toUpperCase() }}
+        <template slot-scope="scope" >
+          <div v-if="scope.row.conductor != null">
+            {{ scope.row.conductor.nombre.toUpperCase() }}
+          </div>
+          <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="200" prop="origen" label="Origen">
         <template slot-scope="scope">
-          {{ scope.row.origen_obj.nombre.toUpperCase() }}
+          <div v-if="scope.row.origen_obj != null">
+            {{ scope.row.origen_obj.nombre.toUpperCase() }}
+          </div>
+          <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="200" prop="destino" label="Destino">
         <template slot-scope="scope">
-          {{ scope.row.destino_obj.nombre.toUpperCase() }}
+          <div v-if="scope.row.destino_obj != null">
+            {{ scope.row.destino_obj.nombre.toUpperCase() }}
+          </div>
+          <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="350" prop="cliente" label="Cliente">
         <template slot-scope="scope">
-          <el-tag effect="dark" size="mini">
+          <el-tag effect="dark" size="mini" v-if="scope.row.cliente != null">
             {{ scope.row.cliente.razonSocial.toUpperCase() }}
           </el-tag>
+          <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -106,7 +136,9 @@
               }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="en proceso">En proceso</el-dropdown-item>
+              <el-dropdown-item command="en proceso"
+                >En proceso</el-dropdown-item
+              >
               <el-dropdown-item command="liquidado">Liquidado</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -114,7 +146,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" width="250">
         <template slot-scope="scope">
-          <el-button 
+          <el-button
             type="primary"
             size="mini"
             :disabled="auth.rol != 1 && auth.rol != 3"
@@ -125,13 +157,19 @@
             icon="el-icon-edit"
             size="mini"
             @click="goTo('/logistica-manage/' + scope.row.id)"
-            :disabled="(auth.rol != 1 && auth.rol != 3) || scope.row.estado == 'liquidado'"
+            :disabled="
+              (auth.rol != 1 && auth.rol != 3) ||
+              scope.row.estado == 'liquidado'
+            "
           ></el-button>
           <el-button
             type="danger"
             icon="el-icon-delete"
             size="mini"
-            :disabled="(auth.rol != 1 && auth.rol != 3) || scope.row.estado == 'liquidado'"
+            :disabled="
+              (auth.rol != 1 && auth.rol != 3) ||
+              scope.row.estado == 'liquidado'
+            "
             @click="deleteLogistic(scope.row.id)"
           ></el-button>
         </template>
@@ -266,7 +304,7 @@ export default {
           this.isLoading = false;
           this.swal({
             title: "Algo salio mal",
-            text: "Por favor intentelo nuevamente",
+            text: "Por favor ingrese los datos completos de LOGISTICA e intentelo nuevamente",
             icon: "error",
             button: "OK",
           });
