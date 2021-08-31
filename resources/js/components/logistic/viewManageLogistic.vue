@@ -218,23 +218,23 @@
                         >
                           <el-table-column prop="flete" label="Flete">
                             <template>
-                              <el-input-number
-                                v-model="logistic.freight"
-                                :controls="false"
-                              ></el-input-number>
+                              <currency-input 
+                                v-model="logistic.freight" 
+                                :options="{ currency: 'COP' }"
+                              />
                             </template>
                           </el-table-column>
                           <el-table-column prop="anticipo" label="Anticipo">
-                            <el-input-number
-                              v-model="logistic.advance"
-                              :controls="false"
-                            ></el-input-number>
+                            <currency-input 
+                                v-model="logistic.advance" 
+                                :options="{ currency: 'COP' }"
+                            />
                           </el-table-column>
                           <el-table-column prop="descuento" label="Descuento">
-                            <el-input-number
-                              v-model="logistic.discount"
-                              :controls="false"
-                            ></el-input-number>
+                            <currency-input 
+                                v-model="logistic.discount" 
+                                :options="{ currency: 'COP' }"
+                            />
                           </el-table-column>
                         </el-table>
                       </b-col>
@@ -252,10 +252,10 @@
                         <h4 style="color: #007900">VALOR VIAJE</h4>
                       </b-col>
                       <b-col md="6" sm="12">
-                        <el-input
-                          v-model="logistic.freight"
-                          style="font-size: 25px"
-                        ></el-input>
+                        <currency-input 
+                            v-model="logistic.freight" 
+                            :options="{ currency: 'COP' }"
+                        />
                       </b-col>
                     </b-row>
                   </b-container>
@@ -507,10 +507,10 @@
                   </el-table-column>
                   <el-table-column prop="valor" label="Valor">
                     <template slot-scope="props">
-                      <el-input-number
-                        v-model="logistic.extra[props.$index].value"
-                        :controls="false"
-                      ></el-input-number>
+                      <currency-input 
+                          v-model="logistic.extra[props.$index].value" 
+                          :options="{ currency: 'COP' }"
+                      />
                     </template>
                   </el-table-column>
                   <el-table-column label="Acción">
@@ -569,9 +569,13 @@
 </template>
 
 <script>
+import CurrencyInput from '../formatMoney/formatMoney.vue'
 export default {
   name: "LogisticManage",
   props: ["logisticaprop"],
+  components:{
+    CurrencyInput
+  },
   data() {
     return {
       listUsers: [],

@@ -5,6 +5,7 @@
       <el-breadcrumb-item>Logistica</el-breadcrumb-item>
       <el-breadcrumb-item>Lista de viajes</el-breadcrumb-item>
     </el-breadcrumb>
+    <my-currency-input v-model="price"></my-currency-input>
 
     <b-row class="title">
       <h2>Logistica</h2>
