@@ -77,29 +77,26 @@
           <b style="font-size: 15px">{{ scope.row.valorAdicional | Flete }}</b>
         </template>
       </el-table-column>
-      <el-table-column prop="valorFactura" label="Valor factura" sortable>
+      <el-table-column prop="valorFactura" width="130" label="Valor factura" sortable>
         <template slot-scope="scope">
           <b style="font-size: 15px">{{ scope.row.valorFactura | Flete }}</b>
-        </template> 
+        </template>
       </el-table-column>
       <el-table-column
         prop="estado"
         label="Estado"
         width="180"
-        :filters="[
-          { text: 'Pago', value: 'Pago' },
-          { text: 'Pendiente Pago', value: 'Pendiente Pago' },
-          { text: 'Pendiente facturar', value: 'Pendiente facturar' },
-        ]"
+        sortable
       >
         <template slot-scope="scope">
           <el-dropdown @command="changeState($event, scope.row)">
-            <el-button size="small" :type="scope.row.estado == 'pendiente de pago' ? 'danger':'success'">
+            <el-button size="small" :type="scope.row.estado != 'pagado' ? 'danger':'success'">
               {{scope.row.estado}}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown" >
               <el-dropdown-item command="pendiente de pago">Pendiente de pago</el-dropdown-item>
-              <el-dropdown-item command="pagado">pagado</el-dropdown-item>
+              <el-dropdown-item command="pendiente de facturar">Pendiente de facturar</el-dropdown-item>
+              <el-dropdown-item command="pagado">Pagado</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
