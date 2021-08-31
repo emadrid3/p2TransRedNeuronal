@@ -139,13 +139,7 @@ class LogisticaController extends Controller
                 $logistica->descripcion = $request->input('description');
             }
 
-            if($request->input('vehicle') != NULL){
-                if($request->input('vehicle')['tipo'] == "tercero"){
-                    $sum += $logistica->anticipo;
-                }
-            }
-
-            $logistica->factura_total = $sum + $request->input('freight');
+            $logistica->factura_total = ($sum + $request->input('freight')) - ($logistica->anticipo + $logistica->descuento);
             
             $logistica->save();
 
