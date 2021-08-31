@@ -105,4 +105,22 @@ class FacturaController extends Controller
            throw $e;
         }
     }
+
+    public function search(Request $request){
+
+        try {
+
+            $dataToSearch = $request->input('search');
+            $size = $request->input('size');
+
+            $response = factura::where('numeroFactura', 'like', '%'.$dataToSearch.'%')
+            ->orWhere('numeroOrden', 'like', '%'.$dataToSearch.'%')
+            ->orderBy('created_at', 'desc')
+            ->paginate($size);
+            return response()->json($response);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+
+    }
 }

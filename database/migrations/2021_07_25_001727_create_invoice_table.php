@@ -25,7 +25,7 @@ class CreateInvoiceTable extends Migration
             $table->unsignedBigInteger('porcentaje');
             $table->unsignedBigInteger('idVehiculo');
             $table->unsignedBigInteger('idCliente');
-            $table->enum('estado',array('pendiente de pago','pagado'));
+            $table->enum('estado',array('pendiente de pago','pagado','pendiente de facturar'));
             $table->timestamps();
         });
     }

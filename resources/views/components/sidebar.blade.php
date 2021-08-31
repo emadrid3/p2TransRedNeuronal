@@ -22,5 +22,6 @@
         <li class="active">
             <a href="{{ url('/historial') }}"><i class="fas fa-history fa-2x" style="float: left; margin: 12px 3px"></i>Historial</a>
         </li>
+        <h6 style="color:white;margin-top:100%;">Version 1.2</h6>
     </ul>
 </div>

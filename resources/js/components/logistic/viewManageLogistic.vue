@@ -75,7 +75,7 @@
                     justify-content: center;
                   "
                 >
-                  <h4 style="color: #007900">FACTURAS CLIENTE #</h4>
+                  <h4 style="color: #007900">REMISIONES CLIENTE #</h4>
                   <p>
                     <i class="fas fa-info-circle"></i>Ingresar la primer letra en Mayuscula y separar por comas (,)
                   </p>
@@ -316,7 +316,7 @@
             <b-container style="padding: 10px; border-radius: 10px">
               <el-timeline>
                 <el-timeline-item
-                  timestamp="Destino"
+                  timestamp="Seleccione una ciudad"
                   placement="top"
                   color="#0bbd87"
                   v-for="(city, index) in logistic.travel"
