@@ -218,23 +218,23 @@
                         >
                           <el-table-column prop="flete" label="Flete">
                             <template>
-                              <el-input-number
-                                v-model="logistic.freight"
-                                :controls="false"
-                              ></el-input-number>
+                              <currency-input 
+                                v-model="logistic.freight" 
+                                :options="{ currency: 'COP' }"
+                              />
                             </template>
                           </el-table-column>
                           <el-table-column prop="anticipo" label="Anticipo">
-                            <el-input-number
-                              v-model="logistic.advance"
-                              :controls="false"
-                            ></el-input-number>
+                            <currency-input 
+                                v-model="logistic.advance" 
+                                :options="{ currency: 'COP' }"
+                            />
                           </el-table-column>
                           <el-table-column prop="descuento" label="Descuento">
-                            <el-input-number
-                              v-model="logistic.discount"
-                              :controls="false"
-                            ></el-input-number>
+                            <currency-input 
+                                v-model="logistic.discount" 
+                                :options="{ currency: 'COP' }"
+                            />
                           </el-table-column>
                         </el-table>
                       </b-col>
@@ -252,10 +252,10 @@
                         <h4 style="color: #007900">VALOR VIAJE</h4>
                       </b-col>
                       <b-col md="6" sm="12">
-                        <el-input
-                          v-model="logistic.freight"
-                          style="font-size: 25px"
-                        ></el-input>
+                        <currency-input 
+                            v-model="logistic.freight" 
+                            :options="{ currency: 'COP' }"
+                        />
                       </b-col>
                     </b-row>
                   </b-container>
@@ -507,10 +507,10 @@
                   </el-table-column>
                   <el-table-column prop="valor" label="Valor">
                     <template slot-scope="props">
-                      <el-input-number
-                        v-model="logistic.extra[props.$index].value"
-                        :controls="false"
-                      ></el-input-number>
+                      <currency-input 
+                          v-model="logistic.extra[props.$index].value" 
+                          :options="{ currency: 'COP' }"
+                      />
                     </template>
                   </el-table-column>
                   <el-table-column label="Acción">
@@ -569,9 +569,13 @@
 </template>
 
 <script>
+import CurrencyInput from '../formatMoney/formatMoney.vue'
 export default {
-  name: "UserManage",
+  name: "LogisticManage",
   props: ["logisticaprop"],
+  components:{
+    CurrencyInput
+  },
   data() {
     return {
       listUsers: [],
@@ -604,31 +608,52 @@ export default {
   },
   created() {
     this.logistic.travel.push(null);
-
     if (this.logisticaprop != null) {
+
+      if(this.logisticaprop.encargado != null){
+        this.listUsers.push(this.logisticaprop.encargado);
+      }
+
+      if(this.logisticaprop.vehiculo != null){
+        this.listVehicles.push(this.logisticaprop.vehiculo);
+      }
+
+      if(this.logisticaprop.conductor != null){
+        this.listDrivers.push(this.logisticaprop.conductor);
+      }
+
+      if(this.logisticaprop.trayecto != null){
+        this.listCities.push(...JSON.parse(this.logisticaprop.trayecto));
+      }
+
+      if(this.logisticaprop.tipo != null){
+        this.listType.push(this.logisticaprop.tipo);
+      }
+
+      if(this.logisticaprop.carga != null){
+        this.listCarga.push(this.logisticaprop.carga);
+      }
+
+      if(this.logisticaprop.cliente != null){
+        this.listCustomer.push(this.logisticaprop.cliente);
+      }
+      
       this.logistic.id = this.logisticaprop.id;
       this.logistic.bill_number = this.logisticaprop.numero_factura;
       this.logistic.order_number = this.logisticaprop.numero_orden;
       this.logistic.customer_number = this.logisticaprop.numero_factura_cliente;
-      this.listUsers.push(this.logisticaprop.encargado);
       this.logistic.user = this.logisticaprop.encargado;
       this.logistic.date = this.logisticaprop.fecha;
-      this.listVehicles.push(this.logisticaprop.vehiculo);
       this.logistic.vehicle = this.logisticaprop.vehiculo;
-      this.listDrivers.push(this.logisticaprop.conductor);
       this.logistic.driver = this.logisticaprop.conductor;
-      this.logistic.freight = this.logisticaprop.flete;
-      this.logistic.advance = this.logisticaprop.anticipo;
-      this.logistic.discount = this.logisticaprop.descuento;
-      this.listCities.push(...JSON.parse(this.logisticaprop.trayecto));
-      this.logistic.travel = JSON.parse(this.logisticaprop.trayecto);
-      this.listType.push(this.logisticaprop.tipo);
-      this.logistic.type = this.logisticaprop.tipo.id;
-      this.listCarga.push(this.logisticaprop.carga);
-      this.logistic.charge = this.logisticaprop.carga.id;
-      this.listCustomer.push(this.logisticaprop.cliente);
+      this.logistic.freight = this.logisticaprop.flete != null ? this.logisticaprop.flete : 0;
+      this.logistic.advance = this.logisticaprop.anticipo != null ? this.logisticaprop.anticipo : 0;
+      this.logistic.discount = this.logisticaprop.descuento != null ? this.logisticaprop.descuento : 0;
+      this.logistic.travel = this.logisticaprop.trayecto != null ? JSON.parse(this.logisticaprop.trayecto) : [];
+      this.logistic.type = this.logisticaprop.tipo != null ? this.logisticaprop.tipo.id : null;
+      this.logistic.charge = this.logisticaprop.carga != null ? this.logisticaprop.carga.id : null;
       this.logistic.customer = this.logisticaprop.cliente;
-      this.logistic.extra = JSON.parse(this.logisticaprop.extra);
+      this.logistic.extra = this.logisticaprop.extra != null ? JSON.parse(this.logisticaprop.extra) : [];
       this.logistic.description = this.logisticaprop.descripcion;
     }
   },

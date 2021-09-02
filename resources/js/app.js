@@ -53,6 +53,8 @@ Vue.use(ElementUI, { locale });
  Vue.component('view-invoice', require('./components/invoice/viewInvoice.vue').default);
 
  Vue.component('view-histories', require('./components/history/viewHistories.vue').default);
+
+ Vue.component('currency-input', require('./components/formatMoney/formatMoney.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
