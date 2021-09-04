@@ -56,9 +56,7 @@
         >
       </b-col>
     </b-row>
-    <!-- Ends b-row for search functionality  -->    
-
-
+    <!-- Ends b-row for search functionality  -->
 
     <el-table
       v-if="!isLoading"
@@ -107,14 +105,19 @@
       </el-table-column>
       <el-table-column width="120" prop="vehiculo" label="Vehiculo">
         <template slot-scope="scope">
-          <el-tag effect="dark" type="warning" size="mini" v-if="scope.row.vehiculo != null">
+          <el-tag
+            effect="dark"
+            type="warning"
+            size="mini"
+            v-if="scope.row.vehiculo != null"
+          >
             {{ scope.row.vehiculo.placa.toUpperCase() }}
           </el-tag>
           <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="270" prop="conductor" label="Conductor">
-        <template slot-scope="scope" >
+        <template slot-scope="scope">
           <div v-if="scope.row.conductor != null">
             {{ scope.row.conductor.nombre.toUpperCase() }}
           </div>
@@ -178,9 +181,11 @@
       <el-table-column fixed="right" label="Operations" width="250">
         <template slot-scope="scope">
           <el-button
+            v-b-modal.modal-1
             type="primary"
             size="mini"
             :disabled="auth.rol != 1 && auth.rol != 3"
+            @click="changeLogistic(scope.row)"
             >Ver mas..
           </el-button>
           <el-button
@@ -225,6 +230,298 @@
       </b-col>
       <b-col></b-col>
     </b-row>
+    <!-- MODAL PARA LOGISTICA -->
+    <el-dialog title="Visualización" :visible.sync="dialogVisible" width="50%">
+      <b-row>
+        <b-col md="6" sm="12">
+          <h2>TRANSGIRAR</h2>
+          <h5>Transporte global</h5>
+        </b-col>
+        <b-col md="6" sm="12">
+          <h5>Logistica # {{ logisticSelected.id }}</h5>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>FECHA</b></td>
+
+              <td>{{ logisticSelected.fecha }}</td>
+            </tr>
+          </table>
+        </b-col>
+      </b-row>
+      <br />
+      <b-row>
+        <b-col md="12" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>FACTURA</b></td>
+
+              <td style="background-color: ">
+                {{ logisticSelected.numero_factura }}
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>ORDEN</b></td>
+
+              <td>{{ logisticSelected.numero_orden }}</td>
+            </tr>
+
+            <tr>
+              <td><b>REMISION</b></td>
+
+              <td>{{ logisticSelected.numero_factura_cliente }}</td>
+            </tr>
+          </table>
+        </b-col>
+      </b-row>
+      <br />
+      <b-row>
+        <b-col md="6" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>ENCARGADO</b></td>
+            </tr>
+
+            <tr>
+              {{
+                logisticSelected.encargado
+                  ? logisticSelected.encargado.name.toUpperCase()
+                  : ""
+              }}
+            </tr>
+
+            <tr>
+              {{
+                logisticSelected.encargado
+                  ? logisticSelected.encargado.email.toUpperCase()
+                  : ""
+              }}
+            </tr>
+
+            <tr style="font-size: 12px">
+              {{
+                logisticSelected.encargado
+                  ? logisticSelected.encargado.user.rol.toUpperCase()
+                  : ""
+              }}
+            </tr>
+          </table>
+        </b-col>
+        <b-col md="6" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>CLIENTE</b></td>
+            </tr>
+
+            <tr>
+              {{
+                logisticSelected.cliente
+                  ? logisticSelected.cliente.razonSocial.toUpperCase()
+                  : ""
+              }}
+            </tr>
+
+            <tr>
+              {{
+                logisticSelected.cliente
+                  ? logisticSelected.cliente.nombre.toUpperCase()
+                  : ""
+              }}
+            </tr>
+
+            <tr>
+              {{
+                logisticSelected.cliente
+                  ? logisticSelected.cliente.nit.toUpperCase()
+                  : ""
+              }}
+            </tr>
+          </table>
+        </b-col>
+      </b-row>
+      <br />
+      <b-row>
+        <b-col md="6" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>VEHICULO</b></td>
+            </tr>
+
+            <tr>
+              <td><b>PLACA</b></td>
+
+              <td>
+                {{
+                  logisticSelected.vehiculo
+                    ? logisticSelected.vehiculo.placa.toUpperCase()
+                    : ""
+                }}
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>TIPO</b></td>
+
+              <td>
+                {{
+                  logisticSelected.vehiculo
+                    ? logisticSelected.vehiculo.tipo.toUpperCase()
+                    : ""
+                }}
+              </td>
+            </tr>
+          </table>
+        </b-col>
+        <b-col md="6" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>CONDUCTOR</b></td>
+            </tr>
+
+            <tr>
+              <td><b>NOMBRE</b></td>
+
+              <td>
+                {{
+                  logisticSelected.conductor
+                    ? logisticSelected.conductor.nombre.toUpperCase()
+                    : ""
+                }}
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>ID</b></td>
+
+              <td>
+                {{
+                  logisticSelected.conductor
+                    ? logisticSelected.conductor.cedula
+                    : ""
+                }}
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>CELULAR</b></td>
+
+              <td>
+                {{
+                  logisticSelected.conductor
+                    ? logisticSelected.conductor.celular.toUpperCase()
+                    : ""
+                }}
+              </td>
+            </tr>
+          </table>
+        </b-col>
+      </b-row>
+      <br />
+      <b-row>
+        <b-col md="12" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>TIPO DE VEHICULO</b></td>
+
+              <td>
+                {{
+                  logisticSelected.tipo
+                    ? logisticSelected.tipo.tipo.toUpperCase()
+                    : ""
+                }}
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>TIPO DE CARGA</b></td>
+
+              <td>
+                {{
+                  logisticSelected.carga
+                    ? logisticSelected.carga.tipoCarga.toUpperCase()
+                    : ""
+                }}
+              </td>
+            </tr>
+          </table>
+        </b-col>
+      </b-row>
+      <br />
+      <b-row>
+        <b-col md="2" sm="6">
+          <i class="fas fa-map-marker-alt fa-2x"></i>
+          <br />
+          <b>DESDE</b>
+          <p>
+            {{
+              logisticSelected.origen_obj
+                ? logisticSelected.origen_obj.nombre
+                : ""
+            }}
+          </p>
+        </b-col>
+        <b-col md="8" sm="0"> </b-col>
+        <b-col md="2" sm="6">
+          <i class="fas fa-map-marker-alt fa-2x"></i>
+          <br />
+          <b>HASTA</b>
+          <p>
+            {{
+              logisticSelected.destino_obj
+                ? logisticSelected.destino_obj.nombre
+                : ""
+            }}
+          </p>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>VALORES ADICIONALES</b></td>
+            </tr>
+          </table>
+          <table class="default" style="width: 100%" border>
+            <tr
+              v-for="item in logisticSelected.extra
+                ? logisticSelected.extra
+                : []"
+              :key="item"
+            >
+              <td>
+                <b>{{ item.description }}</b>
+              </td>
+
+              <td>
+                {{ item.value | Flete }}
+              </td>
+            </tr>
+          </table>
+        </b-col>
+      </b-row>
+      <br>
+      <b-row>
+        <b-col md="12" sm="12">
+          <table class="default" style="width: 100%" border>
+            <tr>
+              <td><b>DESCRIPCIÓN</b></td>
+            </tr>
+            <td>
+              {{
+                logisticSelected.descripcion
+              }}
+            </td>
+          </table>
+        </b-col>
+      </b-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">OK</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -239,12 +536,13 @@ export default {
   data() {
     return {
       toSearch: "",
-
+      dialogVisible: false,
       isLoading: false,
       currentPage: null,
       sizeData: null,
       totalData: null,
       tableData: [],
+      logisticSelected: {},
     };
   },
   filters: {
@@ -256,6 +554,12 @@ export default {
     this.getLogistic(5);
   },
   methods: {
+    changeLogistic(logistic) {
+      console.log(logistic);
+      this.dialogVisible = true;
+      this.logisticSelected = logistic;
+      this.logisticSelected.extra = JSON.parse(this.logisticSelected.extra);
+    },
     reset() {
       this.currentPage = 1;
       this.toSearch = "";
