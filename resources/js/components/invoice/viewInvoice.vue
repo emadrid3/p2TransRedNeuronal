@@ -57,29 +57,19 @@
     >
       <el-table-column prop="numeroFactura" label="# Factura"> </el-table-column>
       <el-table-column prop="numeroOrden" label="# Orden"> </el-table-column>
-      <el-table-column prop="flete" label="Flete">
-        <template slot-scope="scope">
-          <b style="font-size: 15px">{{ scope.row.flete | Flete }}</b>
-        </template>
-      </el-table-column>
-      <el-table-column prop="anticipo" label="Anticipo">
-        <template slot-scope="scope">
-          <b style="font-size: 15px">{{ scope.row.anticipo | Flete }}</b>
-        </template>
-      </el-table-column>
-      <el-table-column prop="porcentaje" label="Porcentaje">
-        <template slot-scope="scope">
-          <b style="font-size: 15px">{{ scope.row.porcentaje | Flete }}</b>
-        </template>
-      </el-table-column>
-      <el-table-column prop="valorAdicional" label="Valor Extra">
-        <template slot-scope="scope">
-          <b style="font-size: 15px">{{ scope.row.valorAdicional | Flete }}</b>
-        </template>
-      </el-table-column>
       <el-table-column prop="valorFactura" width="130" label="Valor factura" sortable>
         <template slot-scope="scope">
           <b style="font-size: 15px">{{ scope.row.valorFactura | Flete }}</b>
+        </template>
+      </el-table-column>
+      <el-table-column prop="created_at" width="180" label="Fecha creación" sortable>
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.created_at | formatDate}}</b>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updated_at" width="180" label="Fecha actualización" sortable>
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.updated_at | formatDate}}</b>
         </template>
       </el-table-column>
       <el-table-column
@@ -156,6 +146,21 @@ export default {
     Flete(valor) {
       return `$${valor.toLocaleString()}`;
     },
+    formatDate: function (value) {
+        let date = new Date(value);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? ('0' + MM) : MM;
+        let d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        let h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        let m = date.getMinutes();
+        m = m < 10 ? ('0' + m) : m;
+        let s = date.getSeconds();
+        s = s < 10 ? ('0' + s) : s;
+        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+      }
   },
   created() {
     this.getInvoice(5);
