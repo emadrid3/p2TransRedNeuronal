@@ -87,7 +87,7 @@
           <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="250" prop="encargado" label="Encargado">
+      <el-table-column width="250" prop="encargado" label="Encargado" sortable>
         <template slot-scope="scope">
           <el-tag effect="dark" size="mini" v-if="scope.row.encargado != null">
             {{ scope.row.encargado.name.toUpperCase() }}
@@ -95,7 +95,7 @@
           <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="120" prop="fecha" label="Fecha">
+      <el-table-column width="120" prop="fecha" label="Fecha" sortable>
         <template slot-scope="scope">
           <div v-if="scope.row.fecha != null">
             {{ scope.row.fecha.toUpperCase() }}
@@ -158,7 +158,7 @@
           <b style="font-size: 15px">{{ scope.row.factura_total | Flete }}</b>
         </template>
       </el-table-column>
-      <el-table-column width="150" prop="estado" label="Estado" fixed="right">
+      <el-table-column width="150" prop="estado" label="Estado" fixed="right" sortable>
         <template slot-scope="scope">
           <el-dropdown @command="changeState($event, scope.row)">
             <el-button
@@ -221,7 +221,7 @@
           @size-change="getLogistic"
           @current-change="getLogisticPerPage"
           :current-page.sync="currentPage"
-          :page-sizes="[5, 10, 20, 50]"
+          :page-sizes="[50, 100, 200, 500]"
           :page-size="sizeData"
           layout="sizes, prev, pager, next"
           :total="totalData"
@@ -234,8 +234,8 @@
     <el-dialog title="Visualización" :visible.sync="dialogVisible" width="50%">
       <b-row>
         <b-col md="6" sm="12">
-          <h2>TRANSGIRAR</h2>
-          <h5>Transporte global</h5>
+          <h2><b>TRANSGIRAR</b></h2>
+          <b><h5>Transporte global</h5></b>
         </b-col>
         <b-col md="6" sm="12">
           <h5>Logistica # {{ logisticSelected.id }}</h5>
@@ -551,7 +551,7 @@ export default {
     },
   },
   created() {
-    this.getLogistic(5);
+    this.getLogistic(50);
   },
   methods: {
     changeLogistic(logistic) {
@@ -564,7 +564,7 @@ export default {
       this.currentPage = 1;
       this.toSearch = "";
       this.isSearchingFor = "";
-      this.getLogistic(5);
+      this.getLogistic(50);
     },
 
     search(size, param) {

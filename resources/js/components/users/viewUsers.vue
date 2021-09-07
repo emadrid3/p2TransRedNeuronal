@@ -107,7 +107,7 @@
           @size-change="getUser"
           @current-change="getUserPerPage"
           :current-page.sync="currentPage"
-          :page-sizes="[5, 10, 20, 50]"
+          :page-sizes="[50, 100, 200, 500]"
           :page-size="sizeData"
           layout="sizes, prev, pager, next"
           :total="totalData"
@@ -138,7 +138,7 @@ export default {
     };
   },
   created() {
-    this.getUser(5);
+    this.getUser(50);
   },
   methods: {
 
@@ -146,7 +146,7 @@ export default {
       this.currentPage = 1;
       this.toSearch = "";
       this.isSearchingFor = "";
-      this.getUser(5);
+      this.getUser(50);
     },
 
     search(size, param){

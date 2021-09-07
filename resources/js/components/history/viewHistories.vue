@@ -119,7 +119,7 @@ export default {
     }
   },
   created() {
-    this.getHistories(5);
+    this.getHistories(50);
   },
   methods: {
 
@@ -127,7 +127,7 @@ export default {
       this.currentPage = 1;
       this.toSearch = "";
       this.isSearchingFor = "";
-      this.getHistories(5);
+      this.getHistories(50);
     },
 
     search(size, param){
