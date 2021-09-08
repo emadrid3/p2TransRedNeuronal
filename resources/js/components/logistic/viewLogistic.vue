@@ -192,7 +192,7 @@
             type="primary"
             icon="el-icon-edit"
             size="mini"
-            @click="goTo('/logistica-manage/' + scope.row.id)"
+            @click="goTo('/logistica-manage/'+ currentPage +'/'+ scope.row.id)"
             :disabled="
               (auth.rol != 1 && auth.rol != 3) ||
               scope.row.estado == 'liquidado'
@@ -532,7 +532,7 @@ export default {
   components: {
     Spinner,
   },
-  props: ["auth"],
+  props: ["auth","page"],
   data() {
     return {
       toSearch: "",
@@ -551,7 +551,9 @@ export default {
     },
   },
   created() {
-    this.getLogistic(50);
+    this.currentPage = this.page;
+    console.log(this.page)
+    this.getLogistic(50, this.page);
   },
   methods: {
     changeLogistic(logistic) {
@@ -564,7 +566,7 @@ export default {
       this.currentPage = 1;
       this.toSearch = "";
       this.isSearchingFor = "";
-      this.getLogistic(50);
+      this.getLogistic(50, 1);
     },
 
     search(size, param) {
@@ -590,18 +592,18 @@ export default {
         });
     },
 
-    getLogistic(size) {
+    getLogistic(size, toPage=1 ) {
       if (this.toSearch != "") {
         this.search(this.sizeData, {
           params: { page: this.currentPage, size: size, search: this.toSearch },
         });
       } else {
-        this.currentPage = 1;
+        this.currentPage = toPage;
         this.sizeData = size;
         this.isLoading = true;
 
         axios
-          .get("/api/logistica", { params: { size: size } })
+          .get("/api/logistica", { params: { page: toPage, size: size } })
           .then((response) => {
             this.tableData = response.data.data;
             this.sizeData = response.data.per_page;
@@ -692,7 +694,7 @@ export default {
               params: { id: id },
             })
             .then((response) => {
-              this.getLogistic(this.currentPage);
+              this.getLogistic(this.currentPage, 1);
             })
             .catch((error) => {
               this.isLoading = false;

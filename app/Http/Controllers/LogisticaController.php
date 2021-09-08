@@ -15,7 +15,13 @@ class LogisticaController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('logistic.logistic', ['auth' => $user]);
+        $page = '1';
+        return view('logistic.logistic', ['auth' => $user, 'page' => $page]);
+    }
+    public function indexPage($page)
+    {
+        $user = Auth::user();
+        return view('logistic.logistic', ['auth' => $user, 'page' => $page]);
     }
     public function manageLogistic()
     {
@@ -23,10 +29,10 @@ class LogisticaController extends Controller
         return view('logistic.logisticManage', ['logistica' => $logistica]);
     }
 
-    public function editLogistic($id)
+    public function editLogistic($page,$id)
     {
         $logistica = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('cliente')->with('carga')->with('tipo')->find($id);
-        return view('logistic.logisticManage', ['logistica' => $logistica]);
+        return view('logistic.logisticManage', ['logistica' => $logistica, 'page' => $page]);
     }
 
     public function create(Request $request)
