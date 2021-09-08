@@ -45,8 +45,6 @@
     </b-row>
     <!-- Ends b-row for search functionality  -->
 
-
-
     <el-table
       v-if="!isLoading"
       :data="tableData"
@@ -55,37 +53,62 @@
       style="width: 100%"
       max-height="420"
     >
-      <el-table-column prop="numeroFactura" label="# Factura"> </el-table-column>
+      <el-table-column prop="numeroFactura" label="# Factura">
+      </el-table-column>
       <el-table-column prop="numeroOrden" label="# Orden"> </el-table-column>
-      <el-table-column prop="valorFactura" width="130" label="Valor factura" sortable>
+      <el-table-column
+        prop="valorFactura"
+        width="130"
+        label="Valor factura"
+        sortable
+      >
         <template slot-scope="scope">
           <b style="font-size: 15px">{{ scope.row.valorFactura | Flete }}</b>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" width="180" label="Fecha creación" sortable>
-        <template slot-scope="scope">
-          <b style="font-size: 15px">{{ scope.row.created_at | formatDate}}</b>
-        </template>
-      </el-table-column>
-      <el-table-column prop="updated_at" width="180" label="Fecha actualización" sortable>
-        <template slot-scope="scope">
-          <b style="font-size: 15px">{{ scope.row.updated_at | formatDate}}</b>
-        </template>
-      </el-table-column>
       <el-table-column
-        prop="estado"
-        label="Estado"
+        prop="created_at"
         width="180"
+        label="Fecha creación"
         sortable
       >
         <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.created_at | formatDate }}</b>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="updated_at"
+        width="180"
+        label="Fecha actualización"
+        sortable
+      >
+        <template slot-scope="scope">
+          <b style="font-size: 15px">{{ scope.row.updated_at | formatDate }}</b>
+        </template>
+      </el-table-column>
+      <el-table-column prop="estado" label="Estado" width="180" sortable>
+        <template slot-scope="scope">
           <el-dropdown @command="changeState($event, scope.row)">
-            <el-button size="small" :type="scope.row.estado != 'pagado' ? 'danger':'success'">
-              {{scope.row.estado}}<i class="el-icon-arrow-down el-icon--right"></i>
+            <el-button
+              size="small"
+              :type="
+                scope.row.estado == 'pagado'
+                  ? 'success'
+                  : scope.row.estado == 'pendiente de facturar'
+                  ? 'warning'
+                  : 'danger'
+              "
+            >
+              {{ scope.row.estado
+              }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu slot="dropdown" >
-              <el-dropdown-item command="pendiente de pago">Pendiente de pago</el-dropdown-item>
-              <el-dropdown-item command="pendiente de facturar">Pendiente de facturar</el-dropdown-item>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="pendiente de pago"
+                >Pendiente de pago</el-dropdown-item
+              >
+              <el-dropdown-item command="pendiente de facturar"
+                >Pendiente de facturar</el-dropdown-item
+              >
               <el-dropdown-item command="pagado">Pagado</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -98,6 +121,7 @@
             icon="el-icon-delete"
             size="mini"
             @click="deleteInvoice(scope.row.id)"
+            :disabled="scope.row.estado == 'pagado'"
           ></el-button>
         </template>
       </el-table-column>
@@ -147,20 +171,20 @@ export default {
       return `$${valor.toLocaleString()}`;
     },
     formatDate: function (value) {
-        let date = new Date(value);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? ('0' + MM) : MM;
-        let d = date.getDate();
-        d = d < 10 ? ('0' + d) : d;
-        let h = date.getHours();
-        h = h < 10 ? ('0' + h) : h;
-        let m = date.getMinutes();
-        m = m < 10 ? ('0' + m) : m;
-        let s = date.getSeconds();
-        s = s < 10 ? ('0' + s) : s;
-        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-      }
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? "0" + MM : MM;
+      let d = date.getDate();
+      d = d < 10 ? "0" + d : d;
+      let h = date.getHours();
+      h = h < 10 ? "0" + h : h;
+      let m = date.getMinutes();
+      m = m < 10 ? "0" + m : m;
+      let s = date.getSeconds();
+      s = s < 10 ? "0" + s : s;
+      return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+    },
   },
   created() {
     this.getInvoice(50);
@@ -393,5 +417,4 @@ export default {
     background-color: #019901;
   }
 }
-
 </style>
