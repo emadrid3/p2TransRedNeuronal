@@ -43,6 +43,7 @@ class LogisticaController extends Controller
                 $logistica->encargado_id = NULL;
                 $logistica->fecha = NULL;
                 $logistica->vehiculo_id = NULL;
+                $logistica->valor_viaje = 0;
                 $logistica->flete = 0;
                 $logistica->anticipo = 0;
                 $logistica->descuento = 0;
@@ -81,6 +82,8 @@ class LogisticaController extends Controller
             if($request->input('vehicle') != NULL){
                 $logistica->vehiculo_id = $request->input('vehicle')['id'];
             }
+
+            $logistica->valor_viaje = $request->input('travel_total');
 
 
             $logistica->flete = $request->input('freight');
@@ -139,7 +142,7 @@ class LogisticaController extends Controller
                 $logistica->descripcion = $request->input('description');
             }
 
-            $logistica->factura_total = ($sum + $request->input('freight')) - ($logistica->anticipo + $logistica->descuento);
+            $logistica->factura_total = ($sum + $request->input('travel_total'));
             
             $logistica->save();
 

@@ -21,6 +21,7 @@ class CreateLogisticasTable extends Migration
             $table->unsignedBigInteger('encargado_id')->nullable();
             $table->date('fecha')->nullable();
             $table->unsignedBigInteger('vehiculo_id')->nullable();
+            $table->unsignedBigInteger('valor_viaje')->nullable();
             $table->unsignedBigInteger('flete')->nullable();
             $table->unsignedBigInteger('anticipo')->nullable();
             $table->unsignedBigInteger('descuento')->nullable();

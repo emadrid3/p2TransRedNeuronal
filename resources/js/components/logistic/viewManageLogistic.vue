@@ -239,7 +239,7 @@
                         </el-table>
                       </b-col>
                     </b-row>
-                    <b-row v-else>
+                    <b-row >
                       <b-col
                         md="6"
                         sm="12"
@@ -253,7 +253,7 @@
                       </b-col>
                       <b-col md="6" sm="12">
                         <currency-input 
-                            v-model="logistic.freight" 
+                            v-model="logistic.travel_total" 
                             :options="{ currency: 'COP' }"
                         />
                       </b-col>
@@ -593,6 +593,7 @@ export default {
         user: null,
         date: null,
         vehicle: null,
+        travel_total: 0,
         freight: 0,
         advance: 0,
         discount: 0,
@@ -646,6 +647,7 @@ export default {
       this.logistic.date = this.logisticaprop.fecha;
       this.logistic.vehicle = this.logisticaprop.vehiculo;
       this.logistic.driver = this.logisticaprop.conductor;
+      this.logistic.travel_total = this.logisticaprop.valor_viaje != null ? this.logisticaprop.valor_viaje : 0;
       this.logistic.freight = this.logisticaprop.flete != null ? this.logisticaprop.flete : 0;
       this.logistic.advance = this.logisticaprop.anticipo != null ? this.logisticaprop.anticipo : 0;
       this.logistic.discount = this.logisticaprop.descuento != null ? this.logisticaprop.descuento : 0;
