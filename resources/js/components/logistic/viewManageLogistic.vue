@@ -572,7 +572,7 @@
 import CurrencyInput from '../formatMoney/formatMoney.vue'
 export default {
   name: "LogisticManage",
-  props: ["logisticaprop"],
+  props: ["logisticaprop", "page"],
   components:{
     CurrencyInput
   },
@@ -688,7 +688,7 @@ export default {
             title: "El registro de viaje se ha creado correctamente",
             icon: "success",
           }).then(() => {
-            this.goTo("/logistica");
+            this.goTo("/logistica/"+this.page);
           });
         })
         .catch(() => {

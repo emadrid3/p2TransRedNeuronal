@@ -87,7 +87,7 @@
           <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="250" prop="encargado" label="Encargado">
+      <el-table-column width="250" prop="encargado" label="Encargado" sortable>
         <template slot-scope="scope">
           <el-tag effect="dark" size="mini" v-if="scope.row.encargado != null">
             {{ scope.row.encargado.name.toUpperCase() }}
@@ -95,7 +95,7 @@
           <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="120" prop="fecha" label="Fecha">
+      <el-table-column width="120" prop="fecha" label="Fecha" sortable>
         <template slot-scope="scope">
           <div v-if="scope.row.fecha != null">
             {{ scope.row.fecha.toUpperCase() }}
@@ -158,7 +158,7 @@
           <b style="font-size: 15px">{{ scope.row.factura_total | Flete }}</b>
         </template>
       </el-table-column>
-      <el-table-column width="150" prop="estado" label="Estado" fixed="right">
+      <el-table-column width="150" prop="estado" label="Estado" fixed="right" sortable>
         <template slot-scope="scope">
           <el-dropdown @command="changeState($event, scope.row)">
             <el-button
@@ -192,7 +192,7 @@
             type="primary"
             icon="el-icon-edit"
             size="mini"
-            @click="goTo('/logistica-manage/' + scope.row.id)"
+            @click="goTo('/logistica-manage/'+ currentPage +'/'+ scope.row.id)"
             :disabled="
               (auth.rol != 1 && auth.rol != 3) ||
               scope.row.estado == 'liquidado'
@@ -221,7 +221,7 @@
           @size-change="getLogistic"
           @current-change="getLogisticPerPage"
           :current-page.sync="currentPage"
-          :page-sizes="[5, 10, 20, 50]"
+          :page-sizes="[50, 100, 200, 500]"
           :page-size="sizeData"
           layout="sizes, prev, pager, next"
           :total="totalData"
@@ -234,8 +234,8 @@
     <el-dialog title="Visualización" :visible.sync="dialogVisible" width="50%">
       <b-row>
         <b-col md="6" sm="12">
-          <h2>TRANSGIRAR</h2>
-          <h5>Transporte global</h5>
+          <h2><b>TRANSGIRAR</b></h2>
+          <b><h5>Transporte global</h5></b>
         </b-col>
         <b-col md="6" sm="12">
           <h5>Logistica # {{ logisticSelected.id }}</h5>
@@ -532,7 +532,7 @@ export default {
   components: {
     Spinner,
   },
-  props: ["auth"],
+  props: ["auth","page"],
   data() {
     return {
       toSearch: "",
@@ -551,7 +551,9 @@ export default {
     },
   },
   created() {
-    this.getLogistic(5);
+    this.currentPage = this.page;
+    console.log(this.page)
+    this.getLogistic(50, this.page);
   },
   methods: {
     changeLogistic(logistic) {
@@ -564,7 +566,7 @@ export default {
       this.currentPage = 1;
       this.toSearch = "";
       this.isSearchingFor = "";
-      this.getLogistic(5);
+      this.getLogistic(50, 1);
     },
 
     search(size, param) {
@@ -590,18 +592,18 @@ export default {
         });
     },
 
-    getLogistic(size) {
+    getLogistic(size, toPage=1 ) {
       if (this.toSearch != "") {
         this.search(this.sizeData, {
           params: { page: this.currentPage, size: size, search: this.toSearch },
         });
       } else {
-        this.currentPage = 1;
+        this.currentPage = toPage;
         this.sizeData = size;
         this.isLoading = true;
 
         axios
-          .get("/api/logistica", { params: { size: size } })
+          .get("/api/logistica", { params: { page: toPage, size: size } })
           .then((response) => {
             this.tableData = response.data.data;
             this.sizeData = response.data.per_page;
@@ -692,7 +694,7 @@ export default {
               params: { id: id },
             })
             .then((response) => {
-              this.getLogistic(this.currentPage);
+              this.getLogistic(this.currentPage, 1);
             })
             .catch((error) => {
               this.isLoading = false;

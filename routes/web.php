@@ -39,8 +39,9 @@ Route::get('/conductores-manage/{id}', 'ConductorController@editDrivers')->middl
 
 //PANTALLA LOGISTICA
 Route::get('/logistica', 'LogisticaController@index')->middleware('auth');
+Route::get('/logistica/{page}', 'LogisticaController@indexPage')->middleware('auth');
 Route::get('/logistica-manage', 'LogisticaController@manageLogistic')->middleware('auth');
-Route::get('/logistica-manage/{id}', 'LogisticaController@editLogistic')->middleware('auth');
+Route::get('/logistica-manage/{page}/{id}', 'LogisticaController@editLogistic')->middleware('auth');
 
 //PANTALLA CLIENTES
 Route::get('/clientes', 'ClienteController@index')->middleware('auth');
