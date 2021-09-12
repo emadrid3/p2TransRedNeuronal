@@ -688,7 +688,11 @@ export default {
             title: "El registro de viaje se ha creado correctamente",
             icon: "success",
           }).then(() => {
-            this.goTo("/logistica/"+this.page);
+            if ( typeof this.page !== 'undefined' ) {
+              this.goTo("/logistica/"+this.page);
+            }else{
+              this.goTo("/logistica/1");
+            }
           });
         })
         .catch(() => {

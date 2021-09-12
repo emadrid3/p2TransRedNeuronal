@@ -23,7 +23,7 @@
         <el-button
           class="button-add"
           type="success"
-          @click="goTo('logistica-manage')"
+          @click=" typeof page !== 'undefined' ? goTo('../logistica-manage') : goTo('logistica-manage')"
           :disabled="auth.rol != 1 && auth.rol != 3"
           ><i class="fas fa-plus"></i>Crear un nuevo viaje</el-button
         >
@@ -552,7 +552,6 @@ export default {
   },
   created() {
     this.currentPage = this.page;
-    console.log(this.page)
     this.getLogistic(50, this.page);
   },
   methods: {
@@ -694,7 +693,7 @@ export default {
               params: { id: id },
             })
             .then((response) => {
-              this.getLogistic(this.currentPage, 1);
+              this.getLogistic(this.sizeData, this.currentPage);
             })
             .catch((error) => {
               this.isLoading = false;
