@@ -28,7 +28,6 @@ class logistica extends Model
         'trayecto',
         'carga_id',
         'tipo_id',
-        'cliente_id',
         'extra',
         'extra_total',
         'descripcion',

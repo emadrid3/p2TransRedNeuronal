@@ -43,17 +43,11 @@ Route::get('/logistica/{page}', 'LogisticaController@indexPage')->middleware('au
 Route::get('/logistica-manage', 'LogisticaController@manageLogistic')->middleware('auth');
 Route::get('/logistica-manage/{page}/{id}', 'LogisticaController@editLogistic')->middleware('auth');
 
-//PANTALLA CLIENTES
-Route::get('/clientes', 'ClienteController@index')->middleware('auth');
-Route::get('/clientes-manage', 'ClienteController@manageCustomers')->middleware('auth');
-Route::get('/clientes-manage/{id}', 'ClienteController@editCustomers')->middleware('auth');
-
 //PANTALLA HISTORIAL
 Route::get('/historial', 'HistorialController@index')->middleware('auth');
 
-//PANTALLA FACTURAS
-Route::get('/facturacion', 'FacturaController@index')->middleware('auth');
-
+//EVENTOS
+Route::get('/eventos', 'EventosController@index')->middleware('auth');
 
 
 //Routes API
@@ -86,16 +80,6 @@ Route::get('/api/logistica-status', 'LogisticaController@changeStatus')->middlew
 Route::get('/api/logistica/search', 'LogisticaController@search')->middleware('auth');
 
 
-//CLIENTES
-
-Route::post('/api/cliente', 'ClienteController@create')->middleware('auth');
-Route::patch('/api/cliente', 'ClienteController@update')->middleware('auth');
-Route::delete('/api/cliente', 'ClienteController@delete')->middleware('auth');
-Route::get('/api/cliente', 'ClienteController@list')->middleware('auth');
-Route::get('/api/cliente-search', 'ClienteController@searchByParams')->middleware('auth');
-Route::get('/api/cliente/search', 'ClienteController@search')->middleware('auth');
-
-
 //HISTORIAL
 Route::get('/api/historial', 'HistorialController@list')->middleware('auth');
 Route::get('/api/historial/search', 'HistorialController@search')->middleware('auth');
@@ -117,10 +101,3 @@ Route::get('/api/tipo-carga', 'CargaController@searchByParams')->middleware('aut
 Route::get('/api/ciudades-search', 'CiudadController@searchByParams')->middleware('auth');
 Route::get('/api/vehiculos/search', 'VehiculoController@search')->middleware('auth');
 
-//FACTURAS
-Route::delete('/api/factura', 'FacturaController@delete')->middleware('auth');
-Route::patch('/api/factura', 'FacturaController@update')->middleware('auth');
-Route::get('/api/factura', 'FacturaController@list')->middleware('auth');
-Route::get('/api/factura-search', 'FacturaController@searchByParams')->middleware('auth');
-Route::get('/api/factura-status', 'FacturaController@changeStatus')->middleware('auth');
-Route::get('/api/factura/search', 'FacturaController@search')->middleware('auth');

@@ -24,7 +24,7 @@
       <i class="fas fa-file-invoice-dollar fa-4x" style="color: green;"></i>
     </div>
     <div style="display: flex; flex-direction: column; padding: 10px; border: 2px solid #ECECEC;">
-      <span>Facturas pagas</span>
+      <span>Eventos Viajes</span>
       <h2><b style="font-size: 40px;">250</b></h2>
     </div>
   </div><div style="display: flex; flex-direction">
@@ -32,7 +32,7 @@
       <i class="fas fa-file-invoice-dollar fa-4x" style="color: red;"></i>
     </div>
     <div style="display: flex; flex-direction: column; padding: 10px; border: 2px solid #ECECEC;">
-      <span>Facturas pendientes</span>
+      <span>Posibles Robos Gasolina</span>
       <h2><b style="font-size: 40px;">250</b></h2>
     </div>
   </div><div style="display: flex; flex-direction">

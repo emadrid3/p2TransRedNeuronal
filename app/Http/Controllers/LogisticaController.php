@@ -31,7 +31,7 @@ class LogisticaController extends Controller
 
     public function editLogistic($page,$id)
     {
-        $logistica = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('cliente')->with('carga')->with('tipo')->find($id);
+        $logistica = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('carga')->with('tipo')->find($id);
         return view('logistic.logisticManage', ['logistica' => $logistica, 'page' => $page]);
     }
 
@@ -45,7 +45,6 @@ class LogisticaController extends Controller
                 $logistica = new logistica();
                 $logistica->numero_factura = NULL;
                 $logistica->numero_orden = NULL;
-                $logistica->numero_factura_cliente = NULL;
                 $logistica->encargado_id = NULL;
                 $logistica->fecha = NULL;
                 $logistica->vehiculo_id = NULL;
@@ -59,7 +58,6 @@ class LogisticaController extends Controller
                 $logistica->trayecto = NULL;
                 $logistica->carga_id = NULL;
                 $logistica->tipo_id = NULL;
-                $logistica->cliente_id = NULL;
                 $logistica->extra = NULL;
                 $logistica->extra_total = 0;
                 $logistica->descripcion = NULL;
@@ -69,12 +67,10 @@ class LogisticaController extends Controller
             }
 
             $sum = 0;
-            
 
 
             $logistica->numero_factura = $request->input('bill_number');
             $logistica->numero_orden = $request->input('order_number');
-            $logistica->numero_factura_cliente = $request->input('customer_number');
 
 
             if($request->input('user') != NULL){
@@ -130,10 +126,6 @@ class LogisticaController extends Controller
                 $logistica->tipo_id = $request->input('type');
             }
 
-            if($request->input('customer') != NULL){
-                $logistica->cliente_id = $request->input('customer')['id'];
-            }
-
             if(count($request->input('extra')) > 0){
                 $logistica->extra = json_encode($request->input('extra'));
 
@@ -169,7 +161,7 @@ class LogisticaController extends Controller
 
     public function list(Request $request){
         try {
-            $listLogistic = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('cliente')->with('carga')->with('tipo')->with('origen_obj')->with('destino_obj')->orderBy('created_at', 'desc')->paginate($request->input('size'));
+            $listLogistic = logistica::with('encargado.user')->with('conductor')->with('vehiculo')->with('carga')->with('tipo')->with('origen_obj')->with('destino_obj')->orderBy('created_at', 'desc')->paginate($request->input('size'));
             return response()->json($listLogistic);
         } catch (\Exception $e) {
            throw $e;
@@ -194,7 +186,6 @@ class LogisticaController extends Controller
                 $factura->anticipo = $logistic->anticipo;
                 $factura->porcentaje = $logistic->descuento;
                 $factura->idVehiculo = $logistic->vehiculo_id;
-                $factura->idCliente = $logistic->cliente_id;
                 $factura->estado = "pendiente de pago";
                 $factura->save();
             }
@@ -217,7 +208,6 @@ class LogisticaController extends Controller
             $response = logistica::with('encargado.user')
             ->with('conductor')
             ->with('vehiculo')
-            ->with('cliente')
             ->with('carga')
             ->with('tipo')
             ->with('origen_obj')
@@ -227,7 +217,6 @@ class LogisticaController extends Controller
             ->orWhereHas('conductor', function ($query) use ($dataToSearch) { $query->where('nombre', 'like', '%'.$dataToSearch.'%');})
             ->orWhereHas('origen_obj', function ($query) use ($dataToSearch) { $query->where('nombre', 'like', '%'.$dataToSearch.'%');})
             ->orWhereHas('destino_obj', function ($query) use ($dataToSearch) { $query->where('nombre', 'like', '%'.$dataToSearch.'%');})
-            ->orWhereHas('cliente', function ($query) use ($dataToSearch) { $query->where('razonSocial', 'like', '%'.$dataToSearch.'%');})
             ->orWhere('numero_factura', 'like', '%'.$dataToSearch.'%')
             ->orWhere('numero_orden', 'like', '%'.$dataToSearch.'%')
             ->orderBy('created_at', 'desc')

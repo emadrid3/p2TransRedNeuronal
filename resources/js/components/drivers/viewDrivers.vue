@@ -159,7 +159,7 @@
             "
           >
             <span>Total conductores activos</span>
-            <h2><b style="font-size: 40px">350</b></h2>
+            <h2><b style="font-size: 40px">23</b></h2>
           </div>
         </div>
 
@@ -187,7 +187,7 @@
             "
           >
             <span>Total conductores inactivos</span>
-            <h2><b style="font-size: 40px">250</b></h2>
+            <h2><b style="font-size: 40px">2</b></h2>
           </div>
         </div>
       </div>

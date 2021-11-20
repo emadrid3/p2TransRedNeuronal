@@ -2,13 +2,13 @@
   <div>
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }">Inicio</el-breadcrumb-item>
-      <el-breadcrumb-item>Logistica</el-breadcrumb-item>
+      <el-breadcrumb-item>Viajes</el-breadcrumb-item>
       <el-breadcrumb-item>Lista de viajes</el-breadcrumb-item>
     </el-breadcrumb>
     <my-currency-input v-model="price"></my-currency-input>
 
     <b-row class="title">
-      <h2>Logistica</h2>
+      <h2>Viajes</h2>
 
       <div class="title__info">
         <p>
@@ -137,14 +137,6 @@
           <div v-if="scope.row.destino_obj != null">
             {{ scope.row.destino_obj.nombre.toUpperCase() }}
           </div>
-          <el-tag type="danger" v-else>N/A</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column width="350" prop="cliente" label="Cliente">
-        <template slot-scope="scope">
-          <el-tag effect="dark" size="mini" v-if="scope.row.cliente != null">
-            {{ scope.row.cliente.razonSocial.toUpperCase() }}
-          </el-tag>
           <el-tag type="danger" v-else>N/A</el-tag>
         </template>
       </el-table-column>

@@ -428,39 +428,6 @@
                 </b-col>
               </b-row>
             </b-container>
-            <b-container>
-              <div class="el-divider-logistic">
-                <hr />
-                <h5 style="color: #007900; font-size: 25px">
-                  <small>Gestionar</small>
-                  <b>Cliente <i class="el-icon-user"></i></b>
-                </h5>
-                <hr />
-              </div>
-            </b-container>
-            <b-container>
-              <b-row>
-                <b-col md="12" sm="12">
-                  <el-select
-                    v-model="logistic.customer"
-                    filterable
-                    value-key="id"
-                    remote
-                    reserve-keyword
-                    placeholder="Ingrese el nombre, NIT o razón social"
-                    :remote-method="remoteMethodCustomer"
-                  >
-                    <el-option
-                      v-for="item in listCustomer"
-                      :key="item.id"
-                      :label="item.nombre"
-                      :value="item"
-                    >
-                    </el-option>
-                  </el-select>
-                </b-col>
-              </b-row>
-            </b-container>
             <br />
             <b-container
               v-if="logistic.customer != null"
@@ -526,6 +493,7 @@
                 </el-table>
               </b-col>
             </b-row>
+            <br/>
             <b-row>
               <el-button class="button-add" type="success" @click="addValue"
                 ><i class="fas fa-plus"></i>Agregar un valor</el-button

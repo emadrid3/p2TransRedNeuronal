@@ -33,28 +33,25 @@ Vue.use(ElementUI, { locale });
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
- Vue.component('view-home', require('./components/home/viewHome.vue').default);
+Vue.component('view-home', require('./components/home/viewHome.vue').default);
 
- Vue.component('view-users', require('./components/users/viewUsers.vue').default);
- Vue.component('view-manage-users', require('./components/users/viewManageUsers.vue').default);
+Vue.component('view-users', require('./components/users/viewUsers.vue').default);
+Vue.component('view-manage-users', require('./components/users/viewManageUsers.vue').default);
 
- Vue.component('view-vehicles', require('./components/vehicles/viewVehicles.vue').default);
- Vue.component('view-manage-vehicles', require('./components/vehicles/viewManageVehicles.vue').default);
+Vue.component('view-vehicles', require('./components/vehicles/viewVehicles.vue').default);
+Vue.component('view-manage-vehicles', require('./components/vehicles/viewManageVehicles.vue').default);
 
- Vue.component('view-drivers', require('./components/drivers/viewDrivers.vue').default);
- Vue.component('view-manage-drivers', require('./components/drivers/viewManageDrivers.vue').default);
+Vue.component('view-drivers', require('./components/drivers/viewDrivers.vue').default);
+Vue.component('view-manage-drivers', require('./components/drivers/viewManageDrivers.vue').default);
 
- Vue.component('view-customers', require('./components/customers/viewCustomers.vue').default);
- Vue.component('view-manage-customers', require('./components/customers/viewManageCustomers.vue').default);
+Vue.component('view-logistic', require('./components/logistic/viewLogistic.vue').default);
+Vue.component('view-manage-logistic', require('./components/logistic/viewManageLogistic.vue').default);
 
- Vue.component('view-logistic', require('./components/logistic/viewLogistic.vue').default);
- Vue.component('view-manage-logistic', require('./components/logistic/viewManageLogistic.vue').default);
+Vue.component('view-histories', require('./components/history/viewHistories.vue').default);
 
- Vue.component('view-invoice', require('./components/invoice/viewInvoice.vue').default);
+Vue.component('view-events', require('./components/events/viewEvents.vue').default);
 
- Vue.component('view-histories', require('./components/history/viewHistories.vue').default);
-
- Vue.component('currency-input', require('./components/formatMoney/formatMoney.vue').default);
+Vue.component('currency-input', require('./components/formatMoney/formatMoney.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
