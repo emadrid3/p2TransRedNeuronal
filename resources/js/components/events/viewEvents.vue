@@ -103,18 +103,22 @@ export default {
 
   methods: {
     send() {
-      axios
+      const axiosIn = axios.create({
+        headers: {
+          "Access-Control-Allow-Origin" : "*"
+        }
+      });
+
+      axiosIn
         .post(
-          "http://138.197.57.237/perceptron/" +
+          "http://138.197.57.237:8080/perceptron/" +
             this.data.x1 +
             "/" +
             this.data.x2 +
             "/" +
             this.data.x3 +
             "/" +
-            this.data.x4, {
-                headers: {"Access-Control-Allow-Origin" : "*"}
-            }
+            this.data.x4
         )
         .then((response) => {
           console.log(response);
