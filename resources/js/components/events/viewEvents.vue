@@ -122,7 +122,7 @@ export default {
         )
         .then((response) => {
           console.log(response);
-          this.result = response.data;
+          this.result = response.data.predicted;
         })
         .catch((error) => {
           this.isLoading = false;
