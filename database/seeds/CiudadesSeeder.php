@@ -15,7 +15,7 @@ class CiudadesSeeder extends Seeder
     {
         date_default_timezone_set('Europe/Madrid');
         // Cargando el csv en memoria
-        $archivo = '../transgirar/Finales seeders dataset/Ciudades.csv';
+        $archivo = '../transgirar/dataset/Ciudades.csv';
         $csv = Reader::createFromPath($archivo);
         $csv->setHeaderOffset(0);
         $out = new \Symfony\Component\Console\Output\ConsoleOutput();
