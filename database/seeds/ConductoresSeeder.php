@@ -14,7 +14,7 @@ class ConductoresSeeder extends Seeder
     public function run()
     {
         // Cargando el csv en memoria
-        $archivo = '../transgirar/dataset/ConductoresTable.csv';
+        $archivo = '../p2TransRedNeuronal/dataset/ConductoresTable.csv';
         $csv = Reader::createFromPath($archivo);
         $csv->setHeaderOffset(0);
         foreach($csv as $offset => $registro){

@@ -14,7 +14,7 @@ class VehiculosSeeder extends Seeder
     public function run()
     {
         // Cargando el csv en memoria
-        $archivo = '../transgirar/dataset/VehiculoTable.csv';
+        $archivo = '../p2TransRedNeuronal/dataset/VehiculoTable.csv';
         $csv = Reader::createFromPath($archivo);
         $csv->setHeaderOffset(0);
         foreach($csv as $offset => $registro){

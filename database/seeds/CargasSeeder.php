@@ -14,7 +14,7 @@ class CargasSeeder extends Seeder
     public function run()
     {
         // Cargando el csv en memoria
-        $archivo = '../transgirar/dataset/CargaTable.csv';
+        $archivo = '../p2TransRedNeuronal/dataset/CargaTable.csv';
         $csv = Reader::createFromPath($archivo);
         $csv->setHeaderOffset(0);
         foreach($csv as $offset => $registro){
