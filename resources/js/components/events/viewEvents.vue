@@ -76,7 +76,7 @@
         ></el-button>
       </b-col>
       <b-col lg="6" md="auto">
-        <h1>El resultado es:</h1>
+        <h1>El resultado es: {{this.result}}</h1>
       </b-col>
     </b-row>
   </div>
@@ -122,6 +122,7 @@ export default {
         )
         .then((response) => {
           console.log(response);
+          this.result = response.data;
         })
         .catch((error) => {
           this.isLoading = false;
